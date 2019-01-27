@@ -11,6 +11,11 @@ public class AuthorizationController {
         this.authorizationPlugin = authorizationPlugin;
     }
 
+    public void authorize(FederationUser federationUser, String cloudName, String operation, String resourceType)
+            throws UnexpectedException, UnauthorizedRequestException {
+        this.authorizationPlugin.isAuthorized(federationUser, cloudName, operation, resourceType);
+    }
+
     public void authorize(FederationUser federationUser, String operation, String resourceType)
             throws UnexpectedException, UnauthorizedRequestException {
         this.authorizationPlugin.isAuthorized(federationUser, operation, resourceType);

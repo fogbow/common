@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util.connectivity;
 
+import cloud.fogbow.common.models.CloudToken;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -39,12 +40,12 @@ public class HttpRequestClientUtil {
         this.client = httpClient;
     }
 
-    public String doGetRequest(String endpoint, String tokenValue)
+    public String doGetRequest(String endpoint, CloudToken tokenValue)
             throws UnavailableProviderException, HttpResponseException {
         HttpGet request = new HttpGet(endpoint);
         request.addHeader(HttpRequestUtil.CONTENT_TYPE_KEY, HttpRequestUtil.JSON_CONTENT_TYPE_KEY);
         request.addHeader(HttpRequestUtil.ACCEPT_KEY, HttpRequestUtil.JSON_CONTENT_TYPE_KEY);
-        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue);
+        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue.getTokenValue());
 
         HttpResponse httpResponse = null;
         String response = null;
@@ -79,12 +80,12 @@ public class HttpRequestClientUtil {
         return response;
     }
 
-    public String doPostRequest(String endpoint, String tokenValue, String body)
+    public String doPostRequest(String endpoint, CloudToken tokenValue, String body)
             throws UnavailableProviderException, HttpResponseException {
         HttpPost request = new HttpPost(endpoint);
         request.addHeader(HttpRequestUtil.CONTENT_TYPE_KEY, HttpRequestUtil.JSON_CONTENT_TYPE_KEY);
         request.addHeader(HttpRequestUtil.ACCEPT_KEY, HttpRequestUtil.JSON_CONTENT_TYPE_KEY);
-        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue);
+        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue.getTokenValue());
         request.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
 
         HttpResponse httpResponse = null;
@@ -121,10 +122,10 @@ public class HttpRequestClientUtil {
         return response;
     }
 
-    public void doDeleteRequest(String endpoint, String tokenValue)
+    public void doDeleteRequest(String endpoint, CloudToken tokenValue)
             throws UnavailableProviderException, HttpResponseException {
         HttpDelete request = new HttpDelete(endpoint);
-        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue);
+        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue.getTokenValue());
 
         HttpResponse httpResponse = null;
         String response = null;
@@ -196,12 +197,12 @@ public class HttpRequestClientUtil {
         return new Response(response, httpResponse.getAllHeaders());
     }
 
-    public String doPutRequest(String endpoint, String tokenValue, JSONObject json)
+    public String doPutRequest(String endpoint, CloudToken tokenValue, JSONObject json)
             throws HttpResponseException, UnavailableProviderException {
         HttpPut request = new HttpPut(endpoint);
         request.addHeader(HttpRequestUtil.CONTENT_TYPE_KEY, HttpRequestUtil.JSON_CONTENT_TYPE_KEY);
         request.addHeader(HttpRequestUtil.ACCEPT_KEY, HttpRequestUtil.JSON_CONTENT_TYPE_KEY);
-        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue);
+        request.addHeader(HttpRequestUtil.X_AUTH_TOKEN_KEY, tokenValue.getTokenValue());
         request.setEntity(new StringEntity(json.toString(), StandardCharsets.UTF_8));
 
         HttpResponse httpResponse = null;

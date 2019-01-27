@@ -57,7 +57,7 @@ public class AuthenticationUtil {
         }
     }
 
-    private static Map<String, String> getAttributes(String attributeString) {
+    public static Map<String, String> getAttributes(String attributeString) {
         Map<String, String> attributes = new HashMap<>();
         String attributePairs[] = StringUtils.split(attributeString, FogbowConstants.ATTRIBUTE_SEPARATOR);
         for (String pair : attributePairs){

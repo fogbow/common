@@ -1,6 +1,7 @@
 package cloud.fogbow.common.constants;
 
-public class OpenstackRestApiConstants {
+public class OpenStackRestApiConstants {
+    public static final String X_SUBJECT_TOKEN = "X-Subject-Token";
 
     public static class Volume {
         public static final String VOLUME_KEY_JSON = "volume";
@@ -89,15 +90,18 @@ public class OpenstackRestApiConstants {
     }
 
     public static class Identity {
+        public static final String V3_TOKENS_ENDPOINT_PATH = "/auth/tokens";
         public static final String ID_KEY_JSON = "id";
         public static final String AUTH_KEY_JSON = "auth";
         public static final String USER_KEY_JSON = "user";
+        public static final String USER_NAME_KEY_JSON = "username";
         public static final String NAME_KEY_JSON = "name";
         public static final String SCOPE_KEY_JSON = "scope";
         public static final String DOMAIN_KEY_JSON = "domain";
         public static final String TOKEN_KEY_JSON = "token";
         public static final String METHODS_KEY_JSON = "methods";
         public static final String PROJECT_KEY_JSON = "project";
+        public static final String PROJECT_NAME_KEY_JSON = "projectname";
         public static final String PASSWORD_KEY_JSON = "password";
         public static final String IDENTITY_KEY_JSON = "identity";
     }

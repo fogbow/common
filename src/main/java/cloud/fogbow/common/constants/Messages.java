@@ -15,6 +15,7 @@ public class Messages {
         public static final String INVALID_TOKEN = "Invalid token value.";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
         public static final String QUOTA_EXCEEDED = "Quota exceeded.";
+        public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
     }
