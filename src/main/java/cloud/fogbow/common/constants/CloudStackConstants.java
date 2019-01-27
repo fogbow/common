@@ -1,6 +1,7 @@
 package cloud.fogbow.common.constants;
 
-public class CloudStackRestApiConstants {
+public class CloudStackConstants {
+    public static final String  KEY_VALUE_SEPARATOR = ":";
 
     public static class Compute {
 
@@ -115,6 +116,8 @@ public class CloudStackRestApiConstants {
     }
 
     public static class Identity {
+        public static final String PASSWORD_KEY_JSON = "password";
+        public static final String DOMAIN_KEY_JSON = "domain";
         public static final String LOGIN_KEY_JSON = "loginresponse";
         public static final String LIST_ACCOUNTS_KEY_JSON = "listaccountsresponse";
         public static final String ACCOUNT_KEY_JSON = "account";

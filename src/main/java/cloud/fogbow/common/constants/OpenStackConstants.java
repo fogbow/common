@@ -1,6 +1,6 @@
 package cloud.fogbow.common.constants;
 
-public class OpenStackRestApiConstants {
+public class OpenStackConstants {
     public static final String X_SUBJECT_TOKEN = "X-Subject-Token";
 
     public static class Volume {
