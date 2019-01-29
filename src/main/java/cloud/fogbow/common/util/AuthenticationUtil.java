@@ -7,6 +7,7 @@ import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.FederationUser;
 import org.apache.commons.lang.StringUtils;
 
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
@@ -22,11 +23,11 @@ public class AuthenticationUtil {
             RSAPrivateKey privateKey = ServiceAsymmetricKeysHolder.getInstance().getPrivateKey();
             String plainTokenValue = TokenValueProtector.decrypt(privateKey, encryptedTokenValue,
                     FogbowConstants.TOKEN_STRING_SEPARATOR);
-            String[] tokenFields = StringUtils.split(plainTokenValue, FogbowConstants.TOKEN_SEPARATOR);
+            String[] tokenFields = StringUtils.splitByWholeSeparator(plainTokenValue, FogbowConstants.TOKEN_SEPARATOR);
             String payload = tokenFields[0];
             String signature = tokenFields[1];
             checkIfSignatureIsValid(asPublicKey, payload, signature);
-            String[] payloadFields = StringUtils.split(payload, FogbowConstants.PAYLOAD_SEPARATOR);
+            String[] payloadFields = StringUtils.splitByWholeSeparator(payload, FogbowConstants.PAYLOAD_SEPARATOR);
             String attributesString = payloadFields[0];
             String expirationTime = payloadFields[1];
             checkIfTokenHasNotExprired(expirationTime);
@@ -51,17 +52,17 @@ public class AuthenticationUtil {
 
     private static void checkIfTokenHasNotExprired(String expirationTime) throws UnauthenticatedUserException {
         Date currentDate = new Date(getNow());
-        Date expirationDate = new Date(Long.getLong(expirationTime));
-        if (!expirationDate.before(currentDate)) {
+        Date expirationDate = new Date(Long.parseLong(expirationTime));
+        if (expirationDate.before(currentDate)) {
             throw new UnauthenticatedUserException(Messages.Exception.EXPIRED_TOKEN);
         }
     }
 
     public static Map<String, String> getAttributes(String attributeString) {
         Map<String, String> attributes = new HashMap<>();
-        String attributePairs[] = StringUtils.split(attributeString, FogbowConstants.ATTRIBUTE_SEPARATOR);
+        String attributePairs[] = StringUtils.splitByWholeSeparator(attributeString, FogbowConstants.ATTRIBUTE_SEPARATOR);
         for (String pair : attributePairs){
-            String[] pairFields = StringUtils.split(pair, FogbowConstants.KEY_VALUE_SEPARATOR);
+            String[] pairFields = StringUtils.splitByWholeSeparator(pair, FogbowConstants.KEY_VALUE_SEPARATOR);
             String key = pairFields[0];
             String value = pairFields[1];
             attributes.put(key, value);

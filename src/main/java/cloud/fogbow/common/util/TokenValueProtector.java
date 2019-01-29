@@ -4,8 +4,6 @@ import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.security.Key;
 
 public class TokenValueProtector {
@@ -31,13 +29,13 @@ public class TokenValueProtector {
             throws UnauthenticatedUserException {
         String randomKey;
         String decryptedToken;
-        String[] tokenParts = StringUtils.split(protectedString, tokenSeparator);
+        String[] tokenParts = StringUtils.splitByWholeSeparator(protectedString, tokenSeparator);
 
         try {
             randomKey = RSAUtil.decrypt(tokenParts[0], key);
             decryptedToken = RSAUtil.decryptAES(randomKey.getBytes("UTF-8"), tokenParts[1]);
             return decryptedToken;
-        } catch (GeneralSecurityException | IOException e) {
+        } catch (Exception e) {
             throw new UnauthenticatedUserException();
         }
     }
