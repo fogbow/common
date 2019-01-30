@@ -5,6 +5,7 @@ import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.UnexpectedException;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class FederationUser {
     private Map<String, String> attributes;
@@ -36,5 +37,18 @@ public class FederationUser {
 
     public Map<String, String> getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FederationUser that = (FederationUser) o;
+        return Objects.equals(getAttributes(), that.getAttributes());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAttributes());
     }
 }
