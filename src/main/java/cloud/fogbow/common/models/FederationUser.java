@@ -4,6 +4,7 @@ import cloud.fogbow.common.constants.FogbowConstants;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.UnexpectedException;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -44,7 +45,11 @@ public class FederationUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FederationUser that = (FederationUser) o;
-        return Objects.equals(getAttributes(), that.getAttributes());
+        Map<String, String> thisAttributes = new HashMap(getAttributes());
+        Map<String, String> thatAttributes = new HashMap(that.getAttributes());
+        thisAttributes.remove(FogbowConstants.TOKEN_VALUE_KEY);
+        thatAttributes.remove(FogbowConstants.TOKEN_VALUE_KEY);
+        return Objects.equals(thisAttributes, thatAttributes);
     }
 
     @Override
