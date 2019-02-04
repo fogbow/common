@@ -68,12 +68,11 @@ public class CloudStackConstants {
         public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
         public static final String DELETE_FIREWALL_RULE_RESPOSNE = "deletefirewallruleresponse";
 
-        // TODO confirm this values !
         public static final String VM_ID_KEY_JSON = "virtualmachineid";
         public static final String NETWORK_ID_KEY_JSON = "networkid";
         public static final String IP_ADDRESS_KEY_JSON = "ipaddress";
         public static final String IP_ADDRESS_ID_KEY_JSON = "ipaddressid";
-        public static final String CIDR_LIST_KEY_JSON = "cidrList";
+        public static final String CIDR_LIST_KEY_JSON = "cidrlist";
 
         public static final String PROTOCOL_KEY_JSON = "protocol";
         public static final String STARTPORT_KEY_JSON = "startport";
