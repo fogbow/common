@@ -242,20 +242,8 @@ public class HttpRequestClientUtil {
         return response;
     }
 
-    public static Map<String, String> getHeaders(HttpServletRequest request) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-
-        Map<String, String> headers = new HashMap<>();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            headers.put(headerName, request.getHeader(headerName));
-        }
-
-        return headers;
-    }
-
     public GenericRequestHttpResponse doGenericRequest(String method, String urlString,
-                                                       Map<String, String> headers, Map<String, String> body, CloudToken token)
+                                                       HashMap<String, String> headers, HashMap<String, String> body, CloudToken token)
             throws FogbowException {
         try {
             URL url = new URL(urlString);
@@ -293,6 +281,18 @@ public class HttpRequestClientUtil {
         } catch (IOException e) {
             throw new FogbowException("", e);
         }
+    }
+
+    public static Map<String, String> getHeaders(HttpServletRequest request) {
+        Enumeration<String> headerNames = request.getHeaderNames();
+
+        Map<String, String> headers = new HashMap<>();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            headers.put(headerName, request.getHeader(headerName));
+        }
+
+        return headers;
     }
 
     private void addHeadersIntoConnection(HttpURLConnection connection, Map<String, String> headers) {
