@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util.connectivity;
 
+import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.models.CloudToken;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -20,8 +21,14 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -235,12 +242,6 @@ public class HttpRequestClientUtil {
         return response;
     }
 
-    private void addHeadersIntoConnection(HttpURLConnection connection, Map<String, String> headers) {
-        for (String key : headers.keySet()) {
-            connection.setRequestProperty(key, headers.get(key));
-        }
-    }
-
     public static Map<String, String> getHeaders(HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
 
@@ -251,6 +252,53 @@ public class HttpRequestClientUtil {
         }
 
         return headers;
+    }
+
+    public GenericRequestHttpResponse doGenericRequest(String method, String urlString,
+                                                       Map<String, String> headers, Map<String, String> body, CloudToken token)
+            throws FogbowException {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod(method.toUpperCase());
+
+            addHeadersIntoConnection(connection, headers);
+
+            if (!body.isEmpty()) {
+                connection.setDoOutput(true);
+                OutputStream os = connection.getOutputStream();
+                os.write(toByteArray(body));
+                os.flush();
+                os.close();
+            }
+
+            int responseCode = connection.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream()));
+
+            StringBuffer responseBuffer = new StringBuffer();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                responseBuffer.append(inputLine);
+            }
+            in.close();
+
+            GenericRequestHttpResponse response = new GenericRequestHttpResponse(responseBuffer.toString(), responseCode);
+            return response;
+        } catch (ProtocolException e) {
+            throw new FogbowException("", e);
+        } catch (MalformedURLException e) {
+            throw new FogbowException("", e);
+        } catch (IOException e) {
+            throw new FogbowException("", e);
+        }
+    }
+
+    private void addHeadersIntoConnection(HttpURLConnection connection, Map<String, String> headers) {
+        for (String key : headers.keySet()) {
+            connection.setRequestProperty(key, headers.get(key));
+        }
     }
 
     private byte[] toByteArray(Map<String, String> body) {

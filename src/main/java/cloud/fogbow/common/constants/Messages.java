@@ -12,6 +12,7 @@ public class Messages {
         public static final String GENERIC_EXCEPTION = "Operation returned error: %s";
         public static final String INSTANCE_NOT_FOUND = "Instance not found.";
         public static final String INVALID_CREDENTIALS = "Invalid credentials.";
+        public static final String INVALID_KEY = "Invalid char \"%c\" for random key: \"%s\" at index %d";
         public static final String INVALID_PARAMETER = "Invalid parameter.";
         public static final String INVALID_TOKEN = "Invalid token value.";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";

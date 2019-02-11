@@ -22,7 +22,8 @@ public class PropertiesUtilTest {
         Properties fakeProperties = PropertiesUtil.readProperties(fakePropertiesPath);
 
         // exercise/verify
-        for(int i = 1; i <= 3; i++){
+
+        for (int i = 1; i <= 3; i++){
             String expectedFakePropertyKey = "fake_property" + i;
             String expectedFakePropertyValue = "f" + i;
 
