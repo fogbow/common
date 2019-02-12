@@ -3,7 +3,6 @@ package cloud.fogbow.common.util;
 import cloud.fogbow.common.constants.Messages;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import sun.plugin2.message.Message;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
