@@ -1,9 +1,7 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.constants.Messages;
-import org.apache.log4j.Logger;
 import org.junit.Test;
-import sun.plugin2.message.Message;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -15,8 +13,6 @@ import java.security.*;
 import static org.junit.Assert.*;
 
 public class RSAUtilTest {
-
-    private Logger LOGGER = Logger.getLogger(RSAUtilTest.class);
 
     @Test
     public void testGetKey() throws IOException {
