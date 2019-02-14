@@ -1,7 +1,6 @@
 package cloud.fogbow.common.util.connectivity;
 
 import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.models.CloudToken;
 import cloud.fogbow.common.util.GsonHolder;
 import org.apache.http.Header;
 import org.apache.log4j.Logger;
@@ -22,6 +21,8 @@ import java.util.Map;
 
 public class HttpRequestClientUtil {
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClientUtil.class);
+
+    // TODO Remove this once all requests from CloudHttpClient are working
 
 //    public String doGetRequest(String endpoint, CloudToken tokenValue)
 //            throws UnavailableProviderException, HttpResponseException {
@@ -219,7 +220,7 @@ public class HttpRequestClientUtil {
 //    }
 
     public GenericRequestHttpResponse doGenericRequest(String method, String urlString,
-                   HashMap<String, String> headers, HashMap<String, String> body, CloudToken token)
+                                                       HashMap<String, String> headers, HashMap<String, String> body)
                    throws FogbowException {
         try {
             URL url = new URL(urlString);
