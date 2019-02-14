@@ -1,6 +1,5 @@
 package cloud.fogbow.common.util.connectivity;
 
-import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.models.CloudToken;
 import cloud.fogbow.common.util.GsonHolder;
@@ -24,16 +23,6 @@ import java.util.Map;
 
 public class HttpRequestClientUtil {
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClientUtil.class);
-
-    private HttpClient client;
-
-    public HttpRequestClientUtil(Integer timeout) throws FatalErrorException {
-        this.client = HttpRequestUtil.createHttpClient(timeout);
-    }
-
-    public HttpRequestClientUtil(HttpClient httpClient) {
-        this.client = httpClient;
-    }
 
 //    public String doGetRequest(String endpoint, CloudToken tokenValue)
 //            throws UnavailableProviderException, HttpResponseException {
