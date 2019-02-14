@@ -4,7 +4,6 @@ import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.models.CloudToken;
 import cloud.fogbow.common.util.GsonHolder;
 import org.apache.http.Header;
-import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
