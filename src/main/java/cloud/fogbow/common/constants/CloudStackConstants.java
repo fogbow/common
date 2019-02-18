@@ -54,6 +54,7 @@ public class CloudStackConstants {
         public static final String NETWORK_TYPE_KEY_JSON = "networktype";
         public static final String LIST_ZONES_RESPONSE_KEY_JSON = "listzonesresponse";
         public static final String TAGS_KEY_JSON = "tags";
+
     }
 
     public static class PublicIp {
