@@ -1,27 +1,27 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.exceptions.*;
-import org.springframework.http.HttpStatus;
+import org.apache.http.HttpStatus;
 
 public class HttpErrorToFogbowExceptionMapper {
-    public static FogbowException map(HttpStatus httpCode, String message) {
+    public static FogbowException map(int httpCode, String message) {
         switch(httpCode) {
-            case FORBIDDEN:
+            case HttpStatus.SC_FORBIDDEN:
                 return new UnauthorizedRequestException(message);
-            case UNAUTHORIZED:
+            case HttpStatus.SC_UNAUTHORIZED:
                 return new UnauthenticatedUserException(message);
-            case BAD_REQUEST:
+            case HttpStatus.SC_BAD_REQUEST:
                 return new InvalidParameterException(message);
-            case NOT_FOUND:
+            case HttpStatus.SC_NOT_FOUND:
                 return new InstanceNotFoundException(message);
-            case CONFLICT:
+            case HttpStatus.SC_CONFLICT:
                 return new QuotaExceededException(message);
-            case NOT_ACCEPTABLE:
+            case HttpStatus.SC_NOT_ACCEPTABLE:
                 return new NoAvailableResourcesException(message);
-            case GATEWAY_TIMEOUT:
+            case HttpStatus.SC_GATEWAY_TIMEOUT:
                 return new UnavailableProviderException(message);
-            case INTERNAL_SERVER_ERROR:
-            case UNSUPPORTED_MEDIA_TYPE:
+            case HttpStatus.SC_INTERNAL_SERVER_ERROR:
+            case HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE:
             default:
                 return new UnexpectedException(message);
         }

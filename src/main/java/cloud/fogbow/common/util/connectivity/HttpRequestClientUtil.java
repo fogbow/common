@@ -1,18 +1,20 @@
 package cloud.fogbow.common.util.connectivity;
 
+import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.util.GsonHolder;
-import org.apache.http.Header;
+import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +22,14 @@ import java.util.Map;
 public class HttpRequestClientUtil {
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClientUtil.class);
 
-    public GenericRequestHttpResponse doGenericRequest(HttpMethod method, String urlString,
-                                                       HashMap<String, String> headers, HashMap<String, String> body)
+    public static HttpResponse doGenericRequest(HttpMethod method, String urlString,
+                                                HashMap<String, String> headers, HashMap<String, String> body)
                    throws FogbowException {
+        int responseCode = -1;
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(method.name());
+            connection.setRequestMethod(method.getName());
 
             addHeadersIntoConnection(connection, headers);
 
@@ -38,10 +41,9 @@ public class HttpRequestClientUtil {
                 os.close();
             }
 
-            int responseCode = connection.getResponseCode();
+            responseCode = connection.getResponseCode();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             StringBuffer responseBuffer = new StringBuffer();
             String inputLine;
@@ -51,39 +53,22 @@ public class HttpRequestClientUtil {
             in.close();
 
             Map<String, List<String>> responseHeaders = connection.getHeaderFields();
-            return new GenericRequestHttpResponse(responseBuffer.toString(), responseCode, responseHeaders);
-        } catch (Exception e) {
-            throw new FogbowException(e.getMessage(), e);
+            return new HttpResponse(responseBuffer.toString(), responseCode, responseHeaders);
+        } catch (ProtocolException | MalformedURLException e) {
+            throw new InvalidParameterException(e.getMessage(), e);
+        } catch (IOException e) {
+            throw HttpErrorToFogbowExceptionMapper.map(responseCode, e.getMessage());
         }
     }
 
-    private void addHeadersIntoConnection(HttpURLConnection connection, Map<String, String> headers) {
+    private static void addHeadersIntoConnection(HttpURLConnection connection, Map<String, String> headers) {
         for (String key : headers.keySet()) {
             connection.setRequestProperty(key, headers.get(key));
         }
     }
 
-    private byte[] toByteArray(Map<String, String> body) {
+    private static byte[] toByteArray(Map<String, String> body) {
         String json = GsonHolder.getInstance().toJson(body, Map.class);
         return json.getBytes();
-    }
-
-    public class Response {
-
-        private String content;
-        private Header[] headers;
-
-        public Response(String content, Header[] headers) {
-            this.content = content;
-            this.headers = headers;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public Header[] getHeaders() {
-            return headers;
-        }
     }
 }

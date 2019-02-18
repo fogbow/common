@@ -2,6 +2,7 @@ package cloud.fogbow.common.constants;
 
 public class OpenStackConstants {
     public static final String X_SUBJECT_TOKEN = "X-Subject-Token";
+    public static final String X_AUTH_TOKEN_KEY = "X-Auth-Token";
 
     public static class Volume {
         public static final String VOLUME_KEY_JSON = "volume";
@@ -46,6 +47,7 @@ public class OpenStackConstants {
         public static final String PUBLIC_KEY_KEY_JSON = "public_key";
         public static final String ADD_SECURITY_GROUP_KEY_JSON = "addSecurityGroup";
         public static final String REMOVE_SECURITY_GROUP_KEY_JSON = "removeSecurityGroup";
+        public static final String FLAVORS_KEY_JSON = "flavors";
     }
 
     public static class Network {
