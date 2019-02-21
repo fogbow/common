@@ -29,4 +29,11 @@ public class GenericRequestResponse {
     public int hashCode() {
         return Objects.hash(content);
     }
+
+    @Override
+    public String toString() {
+        return "GenericRequestResponse{" +
+                "content='" + content + '\'' +
+                '}';
+    }
 }
