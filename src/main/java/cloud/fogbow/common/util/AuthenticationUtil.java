@@ -4,6 +4,7 @@ import cloud.fogbow.common.constants.FogbowConstants;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.InvalidTokenException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
+import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.FederationUser;
 import org.apache.commons.lang.StringUtils;
 
@@ -12,11 +13,15 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class AuthenticationUtil {
+    private static final long EXPIRATION_INTERVAL = TimeUnit.DAYS.toMillis(1); // One day
+
     public static FederationUser authenticate(PublicKey asPublicKey, String encryptedTokenValue)
             throws UnauthenticatedUserException, InvalidTokenException {
         try {
@@ -28,13 +33,27 @@ public class AuthenticationUtil {
             String signature = tokenFields[1];
             checkIfSignatureIsValid(asPublicKey, payload, signature);
             String[] payloadFields = StringUtils.splitByWholeSeparator(payload, FogbowConstants.PAYLOAD_SEPARATOR);
-            String attributesString = payloadFields[0];
+            String federationUserString = payloadFields[0];
             String expirationTime = payloadFields[1];
             checkIfTokenHasNotExprired(expirationTime);
-            Map<String, String> attributes = getAttributes(attributesString);
-            return new FederationUser(attributes);
+            return FederationUserUtil.deserialize(federationUserString);
         } catch (IOException | GeneralSecurityException e) {
             throw new InvalidTokenException();
+        }
+    }
+
+    public static String createFogbowToken(FederationUser federationUser, RSAPrivateKey privateKey, String publicKeyString)
+            throws UnexpectedException {
+        String tokenAttributes = FederationUserUtil.serialize(federationUser);
+        String expirationTime = generateExpirationTime();
+        String payload = tokenAttributes + FogbowConstants.PAYLOAD_SEPARATOR + expirationTime;
+        try {
+            String signature = RSAUtil.sign(privateKey, payload);
+            String signedUnprotectedToken = payload + FogbowConstants.TOKEN_SEPARATOR + signature;
+            RSAPublicKey publicKey = RSAUtil.getPublicKeyFromString(publicKeyString);
+            return TokenValueProtector.encrypt(publicKey, signedUnprotectedToken, FogbowConstants.TOKEN_STRING_SEPARATOR);
+        } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+            throw new UnexpectedException();
         }
     }
 
@@ -68,6 +87,12 @@ public class AuthenticationUtil {
             attributes.put(key, value);
         }
         return attributes;
+    }
+
+    private static String generateExpirationTime() {
+        Date expirationDate = new Date(getNow() + EXPIRATION_INTERVAL);
+        String expirationTime = Long.toString(expirationDate.getTime());
+        return expirationTime;
     }
 
     private static long getNow() {

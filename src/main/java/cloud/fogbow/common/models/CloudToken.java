@@ -3,12 +3,14 @@ package cloud.fogbow.common.models;
 public class CloudToken {
     private String tokenProviderId;
     private String userId;
+    private String userName;
     private String tokenValue;
 
-    public CloudToken(String tokenProviderId, String userId, String tokenValue) {
-        this.tokenProviderId = tokenProviderId;
-        this.userId = userId;
-        this.tokenValue = tokenValue;
+    public CloudToken(FederationUser federationUser) {
+        this.tokenProviderId = federationUser.getTokenProviderId();
+        this.userId = federationUser.getUserId();
+        this.userName = federationUser.getUserName();
+        this.tokenValue = federationUser.getTokenValue();
     }
 
     public String getTokenProviderId() {
@@ -33,5 +35,13 @@ public class CloudToken {
 
     public void setTokenValue(String tokenValue) {
         this.tokenValue = tokenValue;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

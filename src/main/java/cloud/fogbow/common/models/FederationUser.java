@@ -8,35 +8,43 @@ import java.util.Map;
 import java.util.Objects;
 
 public class FederationUser {
-    private Map<String, String> attributes;
+    private String tokenProviderId;
+    private String userId;
+    private String userName;
+    private String tokenValue;
+    private Map<String, String> extraAttributes;
 
-    public FederationUser(Map<String, String> attributes) {
-        this.attributes = attributes;
+    public FederationUser(String tokenProviderId, String userId, String userName, String tokenValue, Map<String, String> extraAttributes) {
+        this.tokenProviderId = tokenProviderId;
+        this.userId = userId;
+        this.userName = userName;
+        this.tokenValue = tokenValue;
+        this.extraAttributes = extraAttributes;
     }
 
-    public String getAttribute(String attributeKey) throws UnexpectedException {
-        if (this.attributes == null) throw new UnexpectedException(Messages.Exception.INVALID_TOKEN);
-        return this.attributes.get(attributeKey);
+    public String getExtraAttribute(String attributeKey) throws UnexpectedException {
+        if (this.extraAttributes == null) throw new UnexpectedException(Messages.Exception.INVALID_TOKEN);
+        return this.extraAttributes.get(attributeKey);
     }
 
-    public String getTokenProvider() throws UnexpectedException {
-        return getAttribute(FogbowConstants.PROVIDER_ID_KEY);
+    public String getTokenProviderId() {
+        return tokenProviderId;
     }
 
-    public String getUserId() throws UnexpectedException {
-        return getAttribute(FogbowConstants.USER_ID_KEY);
+    public String getUserId() {
+        return userId;
     }
 
-    public String getUserName() throws UnexpectedException {
-        return getAttribute(FogbowConstants.USER_NAME_KEY);
+    public String getUserName() {
+        return userName;
     }
 
-    public String getTokenValue() throws UnexpectedException {
-        return getAttribute(FogbowConstants.TOKEN_VALUE_KEY);
+    public String getTokenValue() {
+        return tokenValue;
     }
 
-    public Map<String, String> getAttributes() {
-        return attributes;
+    public Map<String, String> getExtraAttributes() {
+        return extraAttributes;
     }
 
     @Override
@@ -45,16 +53,12 @@ public class FederationUser {
         if (o == null || getClass() != o.getClass()) return false;
 
         FederationUser that = (FederationUser) o;
-        String thisProvider = attributes.get(FogbowConstants.PROVIDER_ID_KEY);
-        String thatProvider = that.getAttributes().get(FogbowConstants.PROVIDER_ID_KEY);
-        String thisUserId = attributes.get(FogbowConstants.USER_ID_KEY);
-        String thatUserId = that.getAttributes().get(FogbowConstants.USER_ID_KEY);
-
-        return Objects.equals(thisProvider, thatProvider) && Objects.equals(thisUserId, thatUserId);
+        return Objects.equals(this.getUserId(), that.getUserId()) &&
+                Objects.equals(this.getTokenProviderId(), that.getTokenProviderId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAttributes());
+        return Objects.hash(getExtraAttributes());
     }
 }
