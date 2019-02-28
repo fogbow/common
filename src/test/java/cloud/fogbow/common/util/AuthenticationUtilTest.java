@@ -37,7 +37,7 @@ public class AuthenticationUtilTest {
     }
 
     @Test
-    public void testSuccessfulAuthenctication() throws IOException, GeneralSecurityException, FogbowException {
+    public void testSuccessfulAuthentication() throws IOException, GeneralSecurityException, FogbowException {
         // set up
         String tokenValue = tokenGenerator.createTokenValue(publicKeyString, 1);
 
