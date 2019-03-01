@@ -42,6 +42,16 @@ public class AuthenticationUtil {
         }
     }
 
+    /**
+     * Creates a token including the federationUser, an expiration date and a signature then encrypts its
+     * value and returns it.
+     *
+     * @param federationUser
+     * @param privateKey
+     * @param publicKeyString
+     * @return
+     * @throws UnexpectedException
+     */
     public static String createFogbowToken(FederationUser federationUser, RSAPrivateKey privateKey, String publicKeyString)
             throws UnexpectedException {
         String tokenAttributes = FederationUserUtil.serialize(federationUser);

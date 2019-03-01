@@ -20,7 +20,7 @@ public class FederationUser {
         this.extraAttributes = extraAttributes;
     }
 
-    public String getExtraAttribute(String attributeKey) throws UnexpectedException {
+    public String getExtraAttribute(String attributeKey) {
         return this.extraAttributes.get(attributeKey);
     }
 
