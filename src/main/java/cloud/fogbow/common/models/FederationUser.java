@@ -1,7 +1,5 @@
 package cloud.fogbow.common.models;
 
-import cloud.fogbow.common.exceptions.UnexpectedException;
-
 import java.util.Map;
 import java.util.Objects;
 
