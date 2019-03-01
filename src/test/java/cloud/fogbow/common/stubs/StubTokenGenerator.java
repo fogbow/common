@@ -27,11 +27,8 @@ public class StubTokenGenerator {
     private String provider;
     private PrivateKey privateKey;
 
-    private static final long EXPIRATION_INTERVAL = TimeUnit.DAYS.toMillis(1); // One day
-
     public StubTokenGenerator() throws IOException, GeneralSecurityException {
         this.provider = "fake-provider";
-
 
         String keysPath = HomeDir.getPath();
         String privKeyPath = keysPath + "private.key";
@@ -40,7 +37,7 @@ public class StubTokenGenerator {
     }
 
     public String createTokenValue(String publicKeyString, int duration)
-            throws UnexpectedException, FogbowException {
+            throws FogbowException {
 
         String tokenAttributes = this.createTokenValue();
         String expirationTime = generateExpirationTime(duration);
@@ -68,17 +65,12 @@ public class StubTokenGenerator {
         return System.currentTimeMillis();
     }
 
-    public String createTokenValue() throws FogbowException {
+    public String createTokenValue() {
         String username = "fake-username";
         String password = "fake-password";
 
         String openNebulaTokenValue = username + OpenNebulaConstants.TOKEN_VALUE_SEPARATOR + password;
 
-        Map<String, String> attributes = new HashMap<>();
-        attributes.put(FogbowConstants.PROVIDER_ID_KEY, this.provider);
-        attributes.put(FogbowConstants.USER_ID_KEY, username);
-        attributes.put(FogbowConstants.USER_NAME_KEY, username);
-        attributes.put(FogbowConstants.TOKEN_VALUE_KEY, openNebulaTokenValue);
         FederationUser user = new FederationUser(this.provider, username, username, openNebulaTokenValue, new HashMap<>());
         return FederationUserUtil.serialize(user);
     }

@@ -1,7 +1,5 @@
 package cloud.fogbow.common.models;
 
-import cloud.fogbow.common.constants.FogbowConstants;
-import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.UnexpectedException;
 
 import java.util.Map;
@@ -23,7 +21,6 @@ public class FederationUser {
     }
 
     public String getExtraAttribute(String attributeKey) throws UnexpectedException {
-        if (this.extraAttributes == null) throw new UnexpectedException(Messages.Exception.INVALID_TOKEN);
         return this.extraAttributes.get(attributeKey);
     }
 
@@ -59,6 +56,6 @@ public class FederationUser {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getExtraAttributes());
+        return Objects.hash(tokenProviderId, userId, userName, tokenValue, extraAttributes);
     }
 }
