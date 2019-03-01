@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 
-public class PluginFactory {
-    private static final Logger LOGGER = Logger.getLogger(PluginFactory.class);
+public class ClassFactory {
+    private static final Logger LOGGER = Logger.getLogger(ClassFactory.class);
 
     public Object createPluginInstance(String pluginClassName, String parameter1, String parameter2)
             throws FatalErrorException {

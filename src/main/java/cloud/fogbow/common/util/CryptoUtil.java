@@ -21,8 +21,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Random;
 
-public class RSAUtil {
-    private static final Logger LOGGER = Logger.getLogger(RSAUtil.class);
+public class CryptoUtil {
+    private static final Logger LOGGER = Logger.getLogger(CryptoUtil.class);
     
     public static final String UTF_8 = "UTF-8";
 

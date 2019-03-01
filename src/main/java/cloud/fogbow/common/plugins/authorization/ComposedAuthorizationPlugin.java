@@ -5,7 +5,7 @@ import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.FederationUser;
-import cloud.fogbow.common.util.PluginFactory;
+import cloud.fogbow.common.util.ClassFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,10 +68,10 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
     }
 
     private List<AuthorizationPlugin> getPlugins(List<String> pluginNames) {
-        PluginFactory pluginFactory = new PluginFactory();
+        ClassFactory classFactory = new ClassFactory();
         ArrayList<AuthorizationPlugin> authorizationPlugins = new ArrayList<>();
         for (int i = 0; i < pluginNames.size(); i++) {
-            authorizationPlugins.add(i, (AuthorizationPlugin) pluginFactory.createPluginInstance(pluginNames.get(i)));
+            authorizationPlugins.add(i, (AuthorizationPlugin) classFactory.createPluginInstance(pluginNames.get(i)));
         }
         return authorizationPlugins;
     }

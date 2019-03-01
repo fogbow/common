@@ -12,7 +12,7 @@ import java.security.*;
 
 import static org.junit.Assert.*;
 
-public class RSAUtilTest {
+public class CryptoUtilTest {
 
     @Test
     public void testGetKey() throws IOException {
@@ -25,8 +25,8 @@ public class RSAUtilTest {
         String privKeyPath = keysPath + "private.key";
 
         // exercise
-        String actualPubKey = RSAUtil.getKey(pubKeyPath);
-        String actualPrivKey = RSAUtil.getKey(privKeyPath);
+        String actualPubKey = CryptoUtil.getKey(pubKeyPath);
+        String actualPrivKey = CryptoUtil.getKey(privKeyPath);
 
         // verify
         assertEquals(publicKey, actualPubKey);
@@ -40,7 +40,7 @@ public class RSAUtilTest {
         String pubKeyPath = keysPath + "this-file-does-not-exist.key";
 
         // exercise/verify
-        RSAUtil.getKey(pubKeyPath);
+        CryptoUtil.getKey(pubKeyPath);
     }
 
     @Test
@@ -50,8 +50,8 @@ public class RSAUtilTest {
         String pubKeyPath = keysPath + "public.key";
         String privKeyPath = keysPath + "private.key";
 
-        PublicKey publicKey = RSAUtil.getPublicKey(pubKeyPath);
-        PrivateKey privateKey = RSAUtil.getPrivateKey(privKeyPath);
+        PublicKey publicKey = CryptoUtil.getPublicKey(pubKeyPath);
+        PrivateKey privateKey = CryptoUtil.getPrivateKey(privKeyPath);
 
 
         String baseMassage = "This is a random message to test if encrypt/decrypt methods work properly";
@@ -59,8 +59,8 @@ public class RSAUtilTest {
         String decryptedMessage = null;
 
         // exercise
-        encryptedMessage = RSAUtil.encrypt(baseMassage, publicKey);
-        decryptedMessage = RSAUtil.decrypt(encryptedMessage, privateKey);
+        encryptedMessage = CryptoUtil.encrypt(baseMassage, publicKey);
+        decryptedMessage = CryptoUtil.decrypt(encryptedMessage, privateKey);
 
         // verify
         assertNotEquals(baseMassage, encryptedMessage);
@@ -70,15 +70,15 @@ public class RSAUtilTest {
     @Test
     public void testGenerateKeyPair() throws GeneralSecurityException, IOException {
         // set up
-        KeyPair keyPair = RSAUtil.generateKeyPair();
+        KeyPair keyPair = CryptoUtil.generateKeyPair();
 
         PublicKey publicKey = keyPair.getPublic();
         PrivateKey privateKey = keyPair.getPrivate();
 
         // exercise
         String baseMassage = "test signature test";
-        String encryptedMessage = RSAUtil.encrypt(baseMassage, publicKey);
-        String decryptedMessage = RSAUtil.decrypt(encryptedMessage, privateKey);
+        String encryptedMessage = CryptoUtil.encrypt(baseMassage, publicKey);
+        String decryptedMessage = CryptoUtil.decrypt(encryptedMessage, privateKey);
 
         // verify
         assertEquals(baseMassage, decryptedMessage);
@@ -94,12 +94,12 @@ public class RSAUtilTest {
         String pubKeyPath = keysPath + "public.key";
         String privKeyPath = keysPath + "private.key";
 
-        PublicKey publicKey = RSAUtil.getPublicKey(pubKeyPath);
-        PrivateKey privateKey = RSAUtil.getPrivateKey(privKeyPath);
+        PublicKey publicKey = CryptoUtil.getPublicKey(pubKeyPath);
+        PrivateKey privateKey = CryptoUtil.getPrivateKey(privKeyPath);
 
         // exercise
-        String actualSignanure = RSAUtil.sign(privateKey, baseMessage);
-        boolean verified = RSAUtil.verify(publicKey, baseMessage, expectedignature);
+        String actualSignanure = CryptoUtil.sign(privateKey, baseMessage);
+        boolean verified = CryptoUtil.verify(publicKey, baseMessage, expectedignature);
 
         // verify
         assertEquals(expectedignature, actualSignanure);
@@ -109,7 +109,7 @@ public class RSAUtilTest {
     @Test
     public void testGenerateAESKey() {
         // set up
-        String randomKey = RSAUtil.generateAESKey();
+        String randomKey = CryptoUtil.generateAESKey();
         char[] keyChars = randomKey.toCharArray();
 
         // verify
@@ -125,13 +125,13 @@ public class RSAUtilTest {
     @Test
     public void testEncryptDecryptAES() throws NoSuchPaddingException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, UnsupportedEncodingException, InvalidKeyException {
         // set up
-        String randomKey = RSAUtil.generateAESKey();
+        String randomKey = CryptoUtil.generateAESKey();
         byte[] keyData = randomKey.getBytes();
         String originalMessage = "Message to be encrypted and decrypted";
 
         // exercise
-        String encryptedMessage = RSAUtil.encryptAES(keyData, originalMessage );
-        String decryptedMessage = RSAUtil.decryptAES(keyData, encryptedMessage);
+        String encryptedMessage = CryptoUtil.encryptAES(keyData, originalMessage );
+        String decryptedMessage = CryptoUtil.decryptAES(keyData, encryptedMessage);
 
         //verify
         assertNotEquals(originalMessage, encryptedMessage);

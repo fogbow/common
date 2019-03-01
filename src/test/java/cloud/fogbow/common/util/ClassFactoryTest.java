@@ -7,21 +7,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PluginFactoryTest {
+public class ClassFactoryTest {
 
     private String className;
-    PluginFactory pluginFactory;
+    ClassFactory classFactory;
 
     @Before
     public void setUp(){
-        pluginFactory = new PluginFactory();
+        classFactory = new ClassFactory();
         className = "cloud.fogbow.common.stubs.StubClassForFactory";
     }
 
     @Test
     public void createPluginInstanceNoParameters() {
         // exercise
-        StubClassForFactory obj = (StubClassForFactory) pluginFactory.createPluginInstance(className);
+        StubClassForFactory obj = (StubClassForFactory) classFactory.createPluginInstance(className);
 
         // verify
         assertNotEquals(null, obj);
@@ -31,7 +31,7 @@ public class PluginFactoryTest {
     public void createPluginInstanceOneParameters() {
         // exercise
         String parameter1 = "parameter1";
-        StubClassForFactory obj = (StubClassForFactory) pluginFactory.createPluginInstance(className, parameter1);
+        StubClassForFactory obj = (StubClassForFactory) classFactory.createPluginInstance(className, parameter1);
 
         // verify
         assertNotEquals(null, obj);
@@ -42,7 +42,7 @@ public class PluginFactoryTest {
         // exercise
         String parameter1 = "parameter1";
         String parameter2 = "parameter2";
-        StubClassForFactory obj = (StubClassForFactory) pluginFactory.createPluginInstance(className, parameter1, parameter2);
+        StubClassForFactory obj = (StubClassForFactory) classFactory.createPluginInstance(className, parameter1, parameter2);
 
         // verify
         assertNotEquals(null, obj);
@@ -51,6 +51,6 @@ public class PluginFactoryTest {
     @Test(expected = FatalErrorException.class)
     public void createPluginInstanceWithNonExistingClass() {
         String invalidClassPath = "invalid.class.path.InvalidClass";
-        pluginFactory.createPluginInstance(invalidClassPath);
+        classFactory.createPluginInstance(invalidClassPath);
     }
 }
