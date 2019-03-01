@@ -21,7 +21,7 @@ public abstract class DistributedAuthorizationPluginClient implements Authorizat
     public boolean isAuthorized(FederationUser federationUserToken, String cloudName, String operation,
                                 String type) throws UnexpectedException, UnauthorizedRequestException {
         String endpoint = this.serverUrl + AUTH_ENDPOINT + "/" + cloudName + "/" +
-                federationUserToken.getTokenProvider() + "/" +
+                federationUserToken.getTokenProviderId() + "/" +
                 federationUserToken.getUserId() + "/" + type + "/" + operation;
         StringBuffer content = null;
 
@@ -47,7 +47,7 @@ public abstract class DistributedAuthorizationPluginClient implements Authorizat
     @Override
     public boolean isAuthorized(FederationUser federationUserToken, String operation, String type)
             throws UnexpectedException, UnauthorizedRequestException {
-        String endpoint = this.serverUrl + AUTH_ENDPOINT + "/" + federationUserToken.getTokenProvider() + "/" +
+        String endpoint = this.serverUrl + AUTH_ENDPOINT + "/" + federationUserToken.getTokenProviderId() + "/" +
                 federationUserToken.getUserId() + "/" + type + "/" + operation;
         StringBuffer content = null;
 
