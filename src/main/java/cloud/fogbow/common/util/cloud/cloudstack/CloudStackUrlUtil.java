@@ -80,7 +80,7 @@ public class CloudStackUrlUtil {
             uriBuilder.addParameter(RESPONSE_FORMAT, JSON);
             return uriBuilder;
         } catch (Exception e) {
-            throw new InvalidParameterException(Messages.Exception.WRONG_URI_SYNTAX);
+            throw new InvalidParameterException(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S);
         }
     }
 }

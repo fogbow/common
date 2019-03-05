@@ -4,7 +4,7 @@ import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
-import cloud.fogbow.common.models.FederationUser;
+import cloud.fogbow.common.models.SystemUser;
 import cloud.fogbow.common.util.ClassFactory;
 
 import java.io.File;
@@ -22,11 +22,11 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
     }
 
     @Override
-    public boolean isAuthorized(FederationUser federationUser, String cloudName, String operation, String type)
+    public boolean isAuthorized(SystemUser systemUser, String cloudName, String operation, String type)
             throws UnauthorizedRequestException, UnexpectedException {
 
         for (AuthorizationPlugin plugin : this.authorizationPlugins) {
-            if (!plugin.isAuthorized(federationUser, cloudName, operation, type)) {
+            if (!plugin.isAuthorized(systemUser, cloudName, operation, type)) {
                 return false;
             }
         }
@@ -34,11 +34,11 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
     }
 
     @Override
-    public boolean isAuthorized(FederationUser federationUserToken, String operation, String type)
+    public boolean isAuthorized(SystemUser systemUserToken, String operation, String type)
             throws UnauthorizedRequestException, UnexpectedException {
 
         for (AuthorizationPlugin plugin : this.authorizationPlugins) {
-            if (!plugin.isAuthorized(federationUserToken, operation, type)) {
+            if (!plugin.isAuthorized(systemUserToken, operation, type)) {
                 return false;
             }
         }
@@ -54,7 +54,7 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
             input = new Scanner(file);
         } catch (FileNotFoundException e) {
             throw new FatalErrorException(
-                    String.format(Messages.Fatal.UNABLE_TO_READ_COMPOSED_AUTHORIZATION_PLUGIN_CONF_FILE, confPath));
+                    String.format(Messages.Fatal.UNABLE_TO_READ_COMPOSED_AUTHORIZATION_PLUGIN_CONFIGURATION_FILE_S, confPath));
         }
 
         while (input.hasNextLine()) {

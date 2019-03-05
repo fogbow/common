@@ -51,7 +51,7 @@ public class OpenNebulaClientFactory {
 		GroupPool groupPool = (GroupPool) generateOnePool(client, GroupPool.class);
     	OneResponse response = groupPool.info();
         if (response.isError()) {
-            LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_GROUP, response.getErrorMessage()));
+            LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_INFO_ABOUT_GROUP_S_S, response.getErrorMessage()));
             throw new UnexpectedException(response.getErrorMessage());
         }
     	Group group = groupPool.getById(groupId);
@@ -66,10 +66,10 @@ public class OpenNebulaClientFactory {
         ImagePool imagePool = (ImagePool) generateOnePool(client, ImagePool.class);
 		OneResponse response = imagePool.infoAll();
 		if (response.isError()) {
-			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_TEMPLATES, response.getErrorMessage()));
+			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_INFO_ABOUT_TEMPLATES_S, response.getErrorMessage()));
 			throw new UnexpectedException(response.getErrorMessage());
 		}
-		LOGGER.info(String.format(Messages.Info.TEMPLATE_POOL_LENGTH, imagePool.getLength()));
+		LOGGER.info(String.format(Messages.Info.TEMPLATE_POOL_LENGTH_S, imagePool.getLength()));
 		return imagePool;
 	}
 
@@ -117,10 +117,10 @@ public class OpenNebulaClientFactory {
 		TemplatePool templatePool = (TemplatePool) generateOnePool(client, TemplatePool.class);
 		OneResponse response = templatePool.infoAll();
 		if (response.isError()) {
-			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_TEMPLATES, response.getErrorMessage()));
+			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_INFO_ABOUT_TEMPLATES_S, response.getErrorMessage()));
 			throw new UnexpectedException(response.getErrorMessage());
 		}
-		LOGGER.info(String.format(Messages.Info.TEMPLATE_POOL_LENGTH, templatePool.getLength()));
+		LOGGER.info(String.format(Messages.Info.TEMPLATE_POOL_LENGTH_S, templatePool.getLength()));
 		return templatePool;
 	}
 
@@ -128,10 +128,10 @@ public class OpenNebulaClientFactory {
 		UserPool userpool = (UserPool) generateOnePool(client, UserPool.class);
  		OneResponse response = userpool.info();
  		if (response.isError()) {
- 			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_USERS, response.getErrorMessage()));
+ 			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_INFO_ABOUT_USERS_S, response.getErrorMessage()));
 			throw new UnexpectedException(response.getErrorMessage());
  		}
- 		LOGGER.info(String.format(Messages.Info.USER_POOL_LENGTH, userpool.getLength()));
+ 		LOGGER.info(String.format(Messages.Info.USER_POOL_LENGTH_S, userpool.getLength()));
 		return userpool;
 	}
 
@@ -139,7 +139,7 @@ public class OpenNebulaClientFactory {
  		User user = findUserByName(userPool, userName);
  		OneResponse response = user.info();
  		if (response.isError()) {
- 			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_USER, user.getId(), response.getErrorMessage()));
+ 			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_INFO_ABOUT_USER_S_S, user.getId(), response.getErrorMessage()));
             throw new UnexpectedException(response.getErrorMessage());
  		}
  		return user;
@@ -167,8 +167,8 @@ public class OpenNebulaClientFactory {
 		OneResponse response = Image.allocate(client, template, datastoreId);
 		if (response.isError()) {
 			String message = response.getErrorMessage();
-			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_CREATING_IMAGE, template));
-			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE, message));
+			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_CREATING_IMAGE_FROM_TEMPLATE_S, template));
+			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE_IS_S, message));
 			throw new InvalidParameterException(message);
 		}
 		Image.chmod(client, response.getIntMessage(), CHMOD_PERMISSION_744);
@@ -179,8 +179,8 @@ public class OpenNebulaClientFactory {
 		OneResponse response = SecurityGroup.allocate(client, template);
 		if (response.isError()) {
 			String message = response.getErrorMessage();
-			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_CREATING_SECURITY_GROUPS, template));
-			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE, message));
+			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_CREATING_SECURITY_GROUPS_FROM_TEMPLATE_S, template));
+			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE_IS_S, message));
 			throw new InvalidParameterException();
 		}
 		SecurityGroup.chmod(client, response.getIntMessage(), CHMOD_PERMISSION_744);
@@ -194,8 +194,8 @@ public class OpenNebulaClientFactory {
 		OneResponse response = VirtualMachine.allocate(client, template);
 		if (response.isError()) {
 			String message = response.getErrorMessage();
-			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_INSTANTIATING_FROM_TEMPLATE, template));
-			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE, message));
+			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_INSTATIATING_INSTANCE_FROM_TEMPLATE_S, template));
+			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE_IS_S, message));
 			if (message.contains(FIELD_RESPONSE_LIMIT) && message.contains(FIELD_RESPONSE_QUOTA)) {
 				throw new QuotaExceededException();
 			}
@@ -213,8 +213,8 @@ public class OpenNebulaClientFactory {
 		OneResponse response = VirtualNetwork.allocate(client, template);
 		if (response.isError()) {
 			String message = response.getErrorMessage();
-			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_CREATING_NETWORK, template));
-			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE, message));
+			LOGGER.error(String.format(Messages.Error.ERROR_WHILE_CREATING_NETWORK_FROM_TEMPLATE_S, template));
+			LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE_IS_S, message));
 			throw new InvalidParameterException();
 		}
 		VirtualNetwork.chmod(client, response.getIntMessage(), CHMOD_PERMISSION_744);

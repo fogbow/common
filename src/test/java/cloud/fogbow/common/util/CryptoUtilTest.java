@@ -117,7 +117,7 @@ public class CryptoUtilTest {
 
         for (int i = 0; i < keyChars.length; i++) {
             if (!Character.isLowerCase(keyChars[i])) {
-                fail(String.format(Messages.Exception.INVALID_KEY, keyChars[i], randomKey, i));
+                fail(String.format(Messages.Exception.INVALID_CHAR_C_FOR_RANDOM_KEY_S_AT_INDEX_D, keyChars[i], randomKey, i));
             }
         }
     }

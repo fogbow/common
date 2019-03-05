@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 
+// Each package has to have its own ClassFactory
+
 public class ClassFactory {
     private static final Logger LOGGER = Logger.getLogger(ClassFactory.class);
 
@@ -22,7 +24,7 @@ public class ClassFactory {
             constructor = classpath.getConstructor(String.class, String.class);
             pluginInstance = constructor.newInstance(parameter1, parameter2);
         } catch (ClassNotFoundException e) {
-            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS;
+            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS_S;
             throw new FatalErrorException(String.format(msg, pluginClassName));
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);
@@ -43,7 +45,7 @@ public class ClassFactory {
             constructor = classpath.getConstructor(String.class);
             pluginInstance = constructor.newInstance(parameter);
         } catch (ClassNotFoundException e) {
-            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS;
+            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS_S;
             throw new FatalErrorException(String.format(msg, pluginClassName));
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);
@@ -64,7 +66,7 @@ public class ClassFactory {
             constructor = classpath.getConstructor();
             pluginInstance = constructor.newInstance();
         } catch (ClassNotFoundException e) {
-            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS;
+            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS_S;
             throw new FatalErrorException(String.format(msg, pluginClassName));
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);

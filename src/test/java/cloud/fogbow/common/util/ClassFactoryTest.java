@@ -2,6 +2,7 @@ package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.stubs.StubClassForFactory;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class ClassFactoryTest {
         StubClassForFactory obj = (StubClassForFactory) classFactory.createPluginInstance(className);
 
         // verify
-        assertNotEquals(null, obj);
+        Assert.assertNotEquals(null, obj);
     }
 
     @Test
@@ -34,7 +35,7 @@ public class ClassFactoryTest {
         StubClassForFactory obj = (StubClassForFactory) classFactory.createPluginInstance(className, parameter1);
 
         // verify
-        assertNotEquals(null, obj);
+        Assert.assertNotEquals(null, obj);
     }
 
     @Test
@@ -45,7 +46,7 @@ public class ClassFactoryTest {
         StubClassForFactory obj = (StubClassForFactory) classFactory.createPluginInstance(className, parameter1, parameter2);
 
         // verify
-        assertNotEquals(null, obj);
+        Assert.assertNotEquals(null, obj);
     }
 
     @Test(expected = FatalErrorException.class)

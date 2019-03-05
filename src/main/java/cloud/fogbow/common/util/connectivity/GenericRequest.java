@@ -70,7 +70,7 @@ public class GenericRequest implements Cloneable {
             cloned.body = (HashMap<String, String>) this.body.clone();
             return cloned;
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(String.format(Messages.Exception.CLASS_SHOULD_BE_CLONEABLE, this.getClass().getName()));
+            throw new RuntimeException(String.format(Messages.Exception.S_SHOULD_BE_CLONEABLE, this.getClass().getName()));
         }
     }
 }

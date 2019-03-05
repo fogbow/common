@@ -34,7 +34,6 @@ public class ServiceAsymmetricKeysHolder {
     public RSAPublicKey getPublicKey() throws IOException, GeneralSecurityException {
 	    if (this.servicePublicKey == null) {
 	        if (this.publicKeyFilePath == null) throw new IOException();
-            LOGGER.info("PublicKey file: " + this.publicKeyFilePath);
             this.servicePublicKey = CryptoUtil.getPublicKey(this.publicKeyFilePath);
         }
 	    return this.servicePublicKey;
@@ -43,7 +42,6 @@ public class ServiceAsymmetricKeysHolder {
     public RSAPrivateKey getPrivateKey() throws IOException, GeneralSecurityException {
         if (this.servicePrivateKey == null) {
             if (this.privateKeyFilePath == null) throw new IOException();
-            LOGGER.info("PrivateKey file: " + this.privateKeyFilePath);
             this.servicePrivateKey = CryptoUtil.getPrivateKey(this.privateKeyFilePath);
         }
         return this.servicePrivateKey;

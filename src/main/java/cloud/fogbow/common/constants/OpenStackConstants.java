@@ -10,7 +10,6 @@ public class OpenStackConstants {
         public static final String SIZE_KEY_JSON = "size";
         public static final String NAME_KEY_JSON = "name";
         public static final String ID_KEY_JSON = "id";
-        public static final String PROJECT_ID_KEY_JSON = "project_id";
         public static final String VOLUME_TYPES_KEY_JSON = "volume_types";
         public static final String EXTRA_SPECS_KEY_JSON = "extra_specs";
     }

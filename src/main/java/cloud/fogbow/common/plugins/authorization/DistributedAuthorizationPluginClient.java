@@ -2,7 +2,7 @@ package cloud.fogbow.common.plugins.authorization;
 
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
-import cloud.fogbow.common.models.FederationUser;
+import cloud.fogbow.common.models.SystemUser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,11 +18,11 @@ public abstract class DistributedAuthorizationPluginClient implements Authorizat
     }
 
     @Override
-    public boolean isAuthorized(FederationUser federationUserToken, String cloudName, String operation,
+    public boolean isAuthorized(SystemUser systemUserToken, String cloudName, String operation,
                                 String type) throws UnexpectedException, UnauthorizedRequestException {
         String endpoint = this.serverUrl + AUTH_ENDPOINT + "/" + cloudName + "/" +
-                federationUserToken.getTokenProviderId() + "/" +
-                federationUserToken.getUserId() + "/" + type + "/" + operation;
+                systemUserToken.getIdentityProviderId() + "/" +
+                systemUserToken.getId() + "/" + type + "/" + operation;
         StringBuffer content = null;
 
         try {
@@ -45,10 +45,10 @@ public abstract class DistributedAuthorizationPluginClient implements Authorizat
     }
 
     @Override
-    public boolean isAuthorized(FederationUser federationUserToken, String operation, String type)
+    public boolean isAuthorized(SystemUser systemUserToken, String operation, String type)
             throws UnexpectedException, UnauthorizedRequestException {
-        String endpoint = this.serverUrl + AUTH_ENDPOINT + "/" + federationUserToken.getTokenProviderId() + "/" +
-                federationUserToken.getUserId() + "/" + type + "/" + operation;
+        String endpoint = this.serverUrl + AUTH_ENDPOINT + "/" + systemUserToken.getIdentityProviderId() + "/" +
+                systemUserToken.getId() + "/" + type + "/" + operation;
         StringBuffer content = null;
 
         try {

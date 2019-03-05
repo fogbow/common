@@ -10,7 +10,7 @@ public class FogbowConstants {
     public static final String TOKEN_SEPARATOR = "!%!";
     public static final String PAYLOAD_SEPARATOR  = "!$!";
     public static final String ATTRIBUTE_SEPARATOR  = "!#!";
-    public static final String KEY_VALUE_SEPARATOR = "!@!";
+    public static final String CLASS_NAME_SEPARATOR = "!@!";
 
     // Token mandatory fields
     public static final String PROVIDER_ID_KEY =  "provider";
