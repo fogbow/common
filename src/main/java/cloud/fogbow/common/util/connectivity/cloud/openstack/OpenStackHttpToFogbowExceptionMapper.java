@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.cloud.openstack;
+package cloud.fogbow.common.util.connectivity.cloud.openstack;
 
 import cloud.fogbow.common.exceptions.*;
 import org.apache.http.HttpStatus;

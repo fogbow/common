@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.cloud.opennebula;
+package cloud.fogbow.common.util.connectivity.cloud.opennebula;
 
 public class OpenNebulaTagNameConstants {
 

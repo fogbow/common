@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.cloud.opennebula;
+package cloud.fogbow.common.util.connectivity.cloud.opennebula;
 
 import cloud.fogbow.common.constants.Messages;
 import org.apache.log4j.Logger;

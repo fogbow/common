@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.cloud.cloudstack;
+package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InstanceNotFoundException;

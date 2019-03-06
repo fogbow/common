@@ -10,7 +10,7 @@ import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.OpenStackV3User;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import cloud.fogbow.common.util.GsonHolder;
-import cloud.fogbow.common.util.connectivity.HttpRequestClientUtil;
+import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
 import org.apache.log4j.Logger;
 
@@ -50,7 +50,7 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         HashMap<String, String> headers = new HashMap<>();
         headers.put(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.JSON_CONTENT_TYPE_KEY);
         headers.put(HttpConstants.ACCEPT_KEY, HttpConstants.JSON_CONTENT_TYPE_KEY);
-        HttpResponse response = HttpRequestClientUtil.doGenericRequest(HttpMethod.POST, this.v3TokensEndpoint, headers, body);
+        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, this.v3TokensEndpoint, headers, body);
 
         return getCloudUserFromJson(response);
     }

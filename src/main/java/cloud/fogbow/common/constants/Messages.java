@@ -4,6 +4,7 @@ public class Messages {
     public static class Exception {
         public static final String AUTHENTICATION_ERROR = "Authentication error.";
         public static final String AUTHORIZATION_ERROR = "Authorization error.";
+        public static final String CLASS_S_SHOULD_BE_CLONEABLE = "Class %s should be cloneable";
         public static final String CONFIGURATION_ERROR = "There's an error in configuration files.";
         public static final String FATAL_ERROR = "Fatal error.";
         public static final String FOGBOW = "Fogbow exception.";

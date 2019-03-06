@@ -1,24 +1,25 @@
-package cloud.fogbow.common.util.cloud.cloudstack;
+package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
-import cloud.fogbow.common.models.CloudUser;
-import cloud.fogbow.common.util.connectivity.CloudHttpClient;
-import cloud.fogbow.common.util.connectivity.GenericRequest;
+import cloud.fogbow.common.models.CloudStackUser;
+import cloud.fogbow.common.util.connectivity.cloud.CloudHttpClient;
+import cloud.fogbow.common.util.connectivity.HttpRequest;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URISyntaxException;
 
-public class CloudStackHttpClient extends CloudHttpClient {
+public class CloudStackHttpClient extends CloudHttpClient<CloudStackUser> {
 
     public CloudStackHttpClient() {
     }
 
     @Override
-    public GenericRequest prepareRequest(GenericRequest genericRequest, CloudUser token) {
+    public HttpRequest prepareRequest(HttpRequest genericRequest, CloudStackUser cloudUser) {
         try {
-            GenericRequest clonedRequest = (GenericRequest) genericRequest.clone();
+            HttpRequest clonedRequest = (HttpRequest) genericRequest.clone();
             URIBuilder uriBuilder = new URIBuilder(clonedRequest.getUrl());
-            CloudStackUrlUtil.sign(uriBuilder, token.getToken());
+            CloudStackUrlUtil.sign(uriBuilder, cloudUser.getToken());
+
             clonedRequest.setUrl(uriBuilder.toString());
             return clonedRequest;
         } catch (URISyntaxException e) {

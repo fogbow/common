@@ -5,7 +5,7 @@ import cloud.fogbow.common.constants.OpenNebulaConstants;
 import cloud.fogbow.common.exceptions.*;
 import cloud.fogbow.common.models.OpenNebulaUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
-import cloud.fogbow.common.util.cloud.opennebula.OpenNebulaClientFactory;
+import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientFactory;
 import org.apache.log4j.Logger;
 import org.opennebula.client.Client;
 import org.opennebula.client.OneResponse;

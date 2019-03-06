@@ -1,7 +1,7 @@
 package cloud.fogbow.common.plugins.cloudidp.cloudstack;
 
 import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.util.cloud.cloudstack.CloudStackRequest;
+import cloud.fogbow.common.util.connectivity.cloud.cloudstack.CloudStackRequest;
 
 public class LoginRequest extends CloudStackRequest {
     public static final String LOGIN_COMMAND = "login";

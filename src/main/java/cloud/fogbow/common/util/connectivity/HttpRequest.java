@@ -5,15 +5,16 @@ import cloud.fogbow.common.constants.Messages;
 
 import java.util.HashMap;
 
-public class GenericRequest implements Cloneable {
+public class HttpRequest implements FogbowGenericRequest, Cloneable {
+
     private HttpMethod method;
     private String url;
     private HashMap<String, String> headers;
     private HashMap<String, String> body;
 
-    public GenericRequest(HttpMethod method, String url, HashMap<String, String> body, HashMap<String, String> headers) {
+    public HttpRequest(HttpMethod method, String url, HashMap<String, String> body, HashMap<String, String> headers) {
         if (headers == null || body == null) {
-            throw new IllegalArgumentException(Messages.Exception.NULL_BODY_OR_HEADER);
+            throw new IllegalArgumentException("Neither body or headers can be null");
         }
 
         this.method = method;
@@ -22,11 +23,12 @@ public class GenericRequest implements Cloneable {
         this.body = body;
     }
 
-    public GenericRequest(HttpMethod method, String url, HashMap<String, String> body) {
+
+    public HttpRequest(HttpMethod method, String url, HashMap<String, String> body) {
         this(method, url, body, new HashMap<>());
     }
 
-    public GenericRequest(HttpMethod method, String url) {
+    public HttpRequest(HttpMethod method, String url) {
         this(method, url, new HashMap<>(), new HashMap<>());
     }
 
@@ -65,12 +67,12 @@ public class GenericRequest implements Cloneable {
     @Override
     public Object clone() {
         try {
-            GenericRequest cloned = (GenericRequest) super.clone();
+            HttpRequest cloned = (HttpRequest) super.clone();
             cloned.headers = (HashMap<String, String>) this.headers.clone();
             cloned.body = (HashMap<String, String>) this.body.clone();
             return cloned;
         } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(String.format(Messages.Exception.S_SHOULD_BE_CLONEABLE, this.getClass().getName()));
+            throw new RuntimeException(String.format(Messages.Exception.CLASS_S_SHOULD_BE_CLONEABLE, this.getClass().getName()));
         }
     }
 }

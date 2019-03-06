@@ -1,7 +1,7 @@
 package cloud.fogbow.common.plugins.cloudidp.cloudstack;
 
 import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.util.cloud.cloudstack.CloudStackRequest;
+import cloud.fogbow.common.util.connectivity.cloud.cloudstack.CloudStackRequest;
 
 public class ListAccountsRequest extends CloudStackRequest {
     public static final String LIST_ACCOUNTS_COMMAND = "listAccounts";

@@ -9,7 +9,7 @@ import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.CloudStackUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
-import cloud.fogbow.common.util.connectivity.HttpRequestClientUtil;
+import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
@@ -41,7 +41,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         LoginRequest request = createLoginRequest(credentials);
         // Since all cloudstack requests params are passed via url args, we do not need to
         // send a valid json body in the post request
-        HttpResponse response = HttpRequestClientUtil.doGenericRequest(HttpMethod.POST,
+        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST,
                 request.getUriBuilder().toString(), new HashMap<>(), new HashMap<>());
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
@@ -72,7 +72,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
                 .sessionKey(sessionKey)
                 .build(this.cloudStackUrl);
 
-        HttpResponse response = HttpRequestClientUtil.doGenericRequest(HttpMethod.GET,
+        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET,
                 request.getUriBuilder().toString(), new HashMap<>(), new HashMap<>());
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {

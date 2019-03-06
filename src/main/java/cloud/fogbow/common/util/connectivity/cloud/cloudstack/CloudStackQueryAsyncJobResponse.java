@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.cloud.cloudstack;
+package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.util.GsonHolder;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.cloud.cloudstack;
+package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import java.security.InvalidParameterException;
 
