@@ -38,9 +38,9 @@ public class OpenNebulaClientFactory {
 		this.endpoint = properties.getProperty(OPENNEBULA_RPC_ENDPOINT_URL);
 	}
 
-	public Client createClient(String federationTokenValue) throws UnexpectedException {
+	public Client createClient(String tokenValue) throws UnexpectedException {
 		try {
-			return new Client(federationTokenValue, this.endpoint);
+			return new Client(tokenValue, this.endpoint);
 		} catch (ClientConfigurationException e) {
 			LOGGER.error(Messages.Error.ERROR_WHILE_CREATING_CLIENT, e);
 			throw new UnexpectedException();
