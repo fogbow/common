@@ -5,6 +5,8 @@ import cloud.fogbow.common.constants.Messages;
 
 import java.util.HashMap;
 
+import static cloud.fogbow.common.constants.Messages.Exception.NEITHER_BODY_OR_HEADERS_CAN_BE_NULL;
+
 public class HttpRequest implements FogbowGenericRequest, Cloneable {
 
     private HttpMethod method;
@@ -14,7 +16,7 @@ public class HttpRequest implements FogbowGenericRequest, Cloneable {
 
     public HttpRequest(HttpMethod method, String url, HashMap<String, String> body, HashMap<String, String> headers) {
         if (headers == null || body == null) {
-            throw new IllegalArgumentException("Neither body or headers can be null");
+            throw new IllegalArgumentException(NEITHER_BODY_OR_HEADERS_CAN_BE_NULL);
         }
 
         this.method = method;
