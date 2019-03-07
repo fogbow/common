@@ -1,7 +1,6 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.exceptions.FatalErrorException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Properties;

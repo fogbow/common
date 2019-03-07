@@ -5,9 +5,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.Key;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -34,7 +31,7 @@ public class ServiceAsymmetricKeysHolderTest {
     @Test
     public void getPublicKey() throws IOException, GeneralSecurityException {
         //setup
-        RSAPublicKey expectedPublicKey = RSAUtil.getPublicKey(pubKeyPath);
+        RSAPublicKey expectedPublicKey = CryptoUtil.getPublicKey(pubKeyPath);
 
         // exercise
         RSAPublicKey publicKey = this.keysHolder.getPublicKey();
@@ -46,7 +43,7 @@ public class ServiceAsymmetricKeysHolderTest {
     @Test
     public void getPrivateKey() throws IOException, GeneralSecurityException {
         //setup
-        RSAPrivateKey expectedPrivateKey = RSAUtil.getPrivateKey(privKeyPath);
+        RSAPrivateKey expectedPrivateKey = CryptoUtil.getPrivateKey(privKeyPath);
 
         // exercise
         RSAPrivateKey privateKey = this.keysHolder.getPrivateKey();

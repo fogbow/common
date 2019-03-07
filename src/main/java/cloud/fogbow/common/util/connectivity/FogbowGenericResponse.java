@@ -2,10 +2,10 @@ package cloud.fogbow.common.util.connectivity;
 
 import java.util.Objects;
 
-public class GenericRequestResponse {
+public class FogbowGenericResponse {
     private String content;
 
-    public GenericRequestResponse(String content) {
+    public FogbowGenericResponse(String content) {
         this.content = content;
     }
 
@@ -21,7 +21,7 @@ public class GenericRequestResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GenericRequestResponse that = (GenericRequestResponse) o;
+        FogbowGenericResponse that = (FogbowGenericResponse) o;
         return Objects.equals(content, that.content);
     }
 
@@ -32,7 +32,7 @@ public class GenericRequestResponse {
 
     @Override
     public String toString() {
-        return "GenericRequestResponse{" +
+        return "FogbowGenericResponse{" +
                 "content='" + content + '\'' +
                 '}';
     }

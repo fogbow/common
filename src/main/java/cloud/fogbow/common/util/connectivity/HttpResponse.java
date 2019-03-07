@@ -3,7 +3,7 @@ package cloud.fogbow.common.util.connectivity;
 import java.util.List;
 import java.util.Map;
 
-public class HttpResponse extends GenericRequestResponse {
+public class HttpResponse extends FogbowGenericResponse {
     private final Map<String, List<String>> headers;
     private int httpCode;
 

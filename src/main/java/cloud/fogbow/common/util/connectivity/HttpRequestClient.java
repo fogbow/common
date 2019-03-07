@@ -19,15 +19,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HttpRequestClientUtil {
-    private static final Logger LOGGER = Logger.getLogger(HttpRequestClientUtil.class);
+public class HttpRequestClient {
+    private static final Logger LOGGER = Logger.getLogger(HttpRequestClient.class);
 
-    public static HttpResponse doGenericRequest(HttpMethod method, String urlString,
-                                                HashMap<String, String> headers, HashMap<String, String> body)
+    public static HttpResponse doGenericRequest(HttpMethod method, String endpoint, HashMap<String, String> headers,
+                                                HashMap<String, String> body)
                    throws FogbowException {
         int responseCode = -1;
         try {
-            URL url = new URL(urlString);
+            URL url = new URL(endpoint);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method.getName());
 
