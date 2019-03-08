@@ -3,18 +3,18 @@ package cloud.fogbow.common.models;
 import java.util.HashMap;
 
 public class CloudStackUser extends CloudUser {
-    private HashMap<String, String> cookieHeader;
+    private HashMap<String, String> cookieHeaders;
 
-    public CloudStackUser(String userId, String userName, String tokenValue, HashMap<String, String> cookieHeader) {
+    public CloudStackUser(String userId, String userName, String tokenValue, HashMap<String, String> cookieHeaders) {
         super(userId, userName, tokenValue);
-        this.cookieHeader = cookieHeader;
+        this.cookieHeaders = cookieHeaders;
     }
 
-    public HashMap<String, String> getCookieHeader() {
-        return cookieHeader;
+    public HashMap<String, String> getCookieHeaders() {
+        return cookieHeaders;
     }
 
-    public void setCookieHeader(HashMap<String, String> cookieHeader) {
-        this.cookieHeader = cookieHeader;
+    public void setCookieHeaders(HashMap<String, String> cookieHeaders) {
+        this.cookieHeaders = cookieHeaders;
     }
 }
