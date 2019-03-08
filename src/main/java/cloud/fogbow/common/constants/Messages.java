@@ -1,6 +1,10 @@
 package cloud.fogbow.common.constants;
 
 public class Messages {
+    public static class Debug {
+        public static final String POST_JSON_WITH_BODY_S = "Requesting to a rest endpoint with body: \n%s";
+    }
+
     public static class Exception {
         public static final String AUTHENTICATION_ERROR = "Authentication error.";
         public static final String AUTHORIZATION_ERROR = "Authorization error.";
