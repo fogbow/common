@@ -49,19 +49,14 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST,
                 request.getUriBuilder().toString(), new HashMap<>(), new HashMap<>());
         // NOTE(pauloewerton): we need to extract all set-cookie headers in order to pass it to the follow-on requests
-        Map<String, List<String>> headerFields = response.getHeaders();
-        String setCookieHeaders1 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_1));
-        String setCookieHeaders2 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_2));
-        String cookieHeaderValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1 , setCookieHeaders2);
-        HashMap<String, String> cookieHeader = new HashMap<>();
-        cookieHeader.put(COOKIE_HEADER, cookieHeaderValue);
+        HashMap cookieHeaders = getCookieHeaders(response);
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
             FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
             throw exception;
         } else {
             LoginResponse loginResponse = LoginResponse.fromJson(response.getContent());
-            return getCloudStackUser(loginResponse.getSessionKey(), cookieHeader);
+            return getCloudStackUser(loginResponse.getSessionKey(), cookieHeaders);
         }
     }
 
@@ -79,13 +74,24 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return loginRequest;
     }
 
-    private CloudStackUser getCloudStackUser(String sessionKey, HashMap<String, String> cookieHeader) throws FogbowException {
+    private HashMap getCookieHeaders(HttpResponse response) {
+        Map<String, List<String>> headerFields = response.getHeaders();
+        String setCookieHeaders1 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_1));
+        String setCookieHeaders2 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_2));
+        String cookieHeadersValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1 , setCookieHeaders2);
+        HashMap<String, String> cookieHeaders = new HashMap<>();
+        cookieHeaders.put(COOKIE_HEADER, cookieHeadersValue);
+
+        return cookieHeaders;
+    }
+
+    private CloudStackUser getCloudStackUser(String sessionKey, HashMap<String, String> cookieHeaders) throws FogbowException {
         ListAccountsRequest request = new ListAccountsRequest.Builder()
                 .sessionKey(sessionKey)
                 .build(this.cloudStackUrl);
 
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET,
-                request.getUriBuilder().toString(), cookieHeader, new HashMap<>());
+                request.getUriBuilder().toString(), cookieHeaders, new HashMap<>());
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
             FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
@@ -99,7 +105,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
                 String tokenValue = user.getApiKey() + CloudStackConstants.KEY_VALUE_SEPARATOR + user.getSecretKey();
                 String userId = user.getId();
                 String userName = getUserName(user);
-                return new CloudStackUser(userId, userName, tokenValue, cookieHeader);
+                return new CloudStackUser(userId, userName, tokenValue, cookieHeaders);
             } catch (Exception e) {
                 LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
                 throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
