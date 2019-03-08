@@ -50,9 +50,9 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
                 request.getUriBuilder().toString(), new HashMap<>(), new HashMap<>());
         // NOTE(pauloewerton): we need to extract all set-cookie headers in order to pass it to the follow-on requests
         Map<String, List<String>> headerFields = response.getHeaders();
-        List<String> setCookieHeaders = headerFields.get(SET_COOKIE_HEADER_1);
-        setCookieHeaders.addAll(headerFields.get(SET_COOKIE_HEADER_2));
-        String cookieHeaderValue = String.join(COOKIE_SEPARATOR, setCookieHeaders);
+        String setCookieHeaders1 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_1));
+        String setCookieHeaders2 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_2));
+        String cookieHeaderValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1 , setCookieHeaders2);
         HashMap<String, String> cookieHeader = new HashMap<>();
         cookieHeader.put(COOKIE_HEADER, cookieHeaderValue);
 
