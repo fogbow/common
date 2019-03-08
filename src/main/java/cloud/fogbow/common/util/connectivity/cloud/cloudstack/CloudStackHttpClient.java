@@ -7,9 +7,9 @@ import cloud.fogbow.common.util.connectivity.HttpRequest;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 public class CloudStackHttpClient extends CloudHttpClient<CloudStackUser> {
-
     public CloudStackHttpClient() {
     }
 
@@ -21,6 +21,7 @@ public class CloudStackHttpClient extends CloudHttpClient<CloudStackUser> {
             CloudStackUrlUtil.sign(uriBuilder, cloudUser.getToken());
 
             clonedRequest.setUrl(uriBuilder.toString());
+            clonedRequest.setHeaders(cloudUser.getCookieHeader());
             return clonedRequest;
         } catch (URISyntaxException e) {
             throw new RuntimeException(e.getMessage(), e);
