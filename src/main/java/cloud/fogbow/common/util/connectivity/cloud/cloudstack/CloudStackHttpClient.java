@@ -21,7 +21,7 @@ public class CloudStackHttpClient extends CloudHttpClient<CloudStackUser> {
             CloudStackUrlUtil.sign(uriBuilder, cloudUser.getToken());
 
             clonedRequest.setUrl(uriBuilder.toString());
-            clonedRequest.setHeaders(cloudUser.getCookieHeader());
+            clonedRequest.setHeaders(cloudUser.getCookieHeaders());
             return clonedRequest;
         } catch (URISyntaxException e) {
             throw new RuntimeException(e.getMessage(), e);
