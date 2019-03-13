@@ -82,7 +82,7 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
 	private boolean isUrlValid(String url) throws FatalErrorException {
 		if (url == null || url.trim().isEmpty()) {
 			throw new FatalErrorException(
-					String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : "")));
+					String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : url)));
 		}
 		return true;
 	}

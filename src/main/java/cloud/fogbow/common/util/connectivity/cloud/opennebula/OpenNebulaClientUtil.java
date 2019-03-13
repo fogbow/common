@@ -51,7 +51,7 @@ public class OpenNebulaClientUtil {
 		GroupPool groupPool = (GroupPool) generateOnePool(client, GroupPool.class);
     	OneResponse response = groupPool.info();
         if (response.isError()) {
-            LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_GROUP, response.getErrorMessage()));
+            LOGGER.error(String.format(Messages.Error.ERROR_WHILE_GETTING_INFO_ABOUT_GROUP_S_S, response.getErrorMessage()));
             throw new UnexpectedException(response.getErrorMessage());
         }
     	Group group = groupPool.getById(groupId);
