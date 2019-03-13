@@ -16,11 +16,9 @@ public class Messages {
         public static final String NEITHER_BODY_OR_HEADERS_CAN_BE_NULL = "Neither body or headers can be null";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
-        public static final String NULL_BODY_OR_HEADER = "Neither body nor headers can be null.";
         public static final String OPERATION_RETURNED_ERROR_S = "Operation returned error: %s";
         public static final String QUOTA_EXCEEDED = "Quota exceeded.";
         public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
-        public static final String S_SHOULD_BE_CLONEABLE = "%s should be cloneable";
         public static final String UNABLE_TO_FIND_SYSTEM_USER_CLASS_S = "Unable to find system user class %s.";
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
@@ -42,12 +40,11 @@ public class Messages {
         public static final String ERROR_WHILE_CREATING_IMAGE_FROM_TEMPLATE_S = "Error while creating image from template: %s.";
         public static final String ERROR_WHILE_CREATING_NETWORK_FROM_TEMPLATE_S = "Error while creating network from template: %s.";
         public static final String ERROR_WHILE_CREATING_REQUEST_BODY = "Error while creating request body.";
-        public static final String ERROR_WHILE_CREATING_RESPONSE_BODY = "Error while creating response body.";
         public static final String ERROR_WHILE_CREATING_SECURITY_GROUPS_FROM_TEMPLATE_S = "Error while creating security groups from template: %s.";
         public static final String ERROR_WHILE_GETTING_INFO_ABOUT_GROUP_S_S = "Error while getting info about group %s: %s.";
-        public static final String ERROR_WHILE_GETTING_INFO_ABOUT_TEMPLATES_S = "Error while getting info about templates: %s.";
-        public static final String ERROR_WHILE_GETTING_INFO_ABOUT_USER_S_S = "Error while getting info about user %s: %s.";
-        public static final String ERROR_WHILE_GETTING_INFO_ABOUT_USERS_S = "Error while getting info about users: %s.";
+        public static final String ERROR_WHILE_GETTING_TEMPLATES_S = "Error while getting info about templates: %s.";
+        public static final String ERROR_WHILE_GETTING_USER_S_S = "Error while getting info about user %s: %s.";
+        public static final String ERROR_WHILE_GETTING_USERS_S = "Error while getting info about users: %s.";
         public static final String ERROR_WHILE_INSTATIATING_INSTANCE_FROM_TEMPLATE_S = "Error while instatiating instance from template: %s.";
         public static final String UNABLE_TO_CLOSE_FILE_S = "Unable to close file %s.";
         public static final String UNABLE_TO_GET_TOKEN_FROM_JSON = "Unable to get token from json.";
