@@ -44,10 +44,14 @@ public class Messages {
         public static final String ERROR_WHILE_CREATING_REQUEST_BODY = "Error while creating request body.";
         public static final String ERROR_WHILE_CREATING_RESPONSE_BODY = "Error while creating response body.";
         public static final String ERROR_WHILE_CREATING_SECURITY_GROUPS_FROM_TEMPLATE_S = "Error while creating security groups from template: %s.";
+        public static final String ERROR_WHILE_GETTING_GROUP = "Error while getting info about group %s: %s.";
         public static final String ERROR_WHILE_GETTING_INFO_ABOUT_GROUP_S_S = "Error while getting info about group %s: %s.";
         public static final String ERROR_WHILE_GETTING_INFO_ABOUT_TEMPLATES_S = "Error while getting info about templates: %s.";
         public static final String ERROR_WHILE_GETTING_INFO_ABOUT_USER_S_S = "Error while getting info about user %s: %s.";
         public static final String ERROR_WHILE_GETTING_INFO_ABOUT_USERS_S = "Error while getting info about users: %s.";
+        public static final String ERROR_WHILE_GETTING_TEMPLATES_S = "Error while getting info about templates: %s.";
+        public static final String ERROR_WHILE_GETTING_USER_S_S = "Error while getting info about user %s: %s.";
+        public static final String ERROR_WHILE_GETTING_USERS_S = "Error while getting info about users: %s.";
         public static final String ERROR_WHILE_INSTATIATING_INSTANCE_FROM_TEMPLATE_S = "Error while instatiating instance from template: %s.";
         public static final String UNABLE_TO_CLOSE_FILE_S = "Unable to close file %s.";
         public static final String UNABLE_TO_GET_TOKEN_FROM_JSON = "Unable to get token from json.";
