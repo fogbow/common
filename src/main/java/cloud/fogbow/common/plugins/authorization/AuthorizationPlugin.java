@@ -6,7 +6,7 @@ import cloud.fogbow.common.models.SystemUser;
 
 public interface AuthorizationPlugin {
     /**
-     * Verifies if the user described by federationToken is authorized to perform the operation on the
+     * Verifies if the user represented by the systemUser object is authorized to perform the operation on the
      * type of resource indicated, in the cloud indicated.
      *
      *
@@ -20,7 +20,7 @@ public interface AuthorizationPlugin {
             throws UnauthorizedRequestException, UnexpectedException;
 
     /**
-     * Verifies if the user described by federationToken is authorized to perform the operation on the
+     * Verifies if the user represented by the systemUser object is authorized to perform the operation on the
      * type of resource indicated, in the default cloud.
      *
      *

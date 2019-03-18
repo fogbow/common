@@ -1,32 +1,35 @@
 package cloud.fogbow.common.plugins.cloudidp.opennebula;
 
-import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.constants.OpenNebulaConstants;
-import cloud.fogbow.common.exceptions.*;
-import cloud.fogbow.common.models.OpenNebulaUser;
-import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
-import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientFactory;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.opennebula.client.Client;
 import org.opennebula.client.OneResponse;
 import org.opennebula.client.user.UserPool;
 
-import java.util.Map;
+import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.constants.OpenNebulaConstants;
+import cloud.fogbow.common.exceptions.FatalErrorException;
+import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
+import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.models.OpenNebulaUser;
+import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
+import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientUtil;
 
 public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPlugin<OpenNebulaUser> {
-    private static final Logger LOGGER = Logger.getLogger(OpenNebulaIdentityProviderPlugin.class);
+    
+	private static final Logger LOGGER = Logger.getLogger(OpenNebulaIdentityProviderPlugin.class);
 
-    private OpenNebulaClientFactory factory;
-
-    public OpenNebulaIdentityProviderPlugin() throws FatalErrorException {
-        //TODO. fix me.
-        this.factory = new OpenNebulaClientFactory(null);
+    private String endpoint;
+    
+    public OpenNebulaIdentityProviderPlugin(String identityUrl) {
+    	if (isUrlValid(identityUrl)) {
+    		this.endpoint = identityUrl;
+    	}
     }
-
-    public OpenNebulaIdentityProviderPlugin(OpenNebulaClientFactory factory, String tokenProviderId) {
-        this.factory = factory;
-    }
-
+    
     /*
      * The userId is the same as the userName, because the userName is unique in Opennebula
      */
@@ -57,11 +60,11 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
      * TODO: check to request directly in the XML-RPC API
      */
     protected boolean isAuthenticated(String openNebulaTokenValue) {
-        final Client client;
+    	final Client client;
         final UserPool userPool;
         try {
-            client = this.factory.createClient(openNebulaTokenValue);
-            userPool = this.factory.createUserPool(client);
+        	client = OpenNebulaClientUtil.createClient(this.endpoint, openNebulaTokenValue);
+        	userPool = OpenNebulaClientUtil.getUserPool(client);
         } catch (UnexpectedException e) {
             LOGGER.error(Messages.Exception.UNEXPECTED, e);
             return false;
@@ -76,11 +79,12 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
         return true;
     }
 
-    protected void setFactory(OpenNebulaClientFactory factory) {
-        this.factory = factory;
-    }
-
-    protected OpenNebulaClientFactory getFactory() {
-        return factory;
-    }
+	private boolean isUrlValid(String url) throws FatalErrorException {
+		if (url == null || url.trim().isEmpty()) {
+			throw new FatalErrorException(
+					String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : url)));
+		}
+		return true;
+	}
+    
 }
