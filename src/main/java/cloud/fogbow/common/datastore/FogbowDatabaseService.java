@@ -10,7 +10,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 public class FogbowDatabaseService<T> {
-    public static final String SIZE_ERROR_MESSAGE_PREFIX = "size must be between";
+    public static final String SIZE_CONSTRAINT_MESSAGE = "{javax.validation.constraints.Size.message}";
 
     public <S extends T> void safeSave(S o, JpaRepository<T, ?> repository) throws UnexpectedException {
         try {
@@ -68,7 +68,7 @@ public class FogbowDatabaseService<T> {
         Set<ConstraintViolation<?>> constraintViolations = constraintViolationException.getConstraintViolations();
         if (constraintViolations.iterator().hasNext()) {
             ConstraintViolation<?> constraintViolation = constraintViolations.iterator().next();
-            return constraintViolation.getMessage().startsWith(SIZE_ERROR_MESSAGE_PREFIX);
+            return constraintViolation.getMessageTemplate().equals(SIZE_CONSTRAINT_MESSAGE);
         }
         return false;
     }
