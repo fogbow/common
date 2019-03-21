@@ -2,6 +2,8 @@ package cloud.fogbow.common.constants;
 
 public class Messages {
     public static class Exception {
+        public static final String ATTEMPTING_TO_ADD_A_NULL_ITEM = "Attempting to add a null item.";
+        public static final String ATTEMPTING_TO_REMOVE_A_NULL_ITEM = "Attempting to remove a null item.";
         public static final String AUTHENTICATION_ERROR = "Authentication error.";
         public static final String AUTHORIZATION_ERROR = "Authorization error.";
         public static final String CLASS_S_SHOULD_BE_CLONEABLE = "Class %s should be cloneable";
