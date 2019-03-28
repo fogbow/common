@@ -6,6 +6,8 @@ public class Messages {
     }
 
     public static class Exception {
+        public static final String ATTEMPTING_TO_ADD_A_NULL_ITEM = "Attempting to add a null item.";
+        public static final String ATTEMPTING_TO_REMOVE_A_NULL_ITEM = "Attempting to remove a null item.";
         public static final String AUTHENTICATION_ERROR = "Authentication error.";
         public static final String AUTHORIZATION_ERROR = "Authorization error.";
         public static final String CLASS_S_SHOULD_BE_CLONEABLE = "Class %s should be cloneable";
@@ -16,7 +18,9 @@ public class Messages {
         public static final String INVALID_CREDENTIALS = "Invalid credentials.";
         public static final String INVALID_CHAR_C_FOR_RANDOM_KEY_S_AT_INDEX_D = "Invalid char \"%c\" for random key: \"%s\" at index %d";
         public static final String INVALID_PARAMETER = "Invalid parameter.";
+        public static final String INVALID_PUBLIC_KEY = "Invalid public key fetched from external server.";
         public static final String INVALID_TOKEN = "Invalid token value.";
+        public static final String INVALID_URL = "Invalid url: %s.";
         public static final String NEITHER_BODY_OR_HEADERS_CAN_BE_NULL = "Neither body or headers can be null";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
