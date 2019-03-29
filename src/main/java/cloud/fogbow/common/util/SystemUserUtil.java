@@ -5,9 +5,17 @@ import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.SystemUser;
 
 public class SystemUserUtil {
-    public static String serialize(SystemUser systemUser) {
+
+    public static final int SERIALIZED_SYSTEM_USER_MAX_SIZE = 1024;
+
+    public static String serialize(SystemUser systemUser) throws UnexpectedException{
         SerializableEntity<SystemUser> serializableSystemUser = new SerializableEntity<SystemUser>(systemUser);
         String serializedSystemUser = GsonHolder.getInstance().toJson(serializableSystemUser);
+
+        if(serializedSystemUser.length() > SystemUserUtil.SERIALIZED_SYSTEM_USER_MAX_SIZE) {
+            throw new UnexpectedException(Messages.Exception.MAXIMUM_USER_SIZE_EXCEEDED);
+        }
+
         return serializedSystemUser;
     }
     
