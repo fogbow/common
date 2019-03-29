@@ -13,4 +13,9 @@ public class SerializableEntity<T> {
     public T getSerializedEntity() throws ClassNotFoundException {
         return (T) GsonHolder.getInstance().fromJson(this.payload, Class.forName(this.className));
     }
+
+    @Override
+    public String toString() {
+        return GsonHolder.getInstance().toJson(this, SerializableEntity.class);
+    }
 }

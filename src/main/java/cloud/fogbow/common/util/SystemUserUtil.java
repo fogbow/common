@@ -10,7 +10,7 @@ public class SystemUserUtil {
 
     public static String serialize(SystemUser systemUser) throws UnexpectedException{
         SerializableEntity<SystemUser> serializableSystemUser = new SerializableEntity<SystemUser>(systemUser);
-        String serializedSystemUser = GsonHolder.getInstance().toJson(serializableSystemUser);
+        String serializedSystemUser = serializableSystemUser.toString();
 
         if(serializedSystemUser.length() > SystemUserUtil.SERIALIZED_SYSTEM_USER_MAX_SIZE) {
             throw new UnexpectedException(Messages.Exception.MAXIMUM_USER_SIZE_EXCEEDED);
