@@ -6,7 +6,7 @@ import cloud.fogbow.common.models.SystemUser;
 
 public class SystemUserUtil {
 
-    public static final int SERIALIZED_SYSTEM_USER_MAX_SIZE = 1024;
+    public static final int SERIALIZED_SYSTEM_USER_MAX_SIZE = 2048;
 
     public static String serialize(SystemUser systemUser) throws UnexpectedException{
         SerializableEntity<SystemUser> serializableSystemUser = new SerializableEntity<SystemUser>(systemUser);
