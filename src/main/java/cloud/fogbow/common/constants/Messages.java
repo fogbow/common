@@ -21,6 +21,7 @@ public class Messages {
         public static final String INVALID_PUBLIC_KEY = "Invalid public key fetched from external server.";
         public static final String INVALID_TOKEN = "Invalid token value.";
         public static final String INVALID_URL = "Invalid url: %s.";
+        public static final String MAXIMUM_SIZE_EXCEEDED = "The serialized object is larger than allowed.";
         public static final String NEITHER_BODY_OR_HEADERS_CAN_BE_NULL = "Neither body or headers can be null";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
@@ -31,7 +32,6 @@ public class Messages {
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
         public static final String WRONG_SYNTAX_FOR_ENDPOINT_S = "Wrong syntax for endpoint %s.";
-        public static final String MAXIMUM_USER_SIZE_EXCEEDED = "The system user data's size is larger than allowed";
     }
 
     public static class Fatal {

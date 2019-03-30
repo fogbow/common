@@ -13,7 +13,7 @@ public class SystemUserUtil {
         String serializedSystemUser = serializableSystemUser.toString();
 
         if(serializedSystemUser.length() > SystemUserUtil.SERIALIZED_SYSTEM_USER_MAX_SIZE) {
-            throw new UnexpectedException(Messages.Exception.MAXIMUM_USER_SIZE_EXCEEDED);
+            throw new UnexpectedException(Messages.Exception.MAXIMUM_SIZE_EXCEEDED);
         }
 
         return serializedSystemUser;
