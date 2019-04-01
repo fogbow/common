@@ -1,11 +1,11 @@
 package cloud.fogbow.common.util;
 
-public class SerializableEntity<T> {
+public class SerializedEntityHolder<T> {
 
     private String className;
     private String payload;
 
-    public SerializableEntity(T instanceToSerialize) {
+    public SerializedEntityHolder(T instanceToSerialize) {
         this.className = instanceToSerialize.getClass().getName();
         this.payload = GsonHolder.getInstance().toJson(instanceToSerialize);
     }
@@ -16,6 +16,6 @@ public class SerializableEntity<T> {
 
     @Override
     public String toString() {
-        return GsonHolder.getInstance().toJson(this, SerializableEntity.class);
+        return GsonHolder.getInstance().toJson(this, SerializedEntityHolder.class);
     }
 }
