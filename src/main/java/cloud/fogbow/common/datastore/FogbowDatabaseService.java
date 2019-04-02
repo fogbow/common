@@ -1,6 +1,8 @@
 package cloud.fogbow.common.datastore;
 
+import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.UnexpectedException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.TransactionSystemException;
 
@@ -23,10 +25,18 @@ public class FogbowDatabaseService<T> {
                 StorableObjectTruncateHelper<S> truncateHelper = new StorableObjectTruncateHelper<>(o.getClass());
                 S truncated = truncateHelper.truncate(o);
 
-                repository.save(truncated);
+                saveTruncatedObject(truncated, repository);
             } else {
                 throw new UnexpectedException("", e);
             }
+        }
+    }
+
+    private void saveTruncatedObject(T truncatedObject, JpaRepository<T, ?> repository) throws UnexpectedException{
+        try {
+            repository.save(truncatedObject);
+        } catch (DataIntegrityViolationException e1) {
+            throw new UnexpectedException(Messages.Exception.DATABASE_INTEGRITY_VIOLATED, e1);
         }
     }
 
