@@ -105,7 +105,8 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
                 String tokenValue = user.getApiKey() + CloudStackConstants.KEY_VALUE_SEPARATOR + user.getSecretKey();
                 String userId = user.getId();
                 String userName = getUserName(user);
-                return new CloudStackUser(userId, userName, tokenValue, cookieHeaders);
+                String domain = user.getDomain();
+                return new CloudStackUser(userId, userName, tokenValue, domain, cookieHeaders);
             } catch (Exception e) {
                 LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
                 throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
