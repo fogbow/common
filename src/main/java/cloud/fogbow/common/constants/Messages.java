@@ -32,6 +32,7 @@ public class Messages {
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
         public static final String WRONG_SYNTAX_FOR_ENDPOINT_S = "Wrong syntax for endpoint %s.";
+        public static final String DATABASE_INTEGRITY_VIOLATED = "The database may be incompatible or corrupted.";
     }
 
     public static class Fatal {
