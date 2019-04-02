@@ -66,6 +66,8 @@ public class ListAccountsResponse {
         private String id;
         @SerializedName(USERNAME_KEY_JSON)
         private String username;
+        @SerializedName(DOMAIN_KEY_JSON)
+        private String domain;
         @SerializedName(FIRST_NAME_KEY_JSON)
         private String firstName;
         @SerializedName(LAST_NAME_KEY_JSON)
@@ -81,6 +83,10 @@ public class ListAccountsResponse {
 
         public String getUsername() {
             return username;
+        }
+
+        public String getDomain() {
+            return domain;
         }
 
         public String getFirstName() {
