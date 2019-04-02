@@ -56,11 +56,14 @@ public class CreateAuthenticationRequest implements JsonSerializable {
 
         String[] methods = new String[] { PASSWORD_AUTHENTICATION_METHOD };
         Identity identity = new Identity(methods, password);
+        Scope scope = null;
 
-        Project project = new Project(domain, builder.projectName);
-        Scope scope = new Scope(project);
+        if (builder.projectName != null) {
+            Project project = new Project(domain, builder.projectName);
+            scope = new Scope(project);
+        }
 
-        this.auth = new Auth(identity, scope);
+        this.auth = scope == null ? new Auth(identity) : new Auth(identity, scope);
     }
 
     @Override
@@ -87,6 +90,10 @@ public class CreateAuthenticationRequest implements JsonSerializable {
         private Scope scope;
         @SerializedName(IDENTITY_KEY_JSON)
         private Identity identity;
+
+        public Auth(Identity identity) {
+            this.identity = identity;
+        }
 
         public Auth(Identity identity, Scope scope) {
             this.identity = identity;

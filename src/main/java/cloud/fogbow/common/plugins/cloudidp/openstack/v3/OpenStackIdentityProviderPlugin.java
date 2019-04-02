@@ -28,7 +28,6 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
     }
 
     public OpenStackIdentityProviderPlugin(String identityUrl) throws FatalErrorException {
-
         if (isUrlValid(identityUrl)) {
             this.v3TokensEndpoint = identityUrl + OpenStackConstants.Identity.V3_TOKENS_ENDPOINT_PATH;
         }
@@ -43,8 +42,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
 
     @Override
     public OpenStackV3User getCloudUser(Map<String, String> credentials) throws FogbowException {
-
-        String jsonBody = mountJsonBody(credentials);
+        boolean unscopedAuth = credentials.get(OpenStackConstants.Identity.PROJECT_NAME_KEY_JSON) == null;
+        String jsonBody = unscopedAuth ? mountUnscopedJsonBody(credentials) : mountJsonBody(credentials);
 
         HashMap<String, String> body = GsonHolder.getInstance().fromJson(jsonBody, HashMap.class);
         HashMap<String, String> headers = new HashMap<>();
@@ -52,20 +51,11 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         headers.put(HttpConstants.ACCEPT_KEY, HttpConstants.JSON_CONTENT_TYPE_KEY);
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, this.v3TokensEndpoint, headers, body);
 
-        return getCloudUserFromJson(response);
+        return unscopedAuth ? this.getUnscopedCloudUserFromJson(response) : this.getCloudUserFromJson(response);
     }
 
     private OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnexpectedException {
-        String tokenValue = null;
-        Map<String, List<String>> headers = response.getHeaders();
-        if (headers.get(OpenStackConstants.X_SUBJECT_TOKEN) != null) {
-            List<String> headerValues = headers.get(OpenStackConstants.X_SUBJECT_TOKEN);
-            if (!headerValues.isEmpty()) {
-                tokenValue = headerValues.get(0);
-            } else {
-                tokenValue = null;
-            }
-        }
+        String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
             CreateAuthenticationResponse createAuthenticationResponse = CreateAuthenticationResponse.fromJson(response.getContent());
@@ -75,6 +65,21 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
             CreateAuthenticationResponse.Project projectTokenResponse = createAuthenticationResponse.getProject();
             String projectId = projectTokenResponse.getId();
             return new OpenStackV3User(userId, userName, tokenValue, projectId);
+        } catch (Exception e) {
+            LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+        }
+    }
+
+    private OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnexpectedException {
+        String tokenValue = this.getTokenValue(response.getHeaders());
+
+        try {
+            CreateUnscopedAuthenticationResponse createUnscopedAuthenticationResponse = CreateUnscopedAuthenticationResponse.fromJson(response.getContent());
+            CreateUnscopedAuthenticationResponse.User userTokenResponse = createUnscopedAuthenticationResponse.getUser();
+            String userId = userTokenResponse.getId();
+            String userName = userTokenResponse.getName();
+            return new OpenStackV3User(userId, userName, tokenValue, null);
         } catch (Exception e) {
             LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
             throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
@@ -95,5 +100,33 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
                 .build();
 
         return createAuthenticationRequest.toJson();
+    }
+
+    private String mountUnscopedJsonBody(Map<String, String> credentials) {
+        String password = credentials.get(OpenStackConstants.Identity.PASSWORD_KEY_JSON);
+        String domain = credentials.get(OpenStackConstants.Identity.DOMAIN_KEY_JSON);
+        String userName = credentials.get(OpenStackConstants.Identity.USER_NAME_KEY_JSON);
+
+        CreateAuthenticationRequest createAuthenticationRequest = new CreateAuthenticationRequest.Builder()
+                .domain(domain)
+                .userName(userName)
+                .password(password)
+                .build();
+
+        return createAuthenticationRequest.toJson();
+    }
+
+    private String getTokenValue(Map<String, List<String>> headers) {
+        String tokenValue = null;
+        if (headers.get(OpenStackConstants.X_SUBJECT_TOKEN) != null) {
+            List<String> headerValues = headers.get(OpenStackConstants.X_SUBJECT_TOKEN);
+            if (!headerValues.isEmpty()) {
+                tokenValue = headerValues.get(0);
+            } else {
+                tokenValue = null;
+            }
+        }
+
+        return tokenValue;
     }
 }
