@@ -4,6 +4,7 @@ import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
 import cloud.fogbow.common.util.ClassFactory;
 
@@ -74,5 +75,10 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
             authorizationPlugins.add(i, (AuthorizationPlugin) classFactory.createPluginInstance(pluginNames.get(i)));
         }
         return authorizationPlugins;
+    }
+
+    @Override
+    public boolean isAuthorized(SystemUser systemUser, FogbowOperation operation) {
+        return true;
     }
 }

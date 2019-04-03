@@ -2,9 +2,10 @@ package cloud.fogbow.common.plugins.authorization;
 
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
 
-public interface AuthorizationPlugin {
+public interface AuthorizationPlugin<T extends FogbowOperation> {
     /**
      * Verifies if the user represented by the systemUser object is authorized to perform the operation on the
      * type of resource indicated, in the cloud indicated.
@@ -31,4 +32,6 @@ public interface AuthorizationPlugin {
      */
     public boolean isAuthorized(SystemUser systemUser, String operation, String target)
             throws UnauthorizedRequestException, UnexpectedException;
+
+    public boolean isAuthorized(SystemUser systemUser, T operation) throws UnauthorizedRequestException, UnexpectedException;
 }
