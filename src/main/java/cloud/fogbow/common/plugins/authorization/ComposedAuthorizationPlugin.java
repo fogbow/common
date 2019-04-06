@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
-    List<AuthorizationPlugin> authorizationPlugins;
+public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements AuthorizationPlugin<T> {
+    List<AuthorizationPlugin<T>> authorizationPlugins;
 
     public ComposedAuthorizationPlugin(String confPath) {
         List<String> pluginNames = getPluginNames(confPath);
@@ -23,23 +23,11 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
     }
 
     @Override
-    public boolean isAuthorized(SystemUser systemUser, String cloudName, String operation, String type)
+    public boolean isAuthorized(SystemUser systemUser, FogbowOperation operation)
             throws UnauthorizedRequestException, UnexpectedException {
 
         for (AuthorizationPlugin plugin : this.authorizationPlugins) {
-            if (!plugin.isAuthorized(systemUser, cloudName, operation, type)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isAuthorized(SystemUser systemUserToken, String operation, String type)
-            throws UnauthorizedRequestException, UnexpectedException {
-
-        for (AuthorizationPlugin plugin : this.authorizationPlugins) {
-            if (!plugin.isAuthorized(systemUserToken, operation, type)) {
+            if (!plugin.isAuthorized(systemUser, operation)) {
                 return false;
             }
         }
@@ -68,17 +56,12 @@ public class ComposedAuthorizationPlugin implements AuthorizationPlugin {
         return authorizationPluginNames;
     }
 
-    private List<AuthorizationPlugin> getPlugins(List<String> pluginNames) {
+    private List<AuthorizationPlugin<T>> getPlugins(List<String> pluginNames) {
         ClassFactory classFactory = new ClassFactory();
-        ArrayList<AuthorizationPlugin> authorizationPlugins = new ArrayList<>();
+        ArrayList<AuthorizationPlugin<T>> authorizationPlugins = new ArrayList<>();
         for (int i = 0; i < pluginNames.size(); i++) {
-            authorizationPlugins.add(i, (AuthorizationPlugin) classFactory.createPluginInstance(pluginNames.get(i)));
+            authorizationPlugins.add(i, (AuthorizationPlugin<T>) classFactory.createPluginInstance(pluginNames.get(i)));
         }
         return authorizationPlugins;
-    }
-
-    @Override
-    public boolean isAuthorized(SystemUser systemUser, FogbowOperation operation) {
-        return true;
     }
 }
