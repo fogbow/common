@@ -3,7 +3,7 @@ package cloud.fogbow.common.util.connectivity.cloud.opennebula;
 import cloud.fogbow.common.util.connectivity.FogbowGenericResponse;
 
 public class OpenNebulaResponse extends FogbowGenericResponse {
-	private String message;
+
 	private boolean isError;
 
 	public OpenNebulaResponse(String message) {
@@ -14,16 +14,7 @@ public class OpenNebulaResponse extends FogbowGenericResponse {
 
 	public OpenNebulaResponse(String message, boolean isError) {
 		super(message);
-		this.message = message;
 		this.isError = isError;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
 	}
 
 	public boolean isError() {
