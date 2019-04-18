@@ -26,6 +26,10 @@ public class OpenNebulaConstants {
     public static final String NETWORK_ID = "NETWORK_ID";
     public static final String NETWORK_INTERFACE_CONNECTED = "NIC";
     public static final String NIC_ID = "NIC_ID";
+    public static final String ONE_GENERIC_REQUEST = "oneGenericRequest";
+    public static final String ONE_METHOD = "oneMethod";
+    public static final String ONE_PARAMETERS = "oneParameters";
+    public static final String ONE_RESOURCE = "oneResource";
     public static final String OPERATIONAL_SYSTEM = "OS";
     public static final String NETWORK_ADDRESS = "NETWORK_ADDRESS";
     public static final String NETWORK_GATEWAY = "NETWORK_GATEWAY";
@@ -33,6 +37,7 @@ public class OpenNebulaConstants {
     public static final String PERSISTENT = "PERSISTENT";
     public static final String PROTOCOL = "PROTOCOL";
     public static final String RANGE = "RANGE";
+    public static final String RESOURCE_ID = "resourceId";
     public static final String RULE = "RULE";
     public static final String RULE_TYPE = "RULE_TYPE";
     public static final String SECURITY_GROUP = "SECURITY_GROUP";
@@ -41,6 +46,7 @@ public class OpenNebulaConstants {
     public static final String TYPE = "TYPE";
     public static final String TOKEN_VALUE_SEPARATOR = ":";
     public static final String TEMPLATE = "TEMPLATE";
+    public static final String URL = "url";
     public static final String USERDATA = "USERDATA";
     public static final String USERDATA_ENCODING = "USERDATA_ENCODING";
     public static final String USERNAME = "username";
