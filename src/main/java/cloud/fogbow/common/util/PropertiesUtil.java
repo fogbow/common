@@ -35,7 +35,6 @@ public class PropertiesUtil {
         Properties prop = new Properties();
         FileInputStream fileInputStream = null;
 
-        LOGGER.info("Loading: " + fileName);
         try {
             fileInputStream = new FileInputStream(fileName);
             prop.load(fileInputStream);
