@@ -1,11 +1,11 @@
-package cloud.fogbow.common.plugins.cloudidp.aws;
+package cloud.fogbow.common.plugins.cloudidp.aws.v2;
 
 import cloud.fogbow.common.constants.AwsConstants;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
-import cloud.fogbow.common.models.AwsUser;
+import cloud.fogbow.common.models.AwsV2User;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import org.apache.log4j.Logger;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -14,11 +14,11 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.iam.IamClient;
 import java.util.Map;
 
-public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<AwsUser> {
+public class AwsV2IdentityProviderPlugin implements CloudIdentityProviderPlugin<AwsV2User> {
 
-    private static final Logger LOGGER = Logger.getLogger(AwsIdentityProviderPlugin.class);
+    private static final Logger LOGGER = Logger.getLogger(AwsV2IdentityProviderPlugin.class);
 
-    public AwsUser getCloudUser(Map<String, String> userCredentials) throws FogbowException {
+    public AwsV2User getCloudUser(Map<String, String> userCredentials) throws FogbowException {
 
         String accessKey = userCredentials.get(AwsConstants.ACCESS_KEY);
         String secretAccessKey = userCredentials.get(AwsConstants.SECRET_ACCESS_KEY);
@@ -27,7 +27,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
 
         String userId = authenticate(accessKey, secretAccessKey);
 
-        return new AwsUser(userId, userId, accessKey, secretAccessKey);
+        return new AwsV2User(userId, userId, accessKey, secretAccessKey);
     }
 
     private void checkCredentials(String accessKey, String secretAccessKey) throws InvalidParameterException{
