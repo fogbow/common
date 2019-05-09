@@ -13,4 +13,8 @@ public class AwsV2User extends CloudUser{
         this.setToken(awsToken);
     }
 
+    public AwsV2User(String userId, String userName, String token) {
+        super(userId, userName, token);
+    }
+
 }
