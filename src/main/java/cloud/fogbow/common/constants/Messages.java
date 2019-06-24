@@ -28,6 +28,7 @@ public class Messages {
         public static final String OPERATION_RETURNED_ERROR_S = "Operation returned error: %s";
         public static final String QUOTA_EXCEEDED = "Quota exceeded.";
         public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
+        public static final String REQUEST_S_STILL_OPEN = "Request %s still being dispatched.";
         public static final String UNABLE_TO_FIND_SYSTEM_USER_CLASS_S = "Unable to find system user class %s.";
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
