@@ -34,7 +34,7 @@ public class PropertiesUtilTest {
         Assert.assertEquals(props.getProperty("fake_property3"), "f3");
     }
 
-    // 
+    // test if a FatalErrorException is throwed when a non existent filepath is passed to loadProperties
     @Test(expected = FatalErrorException.class) // verify
     public void testLoadPropertiesWithANonExistentFile() {
         // setup // exercise
