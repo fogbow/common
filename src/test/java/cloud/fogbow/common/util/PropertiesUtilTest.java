@@ -7,9 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFilePermission;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +19,7 @@ public class PropertiesUtilTest {
 
     // Test if it can correctly get properties form a file
     @Test
-    public void testGetProperties() {
+    public void testReadPropertiesFromSingleFile() {
 
         // set up
         String fakePropertiesPath = HomeDir.getPath() + FAKE_PROPERTIES_FILE_NAME;
@@ -30,6 +28,32 @@ public class PropertiesUtilTest {
         // exercise/verify
 
         for (int i = 1; i <= 3; i++){
+            String expectedFakePropertyKey = "fake_property" + i;
+            String expectedFakePropertyValue = "f" + i;
+
+            String fakeProperty = fakeProperties.getProperty(expectedFakePropertyKey);
+
+            assertEquals(expectedFakePropertyValue, fakeProperty);
+        }
+    }
+
+    @Test
+    public void testReadPropertiesFromManyFile() {
+
+        // setup
+        String[] fakePropertiesFileNames = {"fake-properties-1.conf", "fake-properties-2.conf"};
+
+        List<String> fakePropertiesFileList = new ArrayList<>();
+
+        for (int i = 0; i < fakePropertiesFileNames.length; ++i) {
+            fakePropertiesFileList.add(HomeDir.getPath() + fakePropertiesFileNames[i]);
+        }
+
+        Properties fakeProperties = PropertiesUtil.readProperties(fakePropertiesFileList);
+
+        // exercise/verify
+
+        for (int i = 1; i <= 6; i++){
             String expectedFakePropertyKey = "fake_property" + i;
             String expectedFakePropertyValue = "f" + i;
 
