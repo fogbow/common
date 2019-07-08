@@ -18,6 +18,30 @@ public class PropertiesUtilTest {
     private static final String NO_PERMISSION_FILE_NAME = "no-permission.conf";
     private static final String NON_EXISTENT_FILE_NAME = "non-existent-file-name.conf";
 
+    // test if the loadProperties returns the expected properties when a
+    // correct filepath is passed
+    @Test
+    public void testLoadPropertiesSuccessfully() {
+        // setup
+        String filename = HomeDir.getPath() + FAKE_PROPERTIES_FILE_NAME;
+
+        // exercise
+        Properties props = PropertiesUtil.loadProperties(filename);
+
+        // verify
+        Assert.assertEquals(props.getProperty("fake_property1"), "f1");
+        Assert.assertEquals(props.getProperty("fake_property2"), "f2");
+        Assert.assertEquals(props.getProperty("fake_property3"), "f3");
+    }
+
+    // 
+    @Test(expected = FatalErrorException.class) // verify
+    public void testLoadPropertiesWithANonExistentFile() {
+        // setup // exercise
+        Properties props = PropertiesUtil.loadProperties("non-existent-file");
+    }
+
+
     // Test if it can correctly get properties form a file
     @Test
     public void testReadPropertiesFromSingleFile() {
@@ -83,18 +107,5 @@ public class PropertiesUtilTest {
     @Test(expected = FatalErrorException.class)
     public void testGetPropertiesFromNonExisting() {
         Properties fakeProperties = PropertiesUtil.readProperties(NON_EXISTENT_FILE_NAME);
-    }
-
-    @Test(expected = FatalErrorException.class)
-    public void testLoadProperties() {
-        String filename = FAKE_PROPERTIES_FILE_NAME;
-        Properties props = PropertiesUtil.loadProperties(filename);
-        Assert.assertEquals(props.getProperty("fake_property1"), "f1");
-        Assert.assertEquals(props.getProperty("fake_property2"), "f2");
-        Assert.assertEquals(props.getProperty("fake_property3"), "f3");
-
-        props = PropertiesUtil.loadProperties("non-existent-file");
-
-
     }
 }
