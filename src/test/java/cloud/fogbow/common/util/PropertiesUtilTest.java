@@ -46,4 +46,9 @@ public class PropertiesUtilTest {
     public void testGetPropertiesFromNonExisting() {
         Properties fakeProperties = PropertiesUtil.readProperties(NON_EXISTENT_FILE_NAME);
     }
+
+    @Test
+    public void testLoadProperties() {
+
+    }
 }
