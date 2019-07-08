@@ -88,21 +88,6 @@ public class PropertiesUtilTest {
         }
     }
 
-    // Try to get properties from a file non-allowed file
-    @Test(expected = FatalErrorException.class)
-    public void testGetPropertiesFromNonAllowed() throws IOException {
-        String nonExistingPropertiesPath = HomeDir.getPath() + NO_PERMISSION_FILE_NAME;
-
-        File file = new File(nonExistingPropertiesPath);
-        file.createNewFile();
-
-        Set<PosixFilePermission> perms = new HashSet<>();
-
-        Files.setPosixFilePermissions(file.toPath(), perms);
-
-        Properties fakeProperties = PropertiesUtil.readProperties(nonExistingPropertiesPath);
-    }
-
     // Try to get properties from non-existing file
     @Test(expected = FatalErrorException.class)
     public void testGetPropertiesFromNonExisting() {
