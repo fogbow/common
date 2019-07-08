@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 public class PropertiesUtilTest {
 
     private static final String FAKE_PROPERTIES_FILE_NAME = "fake-properties.conf";
+    private static final String NO_PERMISSION_FILE_NAME = "no-permission.conf";
     private static final String NON_EXISTENT_FILE_NAME = "non-existent-file-name.conf";
 
     // Test if it can correctly get properties form a file
@@ -30,6 +31,14 @@ public class PropertiesUtilTest {
 
             assertEquals(expectedFakePropertyValue, fakeProperty);
         }
+        System.out.println(fakePropertiesPath);
+    }
+
+    // Try to get properties from a file non-allowed file
+    @Test(expected = FatalErrorException.class)
+    public void testGetPropertiesFromNonAllowed() {
+        String nonExistingPropertiesPath = HomeDir.getPath() + NO_PERMISSION_FILE_NAME;
+        Properties fakeProperties = PropertiesUtil.readProperties(nonExistingPropertiesPath);
     }
 
     // Try to get properties from non-existing file
