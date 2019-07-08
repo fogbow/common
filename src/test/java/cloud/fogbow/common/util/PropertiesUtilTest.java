@@ -3,7 +3,13 @@ package cloud.fogbow.common.util;
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -31,13 +37,20 @@ public class PropertiesUtilTest {
 
             assertEquals(expectedFakePropertyValue, fakeProperty);
         }
-        System.out.println(fakePropertiesPath);
     }
 
     // Try to get properties from a file non-allowed file
     @Test(expected = FatalErrorException.class)
-    public void testGetPropertiesFromNonAllowed() {
+    public void testGetPropertiesFromNonAllowed() throws IOException {
         String nonExistingPropertiesPath = HomeDir.getPath() + NO_PERMISSION_FILE_NAME;
+
+        File file = new File(nonExistingPropertiesPath);
+        file.createNewFile();
+
+        Set<PosixFilePermission> perms = new HashSet<>();
+
+        Files.setPosixFilePermissions(file.toPath(), perms);
+
         Properties fakeProperties = PropertiesUtil.readProperties(nonExistingPropertiesPath);
     }
 
