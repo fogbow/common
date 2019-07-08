@@ -31,7 +31,7 @@ public class PropertiesUtil {
         return properties;
     }
 
-    private static Properties loadProperties(String fileName) throws FatalErrorException {
+    protected static Properties loadProperties(String fileName) throws FatalErrorException {
         Properties prop = new Properties();
         FileInputStream fileInputStream = null;
 

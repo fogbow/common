@@ -1,6 +1,7 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.exceptions.FatalErrorException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -16,6 +17,30 @@ public class PropertiesUtilTest {
     private static final String FAKE_PROPERTIES_FILE_NAME = "fake-properties.conf";
     private static final String NO_PERMISSION_FILE_NAME = "no-permission.conf";
     private static final String NON_EXISTENT_FILE_NAME = "non-existent-file-name.conf";
+
+    // test if the loadProperties returns the expected properties when a
+    // correct filepath is passed
+    @Test
+    public void testLoadPropertiesSuccessfully() {
+        // setup
+        String filename = HomeDir.getPath() + FAKE_PROPERTIES_FILE_NAME;
+
+        // exercise
+        Properties props = PropertiesUtil.loadProperties(filename);
+
+        // verify
+        Assert.assertEquals(props.getProperty("fake_property1"), "f1");
+        Assert.assertEquals(props.getProperty("fake_property2"), "f2");
+        Assert.assertEquals(props.getProperty("fake_property3"), "f3");
+    }
+
+    // test if a FatalErrorException is throwed when a non existent filepath is passed to loadProperties
+    @Test(expected = FatalErrorException.class) // verify
+    public void testLoadPropertiesWithANonExistentFile() {
+        // setup // exercise
+        Properties props = PropertiesUtil.loadProperties("non-existent-file");
+    }
+
 
     // Test if it can correctly get properties form a file
     @Test
@@ -67,10 +92,5 @@ public class PropertiesUtilTest {
     @Test(expected = FatalErrorException.class)
     public void testGetPropertiesFromNonExisting() {
         Properties fakeProperties = PropertiesUtil.readProperties(NON_EXISTENT_FILE_NAME);
-    }
-
-    @Test
-    public void testLoadProperties() {
-
     }
 }
