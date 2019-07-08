@@ -4,7 +4,11 @@ import cloud.fogbow.common.exceptions.FatalErrorException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Properties;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +20,7 @@ public class PropertiesUtilTest {
 
     // Test if it can correctly get properties form a file
     @Test
-    public void testGetProperties() {
+    public void testReadPropertiesFromSingleFile() {
 
         // set up
         String fakePropertiesPath = HomeDir.getPath() + FAKE_PROPERTIES_FILE_NAME;
@@ -32,13 +36,46 @@ public class PropertiesUtilTest {
 
             assertEquals(expectedFakePropertyValue, fakeProperty);
         }
-        System.out.println(fakePropertiesPath);
+    }
+
+    @Test
+    public void testReadPropertiesFromManyFile() {
+
+        // setup
+        String[] fakePropertiesFileNames = {"fake-properties-1.conf", "fake-properties-2.conf"};
+
+        List<String> fakePropertiesFileList = new ArrayList<>();
+
+        for (int i = 0; i < fakePropertiesFileNames.length; ++i) {
+            fakePropertiesFileList.add(HomeDir.getPath() + fakePropertiesFileNames[i]);
+        }
+
+        Properties fakeProperties = PropertiesUtil.readProperties(fakePropertiesFileList);
+
+        // exercise/verify
+
+        for (int i = 1; i <= 6; i++){
+            String expectedFakePropertyKey = "fake_property" + i;
+            String expectedFakePropertyValue = "f" + i;
+
+            String fakeProperty = fakeProperties.getProperty(expectedFakePropertyKey);
+
+            assertEquals(expectedFakePropertyValue, fakeProperty);
+        }
     }
 
     // Try to get properties from a file non-allowed file
     @Test(expected = FatalErrorException.class)
-    public void testGetPropertiesFromNonAllowed() {
+    public void testGetPropertiesFromNonAllowed() throws IOException {
         String nonExistingPropertiesPath = HomeDir.getPath() + NO_PERMISSION_FILE_NAME;
+
+        File file = new File(nonExistingPropertiesPath);
+        file.createNewFile();
+
+        Set<PosixFilePermission> perms = new HashSet<>();
+
+        Files.setPosixFilePermissions(file.toPath(), perms);
+
         Properties fakeProperties = PropertiesUtil.readProperties(nonExistingPropertiesPath);
     }
 
