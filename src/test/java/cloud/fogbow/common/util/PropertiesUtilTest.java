@@ -1,6 +1,7 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.exceptions.FatalErrorException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Properties;
@@ -47,8 +48,16 @@ public class PropertiesUtilTest {
         Properties fakeProperties = PropertiesUtil.readProperties(NON_EXISTENT_FILE_NAME);
     }
 
-    @Test
+    @Test(expected = FatalErrorException.class)
     public void testLoadProperties() {
+        String filename = FAKE_PROPERTIES_FILE_NAME;
+        Properties props = PropertiesUtil.loadProperties(filename);
+        Assert.assertEquals(props.getProperty("fake_property1"), "f1");
+        Assert.assertEquals(props.getProperty("fake_property2"), "f2");
+        Assert.assertEquals(props.getProperty("fake_property3"), "f3");
+
+        props = PropertiesUtil.loadProperties("non-existent-file");
+
 
     }
 }
