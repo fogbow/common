@@ -24,9 +24,7 @@ public class AwsV2IdentityProviderPlugin implements CloudIdentityProviderPlugin<
         String secretAccessKey = userCredentials.get(AwsConstants.SECRET_ACCESS_KEY);
 
         checkCredentials(accessKey, secretAccessKey);
-
         String userId = authenticate(accessKey, secretAccessKey);
-
         return new AwsV2User(userId, userId, accessKey, secretAccessKey);
     }
 
@@ -37,17 +35,18 @@ public class AwsV2IdentityProviderPlugin implements CloudIdentityProviderPlugin<
     }
 
     private String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException{
-        String userId = "";
-
         try {
             AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretAccessKey);
-            IamClient client = IamClient.builder().credentialsProvider(StaticCredentialsProvider.create(awsCreds)).region(Region.AWS_GLOBAL).build();
-            userId = client.getUser().user().userId();
+            StaticCredentialsProvider awsProvider = StaticCredentialsProvider.create(awsCreds);
+            IamClient client = IamClient.builder()
+            		.credentialsProvider(awsProvider)
+            		.region(Region.AWS_GLOBAL)
+            		.build();
+            
+            return client.getUser().user().userId();
         } catch (Exception e) {
             LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR, e);
             throw new UnauthenticatedUserException(e.getMessage());
         }
-
-        return userId;
     }
 }
