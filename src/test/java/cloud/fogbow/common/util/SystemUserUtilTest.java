@@ -20,6 +20,18 @@ public class SystemUserUtilTest {
         Assert.assertEquals(systemUser, recoveredSystemUser);
     }
 
+    @Test(expected = UnexpectedException.class)
+    public void testSerializeWhenSizeBiggerThanMaxSize() throws UnexpectedException {
+        String largeName = "largename";
+        for(int i = 0; i < 20; i++) {
+            largeName += largeName;
+        }
+
+        SystemUser sysUser = new SystemUser("fakeId", largeName, "fakeProvider");
+
+        String serialized = SystemUserUtil.serialize(sysUser);
+    }
+
     private SystemUser createSystemUser() {
         return new SystemUser("fakeUserId", "fakeUserName", "fakeProviderId");
     }
