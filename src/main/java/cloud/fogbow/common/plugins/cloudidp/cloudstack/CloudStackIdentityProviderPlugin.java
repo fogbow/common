@@ -22,14 +22,10 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
     private static final Logger LOGGER = Logger.getLogger(CloudStackIdentityProviderPlugin.class);
     private static final String COOKIE_HEADER = "Cookie";
     private static final String COOKIE_SEPARATOR = ";";
-    private static final String SET_COOKIE_HEADER_1 = "Set-Cookie";
-    private static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
+    protected static final String SET_COOKIE_HEADER_1 = "Set-Cookie";
+    protected static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
 
     private String cloudStackUrl;
-
-    // Used in tests by Mockito
-    public CloudStackIdentityProviderPlugin() {
-    }
 
     public CloudStackIdentityProviderPlugin(String cloudStackUrl) {
         this.cloudStackUrl = cloudStackUrl;
@@ -37,8 +33,9 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
 
     @Override
     public CloudStackUser getCloudUser(Map<String, String> credentials) throws FogbowException {
-        if ((credentials == null) || (credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null) ||
-                (credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null) ||
+        if (credentials == null || 
+        		credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null ||
+                credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null ||
                 credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
