@@ -15,15 +15,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HttpRequestClient {
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClient.class);
 
-    public static HttpResponse doGenericRequest(HttpMethod method, String endpoint, HashMap<String, String> headers,
-                                                HashMap<String, String> body)
+    public static HttpResponse doGenericRequest(HttpMethod method, String endpoint, Map<String, String> headers,
+                                                Map<String, String> body)
                    throws FogbowException {
         int responseCode = -1;
         try {

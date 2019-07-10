@@ -82,7 +82,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return cookieHeaders;
     }
 
-    private CloudStackUser getCloudStackUser(String sessionKey, HashMap<String, String> cookieHeaders) throws FogbowException {
+    private CloudStackUser getCloudStackUser(String sessionKey, Map<String, String> cookieHeaders) throws FogbowException {
         ListAccountsRequest request = new ListAccountsRequest.Builder()
                 .sessionKey(sessionKey)
                 .build(this.cloudStackUrl);

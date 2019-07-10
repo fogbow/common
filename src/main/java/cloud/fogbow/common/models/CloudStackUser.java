@@ -1,12 +1,12 @@
 package cloud.fogbow.common.models;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class CloudStackUser extends CloudUser {
     private String domain;
-    private HashMap<String, String> cookieHeaders;
+    private Map<String, String> cookieHeaders;
 
-    public CloudStackUser(String userId, String userName, String tokenValue, String domain, HashMap<String, String> cookieHeaders) {
+    public CloudStackUser(String userId, String userName, String tokenValue, String domain, Map<String, String> cookieHeaders) {
         super(userId, userName, tokenValue);
         this.domain = domain;
         this.cookieHeaders = cookieHeaders;
@@ -16,11 +16,11 @@ public class CloudStackUser extends CloudUser {
         return domain;
     }
 
-    public HashMap<String, String> getCookieHeaders() {
+    public Map<String, String> getCookieHeaders() {
         return cookieHeaders;
     }
 
-    public void setCookieHeaders(HashMap<String, String> cookieHeaders) {
+    public void setCookieHeaders(Map<String, String> cookieHeaders) {
         this.cookieHeaders = cookieHeaders;
     }
 }
