@@ -42,7 +42,8 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
         String username = userCredentials.get(OpenNebulaConstants.USERNAME);
         String password = userCredentials.get(OpenNebulaConstants.PASSWORD);
 
-        if (username == null || password == null) {
+        if (username == null || username.trim().isEmpty()
+                || password == null || password.trim().isEmpty()) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
 

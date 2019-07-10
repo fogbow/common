@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 public class PropertiesUtilTest {
 
     private static final String FAKE_PROPERTIES_FILE_NAME = "fake-properties.conf";
-    private static final String NO_PERMISSION_FILE_NAME = "no-permission.conf";
     private static final String NON_EXISTENT_FILE_NAME = "non-existent-file-name.conf";
 
     // test if the loadProperties returns the expected properties when a
