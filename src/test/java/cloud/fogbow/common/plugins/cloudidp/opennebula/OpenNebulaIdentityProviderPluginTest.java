@@ -9,9 +9,7 @@ import cloud.fogbow.common.models.OpenNebulaUser;
 import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientUtil;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -35,9 +33,6 @@ public class OpenNebulaIdentityProviderPluginTest {
     public static final String FAKE_USER_PASSWORD = "fake-password";
     public static final String INVALID_PASSWORD = "invalid-password";
     public static final String ONE_RESPONSE_MESSAGE = "Random oneResponse return message";
-
-    @Rule
-    public TestName testName = new TestName();
 
     @Before
     public void setup() throws UnexpectedException {
@@ -94,8 +89,12 @@ public class OpenNebulaIdentityProviderPluginTest {
         // setup
         HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, FAKE_USER_PASSWORD);
 
-        UserPool userPool = new UserPool();
-        BDDMockito.given(OpenNebulaClientUtil.getUserPool(Mockito.anyObject())).willReturn()
+        UserPool userPool = Mockito.mock(UserPool.class);
+
+        boolean RESPONSE_IS_SUCCESS = true;
+        OneResponse mockedInfo = new OneResponse(RESPONSE_IS_SUCCESS, ONE_RESPONSE_MESSAGE);
+        Mockito.when(userPool.info()).thenReturn(mockedInfo);
+        BDDMockito.given(OpenNebulaClientUtil.getUserPool(Mockito.any())).willReturn(userPool);
 
         // exercise
         OpenNebulaUser openNebulaUser = this.plugin.getCloudUser(credentials);
@@ -103,7 +102,7 @@ public class OpenNebulaIdentityProviderPluginTest {
         // verify
         Assert.assertNotNull(openNebulaUser);
         Assert.assertEquals(FAKE_USER_ID, openNebulaUser.getId());
-//        PowerMockito.verifyStatic(OpenNebulaClientUtil.class);
+        Mockito.verify(this.plugin, Mockito.times(1)).isAuthenticated(Mockito.anyString());
 
 //        Mockito.verifyS(OpenNebulaClientUtil)
 
