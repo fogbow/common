@@ -34,7 +34,7 @@ public class AwsV2IdentityProviderPlugin implements CloudIdentityProviderPlugin<
         }
     }
 
-    private String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException{
+    protected String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException{
         try {
             AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretAccessKey);
             StaticCredentialsProvider awsProvider = StaticCredentialsProvider.create(awsCreds);
