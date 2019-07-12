@@ -29,7 +29,6 @@ public class ClassFactory {
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);
         }
-
         return pluginInstance;
     }
 
@@ -50,7 +49,6 @@ public class ClassFactory {
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);
         }
-
         return pluginInstance;
     }
 
@@ -71,7 +69,6 @@ public class ClassFactory {
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);
         }
-
         return pluginInstance;
     }
 }
