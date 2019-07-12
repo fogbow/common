@@ -9,11 +9,11 @@ import cloud.fogbow.common.stubs.StubClassForFactory;
 
 public class ClassFactoryTest {
 
-	private static final String ONE_PARAMETER = "parameter1";
 	private static final String INVALID_CLASS_PATH = "invalid.class.path.InvalidClass";
+	private static final String ONE_PARAMETER = "parameter1";
 	private static final String TWO_PARAMETER = "parameter2";
-	private static final String STUB_CLASS_PATH = "cloud.fogbow.common.stubs.StubClassForFactory";
-	private static final String STUB_CLASS_WITH_PRIVATE_CONSTRUCTOR_PATH = "cloud.fogbow.common.stubs.StubClassForFactoryWithPrivateConstructor";
+	private static final String STUB_CLASSNAME = "cloud.fogbow.common.stubs.StubClassForFactory";
+	private static final String STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR = "cloud.fogbow.common.util.ClassFactoryTest.StubClassWithPrivateConstructor";
 
 	private ClassFactory classFactory;
 
@@ -26,12 +26,9 @@ public class ClassFactoryTest {
 	// and with a valid class path, it must create the object from the constructor
 	// without parameters of the specified class.
 	@Test
-	public void testCreatePluginInstanceNoParametersSuccessful() {
-		// set up
-		String className = STUB_CLASS_PATH;
-
+	public void testCreatePluginInstanceNoParameters() {
 		// exercise
-		StubClassForFactory object = (StubClassForFactory) this.classFactory.createPluginInstance(className);
+		StubClassForFactory object = (StubClassForFactory) this.classFactory.createPluginInstance(STUB_CLASSNAME);
 
 		// verify
 		Assert.assertNotNull(object);
@@ -41,13 +38,10 @@ public class ClassFactoryTest {
 	// a valid class path, it must create the object from the constructor with only
 	// the parameter of the specified class.
 	@Test
-	public void testCreatePluginInstanceWithOneParameterSuccessful() {
-		// set up
-		String className = STUB_CLASS_PATH;
-		String parameter = ONE_PARAMETER;
-
+	public void testCreatePluginInstanceWithOneParameter() {
 		// exercise
-		StubClassForFactory object = (StubClassForFactory) this.classFactory.createPluginInstance(className, parameter);
+		StubClassForFactory object = (StubClassForFactory) this.classFactory.createPluginInstance(STUB_CLASSNAME,
+				ONE_PARAMETER);
 
 		// verify
 		Assert.assertNotNull(object);
@@ -57,15 +51,10 @@ public class ClassFactoryTest {
 	// and a valid class path, it must create the object from the constructor with
 	// the parameters of the specified class.
 	@Test
-	public void testCreatePluginInstanceWithTwoParametersSuccessful() {
-		// set up
-		String className = STUB_CLASS_PATH;
-		String parameter1 = ONE_PARAMETER;
-		String parameter2 = TWO_PARAMETER;
-
+	public void testCreatePluginInstanceWithTwoParameters() {
 		// exercise
-		StubClassForFactory object = (StubClassForFactory) this.classFactory.createPluginInstance(className, parameter1,
-				parameter2);
+		StubClassForFactory object = (StubClassForFactory) this.classFactory.createPluginInstance(STUB_CLASSNAME,
+				ONE_PARAMETER, TWO_PARAMETER);
 
 		// verify
 		Assert.assertNotNull(object);
@@ -75,36 +64,24 @@ public class ClassFactoryTest {
 	// and without a valid class path, it must throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // veriry
 	public void testCreatePluginInstanceNoParametersAndInvalidClassPath() {
-		// set up
-		String invalidClassPath = INVALID_CLASS_PATH;
-
 		// exercise
-		this.classFactory.createPluginInstance(invalidClassPath);
+		this.classFactory.createPluginInstance(INVALID_CLASS_PATH);
 	}
 
 	// test case: When invoking the createPluginInstance method with a parameter,
 	// but without a valid class path, it must throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // veriry
 	public void testCreatePluginInstanceWithOneParameterAndInvalidClassPath() {
-		// set up
-		String invalidClassPath = INVALID_CLASS_PATH;
-		String parameter = ONE_PARAMETER;
-
 		// exercise
-		this.classFactory.createPluginInstance(invalidClassPath, parameter);
+		this.classFactory.createPluginInstance(INVALID_CLASS_PATH, ONE_PARAMETER);
 	}
 
 	// test case: When invoking the createPluginInstance method with two parameters,
 	// but without a valid class path, it must throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // veriry
 	public void testCreatePluginInstanceWithTwoParametersAndInvalidClassPath() {
-		// set up
-		String invalidClassPath = INVALID_CLASS_PATH;
-		String parameter1 = ONE_PARAMETER;
-		String parameter2 = TWO_PARAMETER;
-
 		// exercise
-		this.classFactory.createPluginInstance(invalidClassPath, parameter1, parameter2);
+		this.classFactory.createPluginInstance(INVALID_CLASS_PATH, ONE_PARAMETER, TWO_PARAMETER);
 	}
 
 	// test case: When invoking the createPluginInstance method without parameters
@@ -112,11 +89,8 @@ public class ClassFactoryTest {
 	// throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // verify
 	public void testCreatePluginInstanceNoParametersAndPrivateConstructor() {
-		// set up
-		String className = STUB_CLASS_WITH_PRIVATE_CONSTRUCTOR_PATH;
-
 		// exercise
-		this.classFactory.createPluginInstance(className);
+		this.classFactory.createPluginInstance(STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR);
 	}
 
 	// test case: When invoking the createPluginInstance method with a parameter,
@@ -124,12 +98,8 @@ public class ClassFactoryTest {
 	// throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // verify
 	public void testCreatePluginInstanceWithOneParameterAndPrivateConstructor() {
-		// set up
-		String className = STUB_CLASS_WITH_PRIVATE_CONSTRUCTOR_PATH;
-		String parameter = ONE_PARAMETER;
-
 		// exercise
-		this.classFactory.createPluginInstance(className, parameter);
+		this.classFactory.createPluginInstance(STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR, ONE_PARAMETER);
 	}
 
 	// test case: When invoking the createPluginInstance method with two parameters,
@@ -137,13 +107,13 @@ public class ClassFactoryTest {
 	// throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // verify
 	public void testCreatePluginInstanceWithTwoParametersAndPrivateConstructor() {
-		// set up
-		String className = STUB_CLASS_WITH_PRIVATE_CONSTRUCTOR_PATH;
-		String parameter1 = ONE_PARAMETER;
-		String parameter2 = TWO_PARAMETER;
-
 		// exercise
-		this.classFactory.createPluginInstance(className, parameter1, parameter2);
+		this.classFactory.createPluginInstance(STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR, ONE_PARAMETER, TWO_PARAMETER);
+	}
+
+	class StubClassWithPrivateConstructor {
+		private StubClassWithPrivateConstructor() {
+		}
 	}
 
 }
