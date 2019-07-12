@@ -4,10 +4,6 @@ import cloud.fogbow.common.exceptions.FatalErrorException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -15,7 +11,6 @@ import static org.junit.Assert.*;
 public class PropertiesUtilTest {
 
     private static final String FAKE_PROPERTIES_FILE_NAME = "fake-properties.conf";
-    private static final String NO_PERMISSION_FILE_NAME = "no-permission.conf";
     private static final String NON_EXISTENT_FILE_NAME = "non-existent-file-name.conf";
 
     // test if the loadProperties returns the expected properties when a
@@ -91,6 +86,6 @@ public class PropertiesUtilTest {
     // Try to get properties from non-existing file
     @Test(expected = FatalErrorException.class)
     public void testGetPropertiesFromNonExisting() {
-        Properties fakeProperties = PropertiesUtil.readProperties(NON_EXISTENT_FILE_NAME);
+        PropertiesUtil.readProperties(NON_EXISTENT_FILE_NAME);
     }
 }
