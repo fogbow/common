@@ -32,7 +32,7 @@ public class PropertiesUtilTest {
     @Test(expected = FatalErrorException.class) // verify
     public void testLoadPropertiesWithANonExistentFile() {
         // setup // exercise
-        Properties props = PropertiesUtil.loadProperties(NON_EXISTENT_FILE_NAME);
+        PropertiesUtil.loadProperties(NON_EXISTENT_FILE_NAME);
     }
 
 
@@ -43,27 +43,6 @@ public class PropertiesUtilTest {
         // set up
         String fakePropertiesPath = HomeDir.getPath() + FAKE_PROPERTIES_FILE_NAME;
         Properties props = PropertiesUtil.readProperties(fakePropertiesPath);
-
-        // exercise/verify
-
-        assertEquals(props.getProperty("fake_property1"), "f1");
-        assertEquals(props.getProperty("fake_property2"), "f2");
-        assertEquals(props.getProperty("fake_property3"), "f3");
-    }
-
-    @Test
-    public void testReadPropertiesFromManyFile() {
-
-        // setup
-        String[] fakePropertiesFileNames = {"fake-properties-1.conf", "fake-properties-2.conf"};
-
-        List<String> fakePropertiesFileList = new ArrayList<>();
-
-        for (int i = 0; i < fakePropertiesFileNames.length; ++i) {
-            fakePropertiesFileList.add(HomeDir.getPath() + fakePropertiesFileNames[i]);
-        }
-
-        Properties props = PropertiesUtil.readProperties(fakePropertiesFileList);
 
         // exercise/verify
 

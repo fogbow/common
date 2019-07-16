@@ -15,20 +15,7 @@ public class PropertiesUtil {
     private static final Logger LOGGER = Logger.getLogger(PropertiesUtil.class.getName());
 
     public static Properties readProperties(String configFileName) throws FatalErrorException {
-        List<String> configFilesNames = new ArrayList<>();
-        configFilesNames.add(configFileName);
-        return readProperties(configFilesNames);
-    }
-
-    public static Properties readProperties(List<String> configFilesNames) throws FatalErrorException {
-        Properties properties = new Properties();
-
-        for (String fileName : configFilesNames) {
-            Properties mProperties = loadProperties(fileName);
-            properties.putAll(mProperties);
-        }
-
-        return properties;
+        return loadProperties(configFileName);
     }
 
     protected static Properties loadProperties(String fileName) throws FatalErrorException {
