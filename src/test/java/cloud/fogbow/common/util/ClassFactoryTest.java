@@ -13,7 +13,6 @@ public class ClassFactoryTest {
 	private static final String ONE_PARAMETER = "parameter1";
 	private static final String TWO_PARAMETER = "parameter2";
 	private static final String STUB_CLASSNAME = "cloud.fogbow.common.stubs.StubClassForFactory";
-	private static final String STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR = "cloud.fogbow.common.util.ClassFactoryTest.StubClassWithPrivateConstructor";
 
 	private ClassFactory classFactory;
 
@@ -62,7 +61,7 @@ public class ClassFactoryTest {
 
 	// test case: When invoking the createPluginInstance method without parameters
 	// and without a valid class path, it must throw a FatalErrorException.
-	@Test(expected = FatalErrorException.class) // veriry
+	@Test(expected = FatalErrorException.class) // verify
 	public void testCreatePluginInstanceNoParametersAndInvalidClassPath() {
 		// exercise
 		this.classFactory.createPluginInstance(INVALID_CLASS_PATH);
@@ -70,7 +69,7 @@ public class ClassFactoryTest {
 
 	// test case: When invoking the createPluginInstance method with a parameter,
 	// but without a valid class path, it must throw a FatalErrorException.
-	@Test(expected = FatalErrorException.class) // veriry
+	@Test(expected = FatalErrorException.class) // verify
 	public void testCreatePluginInstanceWithOneParameterAndInvalidClassPath() {
 		// exercise
 		this.classFactory.createPluginInstance(INVALID_CLASS_PATH, ONE_PARAMETER);
@@ -78,42 +77,34 @@ public class ClassFactoryTest {
 
 	// test case: When invoking the createPluginInstance method with two parameters,
 	// but without a valid class path, it must throw a FatalErrorException.
-	@Test(expected = FatalErrorException.class) // veriry
+	@Test(expected = FatalErrorException.class) // verify
 	public void testCreatePluginInstanceWithTwoParametersAndInvalidClassPath() {
 		// exercise
 		this.classFactory.createPluginInstance(INVALID_CLASS_PATH, ONE_PARAMETER, TWO_PARAMETER);
 	}
 
 	// test case: When invoking the createPluginInstance method without parameters
-	// and a class path without constructor or just a private constructor, it must
-	// throw a FatalErrorException.
+	// and a null class name, it must throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // verify
-	public void testCreatePluginInstanceNoParametersAndPrivateConstructor() {
+	public void testCreatePluginInstanceWithNullClassNameAndNoParameters() {
 		// exercise
-		this.classFactory.createPluginInstance(STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR);
+		this.classFactory.createPluginInstance(null);
 	}
-
-	// test case: When invoking the createPluginInstance method with a parameter,
-	// but a class path without constructor or just a private constructor, it must
-	// throw a FatalErrorException.
+		
+	// test case: When invoking the createPluginInstance method with one parameter
+	// and a null class name, it must throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // verify
-	public void testCreatePluginInstanceWithOneParameterAndPrivateConstructor() {
+	public void testCreatePluginInstanceWithNullClassNameAndOneParameter() {
 		// exercise
-		this.classFactory.createPluginInstance(STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR, ONE_PARAMETER);
+		this.classFactory.createPluginInstance(null, ONE_PARAMETER);
 	}
-
-	// test case: When invoking the createPluginInstance method with two parameters,
-	// but a class path without constructor or just a private constructor, it must
-	// throw a FatalErrorException.
+		
+	// test case: When invoking the createPluginInstance method with two parameters
+	// and a null class name, it must throw a FatalErrorException.
 	@Test(expected = FatalErrorException.class) // verify
-	public void testCreatePluginInstanceWithTwoParametersAndPrivateConstructor() {
+	public void testCreatePluginInstanceWithNullClassNameAndTwoParameters() {
 		// exercise
-		this.classFactory.createPluginInstance(STUB_CLASSNAME_WITH_PRIVATE_CONSTRUCTOR, ONE_PARAMETER, TWO_PARAMETER);
-	}
-
-	class StubClassWithPrivateConstructor {
-		private StubClassWithPrivateConstructor() {
-		}
+		this.classFactory.createPluginInstance(null, ONE_PARAMETER, TWO_PARAMETER);
 	}
 
 }
