@@ -5,14 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cloud.fogbow.common.exceptions.FatalErrorException;
-import cloud.fogbow.common.stubs.StubClassForFactory;
+import cloud.fogbow.common.util.stubs.StubClassForFactory;
 
 public class ClassFactoryTest {
 
 	private static final String INVALID_CLASS_PATH = "invalid.class.path.InvalidClass";
 	private static final String ONE_PARAMETER = "parameter1";
 	private static final String TWO_PARAMETER = "parameter2";
-	private static final String STUB_CLASSNAME = "cloud.fogbow.common.stubs.StubClassForFactory";
+	private static final String STUB_CLASSNAME = "cloud.fogbow.common.util.stubs.StubClassForFactory";
 
 	private ClassFactory classFactory;
 
