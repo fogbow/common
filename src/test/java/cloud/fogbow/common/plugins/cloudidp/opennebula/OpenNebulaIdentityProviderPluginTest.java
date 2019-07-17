@@ -19,7 +19,9 @@ import org.opennebula.client.user.UserPool;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
 import java.util.HashMap;
+import java.util.Map;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({OpenNebulaClientUtil.class})
@@ -49,7 +51,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     public void testAuthenticateSuccess() throws FogbowException {
         // setup
         Mockito.doReturn(true).when(this.plugin).isAuthenticated(Mockito.anyString());
-        HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, FAKE_USER_PASSWORD);
+        Map<String,String> credentials = getCredentials(FAKE_USER_ID, FAKE_USER_PASSWORD);
 
         // exercise
         OpenNebulaUser openNebulaUser = this.plugin.getCloudUser(credentials);
@@ -65,7 +67,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     @Test(expected = UnauthenticatedUserException.class)
     public void testAuthenticateFail() throws FogbowException {
         Mockito.doReturn(false).when(this.plugin).isAuthenticated(Mockito.anyString());
-        HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, INVALID_PASSWORD);
+        Map<String,String> credentials = getCredentials(FAKE_USER_ID, INVALID_PASSWORD);
 
         // exercise
         this.plugin.getCloudUser(credentials);
@@ -74,7 +76,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     // Test case: When an null password is provided
     @Test(expected = InvalidParameterException.class)
     public void testAuthenticateWithNullParams() throws FogbowException {
-        HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, null);
+        Map<String,String> credentials = getCredentials(FAKE_USER_ID, null);
 
         // exercise
         this.plugin.getCloudUser(credentials);
@@ -83,7 +85,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     // Test case: When an empty password is provided
     @Test(expected = InvalidParameterException.class)
     public void testAuthenticateWithEmptyParams() throws FogbowException {
-        HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, "");
+        Map<String,String> credentials = getCredentials(FAKE_USER_ID, "");
 
         // exercise
         this.plugin.getCloudUser(credentials);
@@ -94,7 +96,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     @Test
     public void testIsAuthenticatedSuccessWithoutMockingHelperMethod() throws FogbowException {
         // setup
-        HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, FAKE_USER_PASSWORD);
+        Map<String,String> credentials = getCredentials(FAKE_USER_ID, FAKE_USER_PASSWORD);
         UserPool userPool = Mockito.mock(UserPool.class);
 
         boolean RESPONSE_IS_SUCCESS = true;
@@ -111,8 +113,8 @@ public class OpenNebulaIdentityProviderPluginTest {
         Mockito.verify(this.plugin).isAuthenticated(Mockito.anyString());
     }
 
-    private HashMap<String, String> getCredentials(String name, String password) {
-        HashMap<String, String> userCredentials = new HashMap<String, String>();
+    private Map<String, String> getCredentials(String name, String password) {
+        Map<String, String> userCredentials = new HashMap();
         userCredentials.put(OpenNebulaConstants.USERNAME, name);
         userCredentials.put(OpenNebulaConstants.PASSWORD, password);
         return userCredentials;
