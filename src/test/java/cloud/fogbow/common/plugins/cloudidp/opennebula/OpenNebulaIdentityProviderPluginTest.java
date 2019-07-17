@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.opennebula.client.Client;
-import org.opennebula.client.ClientConfigurationException;
 import org.opennebula.client.OneResponse;
 import org.opennebula.client.user.UserPool;
 import org.powermock.api.mockito.PowerMockito;
@@ -44,6 +43,9 @@ public class OpenNebulaIdentityProviderPluginTest {
         BDDMockito.given(OpenNebulaClientUtil.createClient(Mockito.anyString(), Mockito.anyString())).willReturn(client);
     }
 
+    // Test case: When the right credentials are provided and the user is
+    // authenticated. This tests mocks the isAuthenticated. Below, there's a
+    // test that dowst not mock this method.
     @Test
     public void testAuthenticateSuccess() throws FogbowException {
         // setup
@@ -59,31 +61,37 @@ public class OpenNebulaIdentityProviderPluginTest {
         Mockito.verify(this.plugin).isAuthenticated(Mockito.anyString());
     }
 
+    // Test case: When a credential map is properly formatted but
+    // The credentials are not recognized by the cloud.
     @Test(expected = UnauthenticatedUserException.class)
     public void testAuthenticateUnsuccess() throws FogbowException {
         Mockito.doReturn(false).when(this.plugin).isAuthenticated(Mockito.anyString());
         HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, INVALID_PASSWORD);
 
         // exercise
-        OpenNebulaUser openNebulaUser = this.plugin.getCloudUser(credentials);
+        this.plugin.getCloudUser(credentials);
     }
 
+    // Test case: When an null password is provided
     @Test(expected = InvalidParameterException.class)
     public void testAuthenticateWithNullParams() throws FogbowException {
         HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, null);
 
         // exercise
-        OpenNebulaUser openNebulaUser = this.plugin.getCloudUser(credentials);
+        this.plugin.getCloudUser(credentials);
     }
 
+    // Test case: When an empty password is provided
     @Test(expected = InvalidParameterException.class)
     public void testAuthenticateWithEmptyParams() throws FogbowException {
         HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, "");
 
         // exercise
-        OpenNebulaUser openNebulaUser = this.plugin.getCloudUser(credentials);
+        this.plugin.getCloudUser(credentials);
     }
 
+    // Test case: When invoking the getCloudUser method with a valid credential map,
+    // and the Opennebula's cloud return appropriate message.
     @Test
     public void testIsAuthenticatedSuccessWithoutMockingHelperMethod() throws FogbowException {
         // setup
@@ -103,9 +111,6 @@ public class OpenNebulaIdentityProviderPluginTest {
         Assert.assertNotNull(openNebulaUser);
         Assert.assertEquals(FAKE_USER_ID, openNebulaUser.getId());
         Mockito.verify(this.plugin, Mockito.times(1)).isAuthenticated(Mockito.anyString());
-
-//        Mockito.verifyS(OpenNebulaClientUtil)
-
     }
 
     private HashMap<String, String> getCredentials(String name, String password) {
@@ -113,11 +118,5 @@ public class OpenNebulaIdentityProviderPluginTest {
         userCredentials.put(OpenNebulaConstants.USERNAME, name);
         userCredentials.put(OpenNebulaConstants.PASSWORD, password);
         return userCredentials;
-    }
-
-    private void getMockedOpenNebulaClient(boolean isErrorReturn) throws ClientConfigurationException {
-        OneResponse response = Mockito.spy(new OneResponse(isErrorReturn, ONE_RESPONSE_MESSAGE));
-        Client client = new Client();
-        UserPool userPool = new UserPool(client);
     }
 }
