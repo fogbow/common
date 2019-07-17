@@ -41,7 +41,7 @@ public class AwsV2IdentityProviderPluginTest {
 	// credentials, without an access key, it must throw an
 	// InvalidParameterException.
 	@Test(expected = InvalidParameterException.class) // verify
-	public void testtestGetCloudUserWithoutAccessKey() throws FogbowException {
+	public void testGetCloudUserWithoutAccessKey() throws FogbowException {
 		// set up
 		Map<String, String> userCredentials = new HashMap<String, String>();
 		userCredentials.put(AwsConstants.SECRET_ACCESS_KEY, ANY_VALUE);
@@ -66,7 +66,7 @@ public class AwsV2IdentityProviderPluginTest {
 	// test case: When invoking the getCloudUser method with a map of invalid user
 	// credentials, it must throw an UnauthenticatedUserException.
 	@Test(expected = UnauthenticatedUserException.class) // verify
-	public void testGetCloudUserWithInvalidUserCredenctials() throws FogbowException {
+	public void testGetCloudUserWithInvalidUserCredentials() throws FogbowException {
 		// set up
 		Map<String, String> userCredentials = new HashMap<String, String>();
 		userCredentials.put(AwsConstants.ACCESS_KEY, ANY_VALUE);
