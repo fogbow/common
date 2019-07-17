@@ -14,11 +14,7 @@ import java.util.Properties;
 public class PropertiesUtil {
     private static final Logger LOGGER = Logger.getLogger(PropertiesUtil.class.getName());
 
-    public static Properties readProperties(String configFileName) throws FatalErrorException {
-        return loadProperties(configFileName);
-    }
-
-    protected static Properties loadProperties(String fileName) throws FatalErrorException {
+    public static Properties readProperties(String fileName) throws FatalErrorException {
         Properties prop = new Properties();
         FileInputStream fileInputStream = null;
 
