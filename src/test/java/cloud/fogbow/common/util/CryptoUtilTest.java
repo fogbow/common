@@ -100,11 +100,11 @@ public class CryptoUtilTest {
         PrivateKey privateKey = CryptoUtil.getPrivateKey(privKeyPath);
 
         // exercise
-        String actualSignanure = CryptoUtil.sign(privateKey, baseMessage);
+        String actualSignature = CryptoUtil.sign(privateKey, baseMessage);
         boolean verified = CryptoUtil.verify(publicKey, baseMessage, expectedignature);
 
         // verify
-        assertEquals(expectedignature, actualSignanure);
+        assertEquals(expectedignature, actualSignature);
         assertTrue(verified);
     }
 
