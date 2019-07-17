@@ -9,6 +9,8 @@ import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 
@@ -98,11 +100,11 @@ public class CryptoUtilTest {
         PrivateKey privateKey = CryptoUtil.getPrivateKey(privKeyPath);
 
         // exercise
-        String actualSignanure = CryptoUtil.sign(privateKey, baseMessage);
+        String actualSignature = CryptoUtil.sign(privateKey, baseMessage);
         boolean verified = CryptoUtil.verify(publicKey, baseMessage, expectedignature);
 
         // verify
-        assertEquals(expectedignature, actualSignanure);
+        assertEquals(expectedignature, actualSignature);
         assertTrue(verified);
     }
 
@@ -136,6 +138,28 @@ public class CryptoUtilTest {
         //verify
         assertNotEquals(originalMessage, encryptedMessage);
         assertEquals(originalMessage, decryptedMessage);
+    }
+
+    @Test
+    public void testConvertKeysToBase64() throws GeneralSecurityException {
+        // set up
+        KeyPair keyPair = CryptoUtil.generateKeyPair();
+        PrivateKey privateKey = keyPair.getPrivate();
+        PublicKey publicKey = keyPair.getPublic();
+
+        String base64Regex = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$";
+        Pattern patternBase64 = Pattern.compile(base64Regex);
+
+        // exercise
+        String privateBase64 = CryptoUtil.toBase64(privateKey);
+        String publicKey64 = CryptoUtil.toBase64(publicKey);
+
+        // verify
+        Matcher pubKeyMatcher = patternBase64.matcher(publicKey64);
+        Matcher privKeyMatcher = patternBase64.matcher(privateBase64);
+
+        assertTrue(privKeyMatcher.matches());
+        assertTrue(pubKeyMatcher.matches());
     }
 }
 
