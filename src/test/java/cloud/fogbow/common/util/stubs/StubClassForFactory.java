@@ -1,4 +1,4 @@
-package cloud.fogbow.common.stubs;
+package cloud.fogbow.common.util.stubs;
 
 import org.apache.log4j.Logger;
 
