@@ -19,7 +19,6 @@ import org.opennebula.client.user.UserPool;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
 import java.util.HashMap;
 
 @RunWith(PowerMockRunner.class)
@@ -96,7 +95,6 @@ public class OpenNebulaIdentityProviderPluginTest {
     public void testIsAuthenticatedSuccessWithoutMockingHelperMethod() throws FogbowException {
         // setup
         HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, FAKE_USER_PASSWORD);
-
         UserPool userPool = Mockito.mock(UserPool.class);
 
         boolean RESPONSE_IS_SUCCESS = true;
@@ -110,7 +108,7 @@ public class OpenNebulaIdentityProviderPluginTest {
         // verify
         Assert.assertNotNull(openNebulaUser);
         Assert.assertEquals(FAKE_USER_ID, openNebulaUser.getId());
-        Mockito.verify(this.plugin, Mockito.times(1)).isAuthenticated(Mockito.anyString());
+        Mockito.verify(this.plugin).isAuthenticated(Mockito.anyString());
     }
 
     private HashMap<String, String> getCredentials(String name, String password) {
