@@ -7,11 +7,10 @@ import org.apache.log4j.Logger;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 public class PropertiesUtil {
+
     private static final Logger LOGGER = Logger.getLogger(PropertiesUtil.class.getName());
 
     public static Properties readProperties(String fileName) throws FatalErrorException {
