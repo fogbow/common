@@ -141,7 +141,7 @@ public class CryptoUtilTest {
     }
 
     @Test
-    public void testSaveKeys() throws GeneralSecurityException {
+    public void testConvertKeysToBase64() throws GeneralSecurityException {
         // set up
         KeyPair keyPair = CryptoUtil.generateKeyPair();
         PrivateKey privateKey = keyPair.getPrivate();
@@ -151,8 +151,8 @@ public class CryptoUtilTest {
         Pattern patternBase64 = Pattern.compile(base64Regex);
 
         // exercise
-        String privateBase64 = CryptoUtil.savePrivateKey(privateKey);
-        String publicKey64 = CryptoUtil.savePublicKey(publicKey);
+        String privateBase64 = CryptoUtil.toBase64(privateKey);
+        String publicKey64 = CryptoUtil.toBase64(publicKey);
 
         // verify
         Matcher pubKeyMatcher = patternBase64.matcher(publicKey64);
