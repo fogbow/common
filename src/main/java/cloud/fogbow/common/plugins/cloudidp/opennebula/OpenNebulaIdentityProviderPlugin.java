@@ -61,8 +61,8 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
      * TODO: check to request directly in the XML-RPC API
      */
     protected boolean isAuthenticated(String openNebulaTokenValue) {
-    	final Client client;
-        final UserPool userPool;
+    	Client client;
+        UserPool userPool;
         try {
         	client = OpenNebulaClientUtil.createClient(this.endpoint, openNebulaTokenValue);
         	userPool = OpenNebulaClientUtil.getUserPool(client);

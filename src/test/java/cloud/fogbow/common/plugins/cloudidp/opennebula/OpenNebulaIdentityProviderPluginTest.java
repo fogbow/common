@@ -63,7 +63,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     // Test case: When a credential map is properly formatted but
     // The credentials are not recognized by the cloud.
     @Test(expected = UnauthenticatedUserException.class)
-    public void testAuthenticateUnsuccess() throws FogbowException {
+    public void testAuthenticateFail() throws FogbowException {
         Mockito.doReturn(false).when(this.plugin).isAuthenticated(Mockito.anyString());
         HashMap<String,String> credentials = getCredentials(FAKE_USER_ID, INVALID_PASSWORD);
 
