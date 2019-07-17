@@ -5,7 +5,7 @@ import cloud.fogbow.common.models.SystemUser;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SystemUserUtilTest {
+public class SystemUserTest {
 
     public static final String FAKE_USER_ID = "fakeUserId";
     public static final String FAKE_USER_NAME = "fakeUserName";
@@ -18,8 +18,8 @@ public class SystemUserUtilTest {
         SystemUser systemUser = createSystemUser();
 
         // Exercise
-        String serializedUser = SystemUserUtil.serialize(systemUser);
-        SystemUser recoveredSystemUser = SystemUserUtil.deserialize(serializedUser);
+        String serializedUser = SystemUser.serialize(systemUser);
+        SystemUser recoveredSystemUser = SystemUser.deserialize(serializedUser);
 
         // Verify
         Assert.assertEquals(systemUser, recoveredSystemUser);
@@ -35,13 +35,13 @@ public class SystemUserUtilTest {
         SystemUser systemUser = new SystemUser(FAKE_USER_ID, FAKE_USER_NAME, FAKE_IDENTITY_PROVIDER);
 
         // exercise/verify
-        SystemUserUtil.serialize(systemUser);
+        SystemUser.serialize(systemUser);
     }
 
     private String getLongUserName() {
         String userName = "";
 
-        for (int i = 0; i < 2 * SystemUserUtil.SERIALIZED_SYSTEM_USER_MAX_SIZE; ++i) {
+        for (int i = 0; i < 2 * SystemUser.SERIALIZED_SYSTEM_USER_MAX_SIZE; ++i) {
             userName += "A";
         }
 
