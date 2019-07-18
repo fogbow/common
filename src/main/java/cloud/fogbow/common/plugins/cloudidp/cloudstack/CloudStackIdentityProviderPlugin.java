@@ -37,17 +37,23 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
 
     @Override
     public CloudStackUser getCloudUser(Map<String, String> credentials) throws FogbowException {
-        if ((credentials == null) || (credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null) ||
-                (credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null) ||
-                credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
-        }
+        checkCredentials(credentials);
 
         LoginRequest request = createLoginRequest(credentials);
+
+        return createToken(request);
+    }
+
+    private CloudStackUser createToken(LoginRequest request) throws FogbowException {
         // Since all cloudstack requests params are passed via url args, we do not need to
         // send a valid json body in the post request
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST,
                 request.getUriBuilder().toString(), new HashMap<>(), new HashMap<>());
+
+        return getToken(response);
+    }
+
+    private CloudStackUser getToken(HttpResponse response) throws FogbowException {
         // NOTE(pauloewerton): we need to extract all set-cookie headers in order to pass it to the follow-on requests
         HashMap cookieHeaders = getCookieHeaders(response);
 
@@ -57,6 +63,14 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         } else {
             LoginResponse loginResponse = LoginResponse.fromJson(response.getContent());
             return getCloudStackUser(loginResponse.getSessionKey(), cookieHeaders);
+        }
+    }
+
+    private void checkCredentials(Map<String, String> credentials) throws InvalidParameterException {
+        if ((credentials == null) || (credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null) ||
+                (credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null) ||
+                credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
+            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
 
