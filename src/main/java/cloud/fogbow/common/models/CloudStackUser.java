@@ -20,7 +20,4 @@ public class CloudStackUser extends CloudUser {
         return cookieHeaders;
     }
 
-    public void setCookieHeaders(Map<String, String> cookieHeaders) {
-        this.cookieHeaders = cookieHeaders;
-    }
 }
