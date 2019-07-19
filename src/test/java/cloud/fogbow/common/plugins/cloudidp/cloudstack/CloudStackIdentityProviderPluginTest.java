@@ -5,20 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import cloud.fogbow.common.constants.CloudStackConstants;
-import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.models.CloudStackUser;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
 
@@ -27,6 +26,11 @@ import cloud.fogbow.common.util.connectivity.HttpResponse;
 public class CloudStackIdentityProviderPluginTest {
 
 	private static final String ANY_VALUE = "anything";
+	private static final String COOKIE_KEY = "Cookie";
+	private static final String FAKE_DOMAIN = "adomain";
+	private static final String FAKE_ID = "anid";
+	private static final String FAKE_NAME = "Jon Doe";
+	private static final String FAKE_TOKEN = "anapikey:asecretkey";
 	private static final String FAKE_URL = "http://localhost:8080/cloudstack";
 	
 	private static final int HTTP_CODE_ERROR = 400;
@@ -37,7 +41,7 @@ public class CloudStackIdentityProviderPluginTest {
 	@Before
 	public void setUp() {
 		String cloudStackUrl = FAKE_URL;
-		this.plugin = new CloudStackIdentityProviderPlugin(cloudStackUrl);
+		this.plugin = Mockito.spy(new CloudStackIdentityProviderPlugin(cloudStackUrl));
 	}
 
 	// test case: When invoking the getCloudUser method with a null credential map,
@@ -113,11 +117,8 @@ public class CloudStackIdentityProviderPluginTest {
 		credentials.put(CloudStackConstants.Identity.DOMAIN_KEY_JSON, ANY_VALUE);
 
 		int httpCode = HTTP_CODE_ERROR;
-		HttpResponse loginResponse = createLoginResponse(httpCode);
-
-		PowerMockito.mockStatic(HttpRequestClient.class);
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.POST), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(loginResponse);
+		HttpResponse response = createLoginResponse(httpCode);
+		Mockito.doReturn(response).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
 
 		// exercise
 		this.plugin.getCloudUser(credentials);
@@ -136,16 +137,11 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCodeOk = HTTP_CODE_OK;
 		HttpResponse loginResponse = createLoginResponse(httpCodeOk);
-
-		PowerMockito.mockStatic(HttpRequestClient.class);
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.POST), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(loginResponse);
+		Mockito.doReturn(loginResponse).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
 
 		int httpCodeError = HTTP_CODE_ERROR;
 		HttpResponse listAccountsResponse = createListAccountsResponse(httpCodeError);
-
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.GET), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(listAccountsResponse);
+		Mockito.doReturn(listAccountsResponse).when(this.plugin).doGenerateAccountsList(Mockito.any(ListAccountsRequest.class));
 
 		// exercise
 		this.plugin.getCloudUser(credentials);
@@ -164,17 +160,12 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCodeOk = HTTP_CODE_OK;
 		HttpResponse loginResponse = createLoginResponse(httpCodeOk);
-
-		PowerMockito.mockStatic(HttpRequestClient.class);
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.POST), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(loginResponse);
+		Mockito.doReturn(loginResponse).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
 
 		HashMap<String, List<String>> headers = createHeadersMap();
 		String content = ANY_VALUE;
 		HttpResponse listAccountsResponse = new HttpResponse(content, httpCodeOk, headers);
-
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.GET), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(listAccountsResponse);
+		Mockito.doReturn(listAccountsResponse).when(this.plugin).doGenerateAccountsList(Mockito.any(ListAccountsRequest.class));
 
 		// exercise
 		this.plugin.getCloudUser(credentials);
@@ -193,22 +184,39 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCodeOk = HTTP_CODE_OK;
 		HttpResponse loginResponse = createLoginResponse(httpCodeOk);
-
-		PowerMockito.mockStatic(HttpRequestClient.class);
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.POST), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(loginResponse);
+		Mockito.doReturn(loginResponse).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
 
 		HttpResponse listAccountsResponse = createListAccountsResponse(httpCodeOk);
+		Mockito.doReturn(listAccountsResponse).when(this.plugin)
+				.doGenerateAccountsList(Mockito.any(ListAccountsRequest.class));
 
-		BDDMockito.given(HttpRequestClient.doGenericRequest(Mockito.eq(HttpMethod.GET), Mockito.anyString(),
-				Mockito.any(), Mockito.any())).willReturn(listAccountsResponse);
+		CloudStackUser expectedUser = createCloudStackUser();
 
 		// exercise
-		this.plugin.getCloudUser(credentials);
+		CloudStackUser cloudUser = this.plugin.getCloudUser(credentials);
 
 		// verify
-		PowerMockito.verifyStatic(HttpRequestClient.class, Mockito.times(2));
-		HttpRequestClient.doGenericRequest(Mockito.any(), Mockito.anyString(), Mockito.any(), Mockito.any());
+		Assert.assertEquals(expectedUser.getId(), cloudUser.getId());
+		Assert.assertEquals(expectedUser.getName(), cloudUser.getName());
+		Assert.assertEquals(expectedUser.getToken(), cloudUser.getToken());
+		Assert.assertEquals(expectedUser.getDomain(), cloudUser.getDomain());
+		Assert.assertEquals(expectedUser.getCookieHeaders().get(COOKIE_KEY).toString(),
+				cloudUser.getCookieHeaders().get(COOKIE_KEY).toString());
+	}
+
+	private CloudStackUser createCloudStackUser() {
+		String userId = FAKE_ID;
+		String userName = FAKE_NAME;
+		String tokenValue = FAKE_TOKEN;
+		String domain = FAKE_DOMAIN;
+		String value = CloudStackIdentityProviderPlugin.COOKIE_SEPARATOR + ANY_VALUE;
+		String cookies = ANY_VALUE;
+		for (int i = 0; i < 5; i++) {
+			cookies += value;
+		}
+		Map<String, String> cookieHeaders = new HashMap<>();
+		cookieHeaders.put(COOKIE_KEY, cookies);
+		return new CloudStackUser(userId, userName, tokenValue, domain, cookieHeaders);
 	}
 
 	private HttpResponse createListAccountsResponse(int httpCode) {
