@@ -27,7 +27,6 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
     protected static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
 
     private String cloudStackUrl;
-    private Map<String, String> cookieHeaders;
 
     public CloudStackIdentityProviderPlugin(String cloudStackUrl) {
         this.cloudStackUrl = cloudStackUrl;
@@ -38,35 +37,17 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         checkCredentials(credentials);
 
         LoginRequest request = createLoginRequest(credentials);
-        LoginResponse response = authenticate(request);
+        HttpResponse response = authenticate(request);
+        Map<String, String> cookieHeaders = getCookieHeaders(response);
 
-        return getCloudStackUser(response);
+        return getCloudStackUser(LoginResponse.fromJson(response.getContent()), cookieHeaders);
     }
 
-    private LoginResponse authenticate(LoginRequest request) throws FogbowException, InvalidParameterException {
-        HttpResponse response = doLoginAuthentication(request);
-
-        // NOTE(pauloewerton): we need to extract all set-cookie headers in order to
-        // pass it to the follow-on requests
-        this.cookieHeaders = getCookieHeaders(response);
-
-        if (response.getHttpCode() > HttpStatus.SC_OK) {
-            FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
-            throw exception;
-        } else {
-            return LoginResponse.fromJson(response.getContent());
-        }
-    }
-
-    protected HttpResponse doLoginAuthentication(LoginRequest request)
-            throws FogbowException, InvalidParameterException {
-
+    protected HttpResponse authenticate(LoginRequest request) throws FogbowException, InvalidParameterException {
         // Since all cloudstack requests params are passed via url args, we do not need
         // to send a valid json body in the post request
-        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, request.getUriBuilder().toString(),
+        return HttpRequestClient.doGenericRequest(HttpMethod.POST, request.getUriBuilder().toString(),
                 new HashMap<>(), new HashMap<>());
-
-        return response;
     }
 
     private void checkCredentials(Map<String, String> credentials) throws InvalidParameterException {
@@ -102,12 +83,12 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return cookieHeaders;
     }
 
-    private CloudStackUser getCloudStackUser(LoginResponse loginAuthentication) throws FogbowException {
+    private CloudStackUser getCloudStackUser(LoginResponse loginAuthentication, Map<String, String> cookieHeaders) throws FogbowException {
         String sessionKey = loginAuthentication.getSessionKey();
         ListAccountsRequest request = new ListAccountsRequest.Builder().sessionKey(sessionKey)
                 .build(this.cloudStackUrl);
 
-        HttpResponse response = doGenerateAccountsList(request);
+        HttpResponse response = doGenerateAccountsList(request, cookieHeaders);
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
             FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
@@ -115,7 +96,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         } else {
             try {
                 ListAccountsResponse listAccountsResponse = ListAccountsResponse.fromJson(response.getContent());
-                return mountCloudStackUser(listAccountsResponse);
+                return mountCloudStackUser(listAccountsResponse, cookieHeaders);
             } catch (Exception e) {
                 LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
                 throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
@@ -123,7 +104,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         }
     }
 
-    private CloudStackUser mountCloudStackUser(ListAccountsResponse response) {
+    private CloudStackUser mountCloudStackUser(ListAccountsResponse response, Map<String, String> cookieHeaders) {
         // Considering only one account/user per request
         ListAccountsResponse.User user = response.getAccounts().get(0).getUsers().get(0);
 
@@ -132,15 +113,15 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         String userId = user.getId();
         String userName = getUserName(user);
         String domain = user.getDomain();
-        CloudStackUser cloudStackUser = new CloudStackUser(userId, userName, tokenValue, domain, this.cookieHeaders);
+        CloudStackUser cloudStackUser = new CloudStackUser(userId, userName, tokenValue, domain, cookieHeaders);
         return cloudStackUser;
     }
 
-    protected HttpResponse doGenerateAccountsList(ListAccountsRequest request)
-            throws FogbowException, InvalidParameterException {
+    protected HttpResponse doGenerateAccountsList(ListAccountsRequest request, Map<String, String> cookieHeaders)
+            throws FogbowException {
 
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET, request.getUriBuilder().toString(),
-                this.cookieHeaders, new HashMap<>());
+                cookieHeaders, new HashMap<>());
 
         return response;
     }

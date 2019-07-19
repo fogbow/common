@@ -112,7 +112,7 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCode = HTTP_CODE_ERROR;
 		HttpResponse response = createLoginResponse(httpCode);
-		Mockito.doReturn(response).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
+		Mockito.doReturn(response).when(this.plugin).authenticate(Mockito.any(LoginRequest.class));
 
 		// exercise
 		this.plugin.getCloudUser(credentials);
@@ -131,11 +131,11 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCodeOk = HTTP_CODE_OK;
 		HttpResponse loginResponse = createLoginResponse(httpCodeOk);
-		Mockito.doReturn(loginResponse).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
+		Mockito.doReturn(loginResponse).when(this.plugin).authenticate(Mockito.any(LoginRequest.class));
 
 		int httpCodeError = HTTP_CODE_ERROR;
 		HttpResponse listAccountsResponse = createListAccountsResponse(httpCodeError);
-		Mockito.doReturn(listAccountsResponse).when(this.plugin).doGenerateAccountsList(Mockito.any(ListAccountsRequest.class));
+		Mockito.doReturn(listAccountsResponse).when(this.plugin).doGenerateAccountsList(Mockito.any(ListAccountsRequest.class), Mockito.any());
 
 		// exercise
 		this.plugin.getCloudUser(credentials);
@@ -154,12 +154,12 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCodeOk = HTTP_CODE_OK;
 		HttpResponse loginResponse = createLoginResponse(httpCodeOk);
-		Mockito.doReturn(loginResponse).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
+		Mockito.doReturn(loginResponse).when(this.plugin).authenticate(Mockito.any(LoginRequest.class));
 
 		HashMap<String, List<String>> headers = createHeadersMap();
 		String content = ANY_VALUE;
 		HttpResponse listAccountsResponse = new HttpResponse(content, httpCodeOk, headers);
-		Mockito.doReturn(listAccountsResponse).when(this.plugin).doGenerateAccountsList(Mockito.any(ListAccountsRequest.class));
+		Mockito.doReturn(listAccountsResponse).when(this.plugin).doGenerateAccountsList(Mockito.any(ListAccountsRequest.class), Mockito.any());
 
 		// exercise
 		this.plugin.getCloudUser(credentials);
@@ -178,11 +178,11 @@ public class CloudStackIdentityProviderPluginTest {
 
 		int httpCodeOk = HTTP_CODE_OK;
 		HttpResponse loginResponse = createLoginResponse(httpCodeOk);
-		Mockito.doReturn(loginResponse).when(this.plugin).doLoginAuthentication(Mockito.any(LoginRequest.class));
+		Mockito.doReturn(loginResponse).when(this.plugin).authenticate(Mockito.any(LoginRequest.class));
 
 		HttpResponse listAccountsResponse = createListAccountsResponse(httpCodeOk);
 		Mockito.doReturn(listAccountsResponse).when(this.plugin)
-				.doGenerateAccountsList(Mockito.any(ListAccountsRequest.class));
+				.doGenerateAccountsList(Mockito.any(ListAccountsRequest.class), Mockito.any());
 
 		CloudStackUser expectedUser = createCloudStackUser();
 
