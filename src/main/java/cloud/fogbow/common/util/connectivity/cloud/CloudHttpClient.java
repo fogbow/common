@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class CloudHttpClient<T extends CloudUser> {
     public static final String EMPTY_BODY = "{}";
@@ -45,8 +46,8 @@ public abstract class CloudHttpClient<T extends CloudUser> {
         return response.getContent();
     }
 
-    public HttpResponse doGenericRequest(HttpMethod method, String url, HashMap<String, String> headers,
-                                         HashMap<String, String> body , T cloudUser) throws FogbowException {
+    public HttpResponse doGenericRequest(HttpMethod method, String url, Map<String, String> headers,
+                                         Map<String, String> body , T cloudUser) throws FogbowException {
         HttpRequest request = new HttpRequest(method, url, body, headers);
         HttpRequest preparedRequest = prepareRequest(request, cloudUser);
 
