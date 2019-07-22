@@ -21,15 +21,12 @@ import java.util.Map;
 public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPlugin<CloudStackUser> {
     private static final Logger LOGGER = Logger.getLogger(CloudStackIdentityProviderPlugin.class);
     private static final String COOKIE_HEADER = "Cookie";
-    private static final String COOKIE_SEPARATOR = ";";
-    private static final String SET_COOKIE_HEADER_1 = "Set-Cookie";
-    private static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
+    private static final String STRING_SPACE = " ";
+    protected static final String COOKIE_SEPARATOR = ";";
+    protected static final String SET_COOKIE_HEADER_1 = "Set-Cookie";
+    protected static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
 
     private String cloudStackUrl;
-
-    // Used in tests by Mockito
-    public CloudStackIdentityProviderPlugin() {
-    }
 
     public CloudStackIdentityProviderPlugin(String cloudStackUrl) {
         this.cloudStackUrl = cloudStackUrl;
@@ -37,26 +34,28 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
 
     @Override
     public CloudStackUser getCloudUser(Map<String, String> credentials) throws FogbowException {
-        if ((credentials == null) || (credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null) ||
-                (credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null) ||
-                credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
-        }
+        checkCredentials(credentials);
 
         LoginRequest request = createLoginRequest(credentials);
-        // Since all cloudstack requests params are passed via url args, we do not need to
-        // send a valid json body in the post request
-        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST,
-                request.getUriBuilder().toString(), new HashMap<>(), new HashMap<>());
-        // NOTE(pauloewerton): we need to extract all set-cookie headers in order to pass it to the follow-on requests
-        HashMap cookieHeaders = getCookieHeaders(response);
+        HttpResponse response = authenticate(request);
+        Map<String, String> cookieHeaders = getCookieHeaders(response);
 
-        if (response.getHttpCode() > HttpStatus.SC_OK) {
-            FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
-            throw exception;
-        } else {
-            LoginResponse loginResponse = LoginResponse.fromJson(response.getContent());
-            return getCloudStackUser(loginResponse.getSessionKey(), cookieHeaders);
+        return getCloudStackUser(LoginResponse.fromJson(response.getContent()), cookieHeaders);
+    }
+
+    protected HttpResponse authenticate(LoginRequest request) throws FogbowException, InvalidParameterException {
+        // Since all cloudstack requests params are passed via url args, we do not need
+        // to send a valid json body in the post request
+        return HttpRequestClient.doGenericRequest(HttpMethod.POST, request.getUriBuilder().toString(),
+                new HashMap<>(), new HashMap<>());
+    }
+
+    private void checkCredentials(Map<String, String> credentials) throws InvalidParameterException {
+        if (credentials == null 
+                || credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null
+                || credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null
+                || credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
+            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
 
@@ -74,24 +73,22 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return loginRequest;
     }
 
-    private HashMap getCookieHeaders(HttpResponse response) {
+    private Map<String, String> getCookieHeaders(HttpResponse response) {
         Map<String, List<String>> headerFields = response.getHeaders();
         String setCookieHeaders1 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_1));
         String setCookieHeaders2 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_2));
         String cookieHeadersValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1 , setCookieHeaders2);
-        HashMap<String, String> cookieHeaders = new HashMap<>();
+        Map<String, String> cookieHeaders = new HashMap<>();
         cookieHeaders.put(COOKIE_HEADER, cookieHeadersValue);
-
         return cookieHeaders;
     }
 
-    private CloudStackUser getCloudStackUser(String sessionKey, HashMap<String, String> cookieHeaders) throws FogbowException {
-        ListAccountsRequest request = new ListAccountsRequest.Builder()
-                .sessionKey(sessionKey)
+    private CloudStackUser getCloudStackUser(LoginResponse loginAuthentication, Map<String, String> cookieHeaders) throws FogbowException {
+        String sessionKey = loginAuthentication.getSessionKey();
+        ListAccountsRequest request = new ListAccountsRequest.Builder().sessionKey(sessionKey)
                 .build(this.cloudStackUrl);
 
-        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET,
-                request.getUriBuilder().toString(), cookieHeaders, new HashMap<>());
+        HttpResponse response = doGenerateAccountsList(request, cookieHeaders);
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
             FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
@@ -99,14 +96,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         } else {
             try {
                 ListAccountsResponse listAccountsResponse = ListAccountsResponse.fromJson(response.getContent());
-                // Considering only one account/user per request
-                ListAccountsResponse.User user = listAccountsResponse.getAccounts().get(0).getUsers().get(0);
-                // Keeping the token-value separator as expected by the other cloudstack plugins
-                String tokenValue = user.getApiKey() + CloudStackConstants.KEY_VALUE_SEPARATOR + user.getSecretKey();
-                String userId = user.getId();
-                String userName = getUserName(user);
-                String domain = user.getDomain();
-                return new CloudStackUser(userId, userName, tokenValue, domain, cookieHeaders);
+                return mountCloudStackUser(listAccountsResponse, cookieHeaders);
             } catch (Exception e) {
                 LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
                 throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
@@ -114,9 +104,31 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         }
     }
 
+    private CloudStackUser mountCloudStackUser(ListAccountsResponse response, Map<String, String> cookieHeaders) {
+        // Considering only one account/user per request
+        ListAccountsResponse.User user = response.getAccounts().get(0).getUsers().get(0);
+
+        // Keeping the token-value separator as expected by the other cloudstack plugins
+        String tokenValue = user.getApiKey() + CloudStackConstants.KEY_VALUE_SEPARATOR + user.getSecretKey();
+        String userId = user.getId();
+        String userName = getUserName(user);
+        String domain = user.getDomain();
+        CloudStackUser cloudStackUser = new CloudStackUser(userId, userName, tokenValue, domain, cookieHeaders);
+        return cloudStackUser;
+    }
+
+    protected HttpResponse doGenerateAccountsList(ListAccountsRequest request, Map<String, String> cookieHeaders)
+            throws FogbowException {
+
+        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET, request.getUriBuilder().toString(),
+                cookieHeaders, new HashMap<>());
+
+        return response;
+    }
+
     private String getUserName(ListAccountsResponse.User user) {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
-        return (firstName != null && lastName != null) ? firstName + " " + lastName : user.getUsername();
+        return (firstName != null && lastName != null) ? firstName + STRING_SPACE + lastName : user.getUsername();
     }
 }

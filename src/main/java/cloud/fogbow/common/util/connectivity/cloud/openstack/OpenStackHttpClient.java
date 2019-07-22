@@ -16,7 +16,9 @@ public class OpenStackHttpClient extends CloudHttpClient<OpenStackV3User> {
 
     @Override
     public HttpRequest prepareRequest(HttpRequest genericRequest, OpenStackV3User cloudUser) {
-        HttpRequest clonedRequest = (HttpRequest) genericRequest.clone();
+        HttpRequest clonedRequest = new HttpRequest(
+            genericRequest.getMethod(), genericRequest.getUrl(), genericRequest.getBody(), genericRequest.getHeaders());
+
         Map<String, String> headers = clonedRequest.getHeaders();
 
         headers.put(OpenStackConstants.X_AUTH_TOKEN_KEY, cloudUser.getToken());
