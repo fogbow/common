@@ -64,7 +64,8 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
         String username = userCredentials.get(OpenNebulaConstants.USERNAME);
         String password = userCredentials.get(OpenNebulaConstants.PASSWORD);
 
-        if (username == null || password == null) {
+        if (username == null || username.trim().isEmpty()
+                || password == null || password.trim().isEmpty()) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
@@ -75,8 +76,8 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
      * TODO: check to request directly in the XML-RPC API
      */
     protected boolean isAuthenticated(String openNebulaTokenValue) {
-    	final Client client;
-        final UserPool userPool;
+    	Client client;
+        UserPool userPool;
         try {
         	client = OpenNebulaClientUtil.createClient(this.endpoint, openNebulaTokenValue);
         	userPool = OpenNebulaClientUtil.getUserPool(client);

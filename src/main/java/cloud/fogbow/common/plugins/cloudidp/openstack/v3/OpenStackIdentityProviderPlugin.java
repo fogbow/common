@@ -54,7 +54,7 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         return unscopedAuth ? this.getUnscopedCloudUserFromJson(response) : this.getCloudUserFromJson(response);
     }
 
-    private OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnexpectedException {
+    protected OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnexpectedException {
         String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
@@ -71,7 +71,7 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         }
     }
 
-    private OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnexpectedException {
+    protected OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnexpectedException {
         String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
