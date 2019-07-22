@@ -6,18 +6,19 @@ import org.junit.Test;
 
 public class PublicKeysHolderTest {
 
-    private final String malFormedUri = "i^n|e xistent-site/ras";
-    private final String wellFormedUri = "http://inexistent-site.lsd.ufcg.edu.br/ras";
+    private final String MALFORMED_URI = "i^n|e xistent-site/ras";
+    private final String WELLFORMED_URI = "http://inexistent-site.lsd.ufcg.edu.br/ras";
+    private final String PORT = "8080";
+    private final String SUFFIX = "/publicKey";
 
     @Test(expected = ConfigurationErrorException.class)
     public void testWithAnInvalidUri() throws FogbowException {
-        PublicKeysHolder.getPublicKey(malFormedUri, "8080", "/publicKey");
+        PublicKeysHolder.getPublicKey(MALFORMED_URI, PORT, SUFFIX);
     }
 
     @Test(expected = FogbowException.class)
     public void testWithAValidAndUnavailableUri() throws FogbowException {
-        String port = "8080";
-        String suffix = "/publicKey";
-        PublicKeysHolder.getPublicKey(wellFormedUri, port, suffix);
+
+        PublicKeysHolder.getPublicKey(WELLFORMED_URI, PORT, SUFFIX);
     }
 }
