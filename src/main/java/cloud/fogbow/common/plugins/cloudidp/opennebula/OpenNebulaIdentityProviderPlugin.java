@@ -35,6 +35,28 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
      */
     @Override
     public OpenNebulaUser getCloudUser(Map<String, String> userCredentials) throws FogbowException {
+        checkCredentials(userCredentials);
+
+        String username = userCredentials.get(OpenNebulaConstants.USERNAME);
+        String openNebulaTokenValue = getOpennebulaTokenValue(userCredentials);
+
+        return new OpenNebulaUser(username, username, openNebulaTokenValue);
+    }
+
+    private String getOpennebulaTokenValue(Map<String, String> userCredentials) throws UnauthenticatedUserException {
+        String username = userCredentials.get(OpenNebulaConstants.USERNAME);
+        String password = userCredentials.get(OpenNebulaConstants.PASSWORD);
+
+        String openNebulaTokenValue = username + OpenNebulaConstants.TOKEN_VALUE_SEPARATOR + password;
+        if (!isAuthenticated(openNebulaTokenValue)) {
+            LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR);
+            throw new UnauthenticatedUserException();
+        }
+
+        return openNebulaTokenValue;
+    }
+
+    private void checkCredentials(Map<String, String> userCredentials) throws InvalidParameterException {
         if (userCredentials == null) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
@@ -46,13 +68,6 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
                 || password == null || password.trim().isEmpty()) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
-
-        String openNebulaTokenValue = username + OpenNebulaConstants.TOKEN_VALUE_SEPARATOR + password;
-        if (!isAuthenticated(openNebulaTokenValue)) {
-            LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR);
-            throw new UnauthenticatedUserException();
-        }
-        return new OpenNebulaUser(username, username, openNebulaTokenValue);
     }
 
     /*

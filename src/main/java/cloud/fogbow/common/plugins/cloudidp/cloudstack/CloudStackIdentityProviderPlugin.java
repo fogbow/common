@@ -51,7 +51,7 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
     }
 
     private void checkCredentials(Map<String, String> credentials) throws InvalidParameterException {
-        if (credentials == null 
+        if (credentials == null
                 || credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null
                 || credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null
                 || credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
