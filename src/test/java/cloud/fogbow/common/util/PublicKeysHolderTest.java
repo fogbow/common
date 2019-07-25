@@ -11,14 +11,19 @@ public class PublicKeysHolderTest {
     private final String PORT = "8080";
     private final String SUFFIX = "/publicKey";
 
-    @Test(expected = ConfigurationErrorException.class)
+    // test case: When calling getPublicKey method with an invalid URI, it must
+    // throw a ConfigurationErrorException.
+    @Test(expected = ConfigurationErrorException.class) // verify
     public void testWithAnInvalidUri() throws FogbowException {
+        // exercise
         PublicKeysHolder.getPublicKey(MALFORMED_URI, PORT, SUFFIX);
     }
 
-    @Test(expected = FogbowException.class)
+    // test case: When calling the getPublicKey method with a valid but unavailable
+    // URI, it must throw a FogbowException.
+    @Test(expected = FogbowException.class) // verify
     public void testWithAValidAndUnavailableUri() throws FogbowException {
-
+        // exercise
         PublicKeysHolder.getPublicKey(WELLFORMED_URI, PORT, SUFFIX);
     }
 }
