@@ -73,13 +73,35 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return loginRequest;
     }
 
-    private Map<String, String> getCookieHeaders(HttpResponse response) {
+    private HashMap getCookieHeaders(HttpResponse response) {
+        HashMap<String, String> cookieHeaders = new HashMap<>();
         Map<String, List<String>> headerFields = response.getHeaders();
-        String setCookieHeaders1 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_1));
-        String setCookieHeaders2 = String.join(COOKIE_SEPARATOR, headerFields.get(SET_COOKIE_HEADER_2));
-        String cookieHeadersValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1 , setCookieHeaders2);
-        Map<String, String> cookieHeaders = new HashMap<>();
-        cookieHeaders.put(COOKIE_HEADER, cookieHeadersValue);
+        if (headerFields != null) {
+            String setCookieHeaders1 = null;
+            String setCookieHeaders2 = null;
+            List<String> cookieHeader1 = headerFields.get(SET_COOKIE_HEADER_1);
+            List<String> cookieHeader2 = headerFields.get(SET_COOKIE_HEADER_2);
+            if (cookieHeader1 != null) {
+                setCookieHeaders1 = String.join(COOKIE_SEPARATOR, cookieHeader1);
+            }
+            if (cookieHeader2 != null) {
+                setCookieHeaders2 = String.join(COOKIE_SEPARATOR, cookieHeader2);
+            }
+            if (setCookieHeaders1 != null) {
+                if (setCookieHeaders2 != null) {
+                    String cookieHeadersValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1, setCookieHeaders2);
+                    cookieHeaders.put(COOKIE_HEADER, cookieHeadersValue);
+                } else {
+                    String cookieHeadersValue = String.join(COOKIE_SEPARATOR, setCookieHeaders1);
+                    cookieHeaders.put(COOKIE_HEADER, cookieHeadersValue);
+                }
+            } else {
+                if (setCookieHeaders2 != null) {
+                    String cookieHeadersValue = String.join(COOKIE_SEPARATOR, setCookieHeaders2);
+                    cookieHeaders.put(COOKIE_HEADER, cookieHeadersValue);
+                }
+            }
+        }
         return cookieHeaders;
     }
 

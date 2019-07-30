@@ -16,7 +16,7 @@ import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 public class HttpRequestClientTest {
 
 	private static final String ANY_VALUE = "anything";
-	private static final String DEFAULT_URL = "http://localhost:8080";
+	private static final String DEFAULT_URL = "http://localhost:5555";
 	
 	private HttpRequestClient client;
 	
