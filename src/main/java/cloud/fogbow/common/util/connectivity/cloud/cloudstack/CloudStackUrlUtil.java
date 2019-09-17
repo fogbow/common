@@ -2,6 +2,7 @@ package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.Charsets;
@@ -10,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidParameterException;
 import java.security.Key;
 import java.util.Map.Entry;
 import java.util.TreeMap;
