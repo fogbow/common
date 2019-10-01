@@ -18,9 +18,20 @@ public class CloudStackHttpToFogbowExceptionMapper {
             case HttpStatus.SC_NOT_FOUND:
                 throw new InstanceNotFoundException(e.getMessage(), e);
             default:
-                if (e.getStatusCode() > 204) {
-                    throw new FogbowException(e.getMessage(), e);
-                }
+                throw new FogbowException(e.getMessage(), e);
         }
     }
+    
+    public static FogbowException get(HttpResponseException e) throws FogbowException {
+        switch (e.getStatusCode()) {
+            case HttpStatus.SC_FORBIDDEN:
+                return new UnauthorizedRequestException(e.getMessage(), e);
+            case HttpStatus.SC_UNAUTHORIZED:
+                return new UnauthenticatedUserException(e.getMessage(), e);
+            case HttpStatus.SC_NOT_FOUND:
+                return new InstanceNotFoundException(e.getMessage(), e);
+            default:
+                return new FogbowException(e.getMessage(), e);
+        }
+    }    
 }
