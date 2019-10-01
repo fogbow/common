@@ -9,6 +9,7 @@ import org.apache.http.client.HttpResponseException;
 
 public class CloudStackHttpToFogbowExceptionMapper {
 
+	@Deprecated
     public static void map(HttpResponseException e) throws FogbowException {
         switch (e.getStatusCode()) {
             case HttpStatus.SC_FORBIDDEN:
