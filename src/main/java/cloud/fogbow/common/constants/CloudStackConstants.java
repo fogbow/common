@@ -54,6 +54,17 @@ public class CloudStackConstants {
         public static final String NETWORK_TYPE_KEY_JSON = "networktype";
         public static final String LIST_ZONES_RESPONSE_KEY_JSON = "listzonesresponse";
         public static final String TAGS_KEY_JSON = "tags";
+        public static final String CREATE_NETWORK_COMMAND = "createNetwork";
+        public static final String DELETE_NETWORK_COMMAND = "deleteNetwork";
+        public static final String LIST_NETWORKS_COMMAND = "listNetworks";
+        public static final String NAME_KEY_JSON = "name";
+        public static final String NETWORK_OFFERING_ID_KEY_JSON = "networkofferingid";
+        public static final String ZONE_ID_KEY_JSON = "zoneid";
+        public static final String STARTING_IP_KEY_JSON = "startip";
+        public static final String ENDING_IP_KEY_JSON = "endip";
+        public static final String GATEWAY_KEY_JSON = "gateway";
+        public static final String NETMASK_KEY_JSON = "netmask";
+        public static final String DISPLAY_TEXT_KEY_JSON = "displaytext";        
     }
 
     public static class PublicIp {
