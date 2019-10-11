@@ -23,7 +23,7 @@ public class CloudStackHttpToFogbowExceptionMapper {
         }
     }
     
-    public static FogbowException get(HttpResponseException e) throws FogbowException {
+    public static FogbowException get(HttpResponseException e) {
         switch (e.getStatusCode()) {
             case HttpStatus.SC_FORBIDDEN:
                 return new UnauthorizedRequestException(e.getMessage(), e);
