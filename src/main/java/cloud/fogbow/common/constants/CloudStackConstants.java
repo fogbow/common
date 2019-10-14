@@ -151,4 +151,15 @@ public class CloudStackConstants {
     	public static final String ICMP_VALUE_PROTOCOL = "icmp";
     	public static final String ALL_VALUE_PROTOCOL = "all";
     }
+    
+    public static class Image {
+        public static final String LIST_TEMPLATES_COMMAND = "listTemplates";
+        public static final String TEMPLATE_FILTER_KEY_JSON = "templatefilter";
+        public static final String LIST_TEMPLATES_KEY_JSON = "listtemplatesresponse";
+        public static final String TEMPLATE_KEY_JSON = "template";
+        public static final String NAME_KEY_JSON = "name";
+        public static final String SIZE_KEY_JSON = "size";
+        public static final String ID_KEY_JSON = "id";
+        public static final String EXECUTABLE_TEMPLATES_VALUE = "executable";
+    }
 }
