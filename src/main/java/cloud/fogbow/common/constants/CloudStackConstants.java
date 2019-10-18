@@ -104,6 +104,7 @@ public class CloudStackConstants {
         public static final String DEVICE_ID_KEY_JSON = "deviceid";
         public static final String VIRTUAL_MACHINE_ID_KEY_JSON = "virtualmachineid";
         public static final String STATE_KEY_JSON = "state";
+        public static final String ATTACH_VOLUME_COMMAND = "attachVolume";     
     }
 
     public static class Quota {
