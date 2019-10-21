@@ -114,6 +114,7 @@ public class CloudStackConstants {
         public static final String RESOURCE_TYPE_KEY_JSON = "resourcetype";
         public static final String MAX_KEY_JSON = "max";
         public static final String DOMAIN_ID_KEY_JSON = "domainid";
+        public static final String LIST_RESOURCE_LIMITS_COMMAND = "listResourceLimits";
     }
 
     public static class Identity {
