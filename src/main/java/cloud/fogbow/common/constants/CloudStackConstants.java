@@ -135,11 +135,11 @@ public class CloudStackConstants {
     
     public static class SecurityGroupPlugin {
       public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
-      public static final String DELETE_FIREWALL_RULE_RESPOSNE = "deletefirewallruleresponse";
-    	public static final String LIST_FIREWALL_RULES_KEY_JSON = "listfirewallrulesresponse";
+      public static final String DELETE_FIREWALL_RULE_RESPONSE = "deletefirewallruleresponse";
     	public static final String LIST_FIREWALL_RULES_COMMAND = "listFirewallRules";
       public static final String CREATE_FIREWALL_RULE_COMMAND = "createFirewallRule";
       public static final String DELETE_FIREWALL_RULE_COMMAND = "deleteFirewallRule";
+    	public static final String LIST_FIREWALL_RULES_KEY_JSON = "listfirewallrulesresponse";
     	public static final String IP_ADDRESS_ID_KEY_JSON = "ipaddressid";
     	public static final String FIREWALL_RULE_KEY_JSON = "firewallrule";
     	public static final String ID_KEY_JSON = "id";
