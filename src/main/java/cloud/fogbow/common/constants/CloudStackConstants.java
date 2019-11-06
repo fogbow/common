@@ -27,6 +27,7 @@ public class CloudStackConstants {
     }
 
     public static class Volume {
+        public static final String DELETE_VOLUME_COMMAND = "deleteVolume";
         public static final String VOLUMES_KEY_JSON = "listvolumesresponse";
         public static final String VOLUME_KEY_JSON = "volume";
         public static final String DISK_KEY_JSON = "disksize";
