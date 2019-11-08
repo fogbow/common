@@ -24,6 +24,7 @@ public class CloudStackConstants {
         public static final String KEYPAIR_KEY_JSON = "keypair";
         public static final String DELETE_KEYPAIR_KEY_JSON = "deletesshkeypairresponse";
         public static final String SUCCESS_KEY_JSON = "success";
+        public static final String LIST_VIRTUAL_MACHINES_COMMAND = "listVirtualMachines";
     }
 
     public static class Volume {
@@ -116,6 +117,7 @@ public class CloudStackConstants {
         public static final String RESOURCE_TYPE_KEY_JSON = "resourcetype";
         public static final String MAX_KEY_JSON = "max";
         public static final String DOMAIN_ID_KEY_JSON = "domainid";
+        public static final String LIST_RESOURCE_LIMITS_COMMAND = "listResourceLimits";
     }
 
     public static class Identity {
