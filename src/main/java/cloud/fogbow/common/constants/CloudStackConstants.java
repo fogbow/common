@@ -27,6 +27,8 @@ public class CloudStackConstants {
     }
 
     public static class Volume {
+        public static final String LIST_DISK_OFFERINGS_COMMAND = "listDiskOfferings";
+        public static final String CREATE_VOLUME_COMMAND = "createVolume";
         public static final String DELETE_VOLUME_COMMAND = "deleteVolume";
         public static final String VOLUMES_KEY_JSON = "listvolumesresponse";
         public static final String VOLUME_KEY_JSON = "volume";
@@ -35,8 +37,10 @@ public class CloudStackConstants {
         public static final String CUSTOMIZED_KEY_JSON = "iscustomized";
         public static final String DELETE_VOLUME_KEY_JSON = "deletevolumeresponse";
         public static final String DISK_OFFERING_KEY_JSON = "diskoffering";
+        public static final String DISK_OFFERING_ID_KEY_JSON = "diskofferingid";
         public static final String DISK_OFFERINGS_KEY_JSON = "listdiskofferingsresponse";
         public static final String DISPLAY_TEXT_KEY_JSON = "displaytext";
+        public static final String ZONE_ID_KEY_JSON = "zoneid";
         public static final String TAGS_KEY_JSON = "tags";
         public static final String ID_KEY_JSON = "id";
         public static final String JOB_ID_KEY_JSON = "jobid";
