@@ -1,8 +1,7 @@
 package cloud.fogbow.common.constants;
 
 public class CloudStackConstants {
-    public static final String  KEY_VALUE_SEPARATOR = ":";
-
+    public static final String KEY_VALUE_SEPARATOR = ":";
     public static final String ERROR_CODE_KEY_JSON = "errorcode";
     public static final String ERROR_TEXT_KEY_JSON = "errortext";
     public static final String JOB_ID_KEY_JSON = "jobid";
