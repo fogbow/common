@@ -135,24 +135,24 @@ public class CloudStackConstants {
     }
     
     public static class SecurityGroupPlugin {
-      public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
-      public static final String DELETE_FIREWALL_RULE_RESPONSE = "deletefirewallruleresponse";
-    	public static final String LIST_FIREWALL_RULES_COMMAND = "listFirewallRules";
-      public static final String CREATE_FIREWALL_RULE_COMMAND = "createFirewallRule";
-      public static final String DELETE_FIREWALL_RULE_COMMAND = "deleteFirewallRule";
-    	public static final String LIST_FIREWALL_RULES_KEY_JSON = "listfirewallrulesresponse";
-    	public static final String IP_ADDRESS_ID_KEY_JSON = "ipaddressid";
-    	public static final String FIREWALL_RULE_KEY_JSON = "firewallrule";
-    	public static final String ID_KEY_JSON = "id";
-    	public static final String CIDR_LIST_KEY_JSON = "cidrlist";
-    	public static final String START_PORT_KEY_JSON = "startport";
-    	public static final String END_PORT_KEY_JSON = "endport";
-    	public static final String PROPOCOL_KEY_JSON = "protocol";
-    	public static final String IP_ADDRESS_KEY_JSON = "ipaddress";
-    	public static final String TCP_VALUE_PROTOCOL = "tcp";
-    	public static final String UDP_VALUE_PROTOCOL = "udp";
-    	public static final String ICMP_VALUE_PROTOCOL = "icmp";
-    	public static final String ALL_VALUE_PROTOCOL = "all";
+        public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
+        public static final String DELETE_FIREWALL_RULE_RESPONSE = "deletefirewallruleresponse";
+        public static final String LIST_FIREWALL_RULES_COMMAND = "listFirewallRules";
+        public static final String CREATE_FIREWALL_RULE_COMMAND = "createFirewallRule";
+        public static final String DELETE_FIREWALL_RULE_COMMAND = "deleteFirewallRule";
+        public static final String LIST_FIREWALL_RULES_KEY_JSON = "listfirewallrulesresponse";
+        public static final String IP_ADDRESS_ID_KEY_JSON = "ipaddressid";
+        public static final String FIREWALL_RULE_KEY_JSON = "firewallrule";
+        public static final String ID_KEY_JSON = "id";
+        public static final String CIDR_LIST_KEY_JSON = "cidrlist";
+        public static final String START_PORT_KEY_JSON = "startport";
+        public static final String END_PORT_KEY_JSON = "endport";
+        public static final String PROPOCOL_KEY_JSON = "protocol";
+        public static final String IP_ADDRESS_KEY_JSON = "ipaddress";
+        public static final String TCP_VALUE_PROTOCOL = "tcp";
+        public static final String UDP_VALUE_PROTOCOL = "udp";
+        public static final String ICMP_VALUE_PROTOCOL = "icmp";
+        public static final String ALL_VALUE_PROTOCOL = "all";
     }
     
     public static class Image {
