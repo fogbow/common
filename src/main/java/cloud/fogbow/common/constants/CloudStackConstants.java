@@ -134,7 +134,7 @@ public class CloudStackConstants {
         public static final String SECRET_KEY_JSON = "secretkey";
     }
     
-    public static class SecurityGroupPlugin {
+    public static class SecurityGroup {
         public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
         public static final String DELETE_FIREWALL_RULE_RESPONSE = "deletefirewallruleresponse";
         public static final String LIST_FIREWALL_RULES_COMMAND = "listFirewallRules";
