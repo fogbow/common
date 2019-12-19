@@ -1,10 +1,10 @@
 package cloud.fogbow.common.constants;
 
 public class CloudStackConstants {
-    public static final String  KEY_VALUE_SEPARATOR = ":";
-
+    public static final String KEY_VALUE_SEPARATOR = ":";
     public static final String ERROR_CODE_KEY_JSON = "errorcode";
     public static final String ERROR_TEXT_KEY_JSON = "errortext";
+    public static final String JOB_ID_KEY_JSON = "jobid";
     
     public static class Compute {
         public static final String VIRTUAL_MACHINES_KEY_JSON = "listvirtualmachinesresponse";
@@ -74,8 +74,6 @@ public class CloudStackConstants {
         public static final String ENABLE_STATIC_NAT_COMMAND = "enableStaticNat";
         public static final String ASSOCIATE_IP_ADDRESS_RESPONSE_KEY_JSON = "associateipaddressresponse";
         public static final String QUERY_ASYNC_JOB_RESULT_KEY_JSON = "queryasyncjobresultresponse";
-        public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
-        public static final String DELETE_FIREWALL_RULE_RESPOSNE = "deletefirewallruleresponse";
         public static final String VM_ID_KEY_JSON = "virtualmachineid";
         public static final String NETWORK_ID_KEY_JSON = "networkid";
         public static final String IP_ADDRESS_KEY_JSON = "ipaddress";
@@ -137,21 +135,25 @@ public class CloudStackConstants {
         public static final String SECRET_KEY_JSON = "secretkey";
     }
     
-    public static class SecurityGroupPlugin {
-    	public static final String LIST_FIREWALL_RULES_COMMAND = "listFirewallRules";
-    	public static final String IP_ADDRESS_ID_KEY_JSON = "ipaddressid";
-    	public static final String LIST_FIREWALL_RULES_KEY_JSON = "listfirewallrulesresponse";
-    	public static final String FIREWALL_RULE_KEY_JSON = "firewallrule";
-    	public static final String ID_KEY_JSON = "id";
-    	public static final String CIDR_LIST_KEY_JSON = "cidrlist";
-    	public static final String START_PORT_KEY_JSON = "startport";
-    	public static final String END_PORT_KEY_JSON = "endport";
-    	public static final String PROPOCOL_KEY_JSON = "protocol";
-    	public static final String IP_ADDRESS_KEY_JSON = "ipaddress";
-    	public static final String TCP_VALUE_PROTOCOL = "tcp";
-    	public static final String UDP_VALUE_PROTOCOL = "udp";
-    	public static final String ICMP_VALUE_PROTOCOL = "icmp";
-    	public static final String ALL_VALUE_PROTOCOL = "all";
+    public static class SecurityGroup {
+        public static final String CREATE_FIREWALL_RULE_RESPONSE = "createfirewallruleresponse";
+        public static final String DELETE_FIREWALL_RULE_RESPONSE = "deletefirewallruleresponse";
+        public static final String LIST_FIREWALL_RULES_COMMAND = "listFirewallRules";
+        public static final String CREATE_FIREWALL_RULE_COMMAND = "createFirewallRule";
+        public static final String DELETE_FIREWALL_RULE_COMMAND = "deleteFirewallRule";
+        public static final String LIST_FIREWALL_RULES_KEY_JSON = "listfirewallrulesresponse";
+        public static final String IP_ADDRESS_ID_KEY_JSON = "ipaddressid";
+        public static final String FIREWALL_RULE_KEY_JSON = "firewallrule";
+        public static final String ID_KEY_JSON = "id";
+        public static final String CIDR_LIST_KEY_JSON = "cidrlist";
+        public static final String START_PORT_KEY_JSON = "startport";
+        public static final String END_PORT_KEY_JSON = "endport";
+        public static final String PROPOCOL_KEY_JSON = "protocol";
+        public static final String IP_ADDRESS_KEY_JSON = "ipaddress";
+        public static final String TCP_VALUE_PROTOCOL = "tcp";
+        public static final String UDP_VALUE_PROTOCOL = "udp";
+        public static final String ICMP_VALUE_PROTOCOL = "icmp";
+        public static final String ALL_VALUE_PROTOCOL = "all";
     }
     
     public static class Image {
