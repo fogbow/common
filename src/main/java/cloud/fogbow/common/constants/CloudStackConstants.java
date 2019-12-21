@@ -74,6 +74,8 @@ public class CloudStackConstants {
     }
 
     public static class PublicIp {
+        public static final String CREATE_FIREWALL_RULE_COMMAND = "createFirewallRule";
+        public static final String DISASSOCIATE_IP_ADDRESS_COMMAND = "disassociateIpAddress";
         public static final String ASSOCIATE_IP_ADDRESS_COMMAND = "associateIpAddress";
         public static final String QUERY_ASYNC_JOB_RESULT = "queryAsyncJobResult";
         public static final String ENABLE_STATIC_NAT_COMMAND = "enableStaticNat";
