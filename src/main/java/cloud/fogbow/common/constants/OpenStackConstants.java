@@ -116,6 +116,16 @@ public class OpenStackConstants {
         public static final String TOTAL_CORES_USED_KEY_JSON = "totalCoresUsed";
         public static final String TOTAL_RAM_USED_KEY_JSON = "totalRAMUsed";
         public static final String TOTAL_INSTANCES_USED_KEY_JSON = "totalInstancesUsed";
+        public static final String MAX_TOTAL_VOLUME_GIGABYTES_KEY_JSON = "maxTotalVolumeGigabytes";
+        public static final String MAX_TOTAL_VOLUMES_KEY_JSON = "maxTotalVolumes";
+        public static final String TOTAL_VOLUMES_USED_KEY_JSON = "totalVolumesUsed";
+        public static final String TOTAL_GIGABYTES_USED_KEY_JSON = "totalGigabytesUsed";
+        public static final String QUOTA_KEY_JSON = "quota";
+        public static final String FLOATING_IP_KEY_JSON = "floatingip";
+        public static final String NETWORK_KEY_JSON = "network";
+        public static final String LIMIT_KEY_JSON = "limit";
+        public static final String RESERVED_KEY_JSON = "reserved";
+        public static final String USED_KEY_JSON = "used";
     }
 
     public static class PublicIp {
