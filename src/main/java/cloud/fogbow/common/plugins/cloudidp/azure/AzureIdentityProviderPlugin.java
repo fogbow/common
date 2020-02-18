@@ -1,104 +1,59 @@
 package cloud.fogbow.common.plugins.cloudidp.azure;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.rest.LogLevel;
-
 import cloud.fogbow.common.constants.AzureConstants;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AzureUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
+import cloud.fogbow.common.util.AzureClientCacheManager;
+import com.google.common.annotations.VisibleForTesting;
+
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureUser> {
 
     @Override
     public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws FogbowException {
-        String subscriptionId = userCredentials.get(AzureConstants.SUBSCRIPTION_KEY);
-        String clientId = userCredentials.get(AzureConstants.CLIENT_KEY);
-        String accessKeyId = userCredentials.get(AzureConstants.ACCESS_KEY);
-        String tenantId = userCredentials.get(AzureConstants.TENANT_KEY);
+        String subscriptionId = userCredentials.get(AzureConstants.SUBSCRIPTION_ID_KEY);
+        String clientId = userCredentials.get(AzureConstants.CLIENT_ID_KEY);
+        String clientKey = userCredentials.get(AzureConstants.CLIENT_KEY);
+        String tenantId = userCredentials.get(AzureConstants.TENANT_ID_KEY);
+        String resourceGroupName = userCredentials.get(AzureConstants.RESOURCE_GROUP_NAME_KEY);
+        String regionName = userCredentials.get(AzureConstants.REGION_NAME_KEY);
+        checkCredentials(subscriptionId, clientId, clientKey, tenantId, resourceGroupName, regionName);
 
-        checkCredentials(subscriptionId, clientId, accessKeyId, tenantId);
+        String userId = clientId;
+        String userName = clientId;
+        AzureUser azureUser = new AzureUser(userId, userName, clientId, tenantId,
+                clientKey, subscriptionId, resourceGroupName, regionName);
+        return authenticate(azureUser);
+    }
+
+    @VisibleForTesting
+    AzureUser authenticate(AzureUser azureUser) throws UnauthenticatedUserException {
+        checkAzureClient(azureUser);
+        return azureUser;
+    }
+
+    private void checkAzureClient(AzureUser azureUser) throws UnauthenticatedUserException {
         try {
-            return authenticate(subscriptionId, clientId, accessKeyId, tenantId);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            AzureClientCacheManager.getAzure(azureUser);
+        } catch (UnauthenticatedUserException e) {
+            throw e;
         }
     }
 
     @VisibleForTesting
-    AzureUser authenticate(
-            @NotBlank String subscriptionId,
-            @NotBlank String clientId,
-            @NotBlank String accessKeyId,
-            @NotBlank String tenantId) throws IOException {
+    void checkCredentials(String subscriptionId, String clientId, String accessKeyId,
+                          String tenantId, String resourceGroupName, String regionName)
+            throws InvalidParameterException {
 
-        
+        if(subscriptionId.isEmpty() || clientId.isEmpty() || accessKeyId.isEmpty()
+                || tenantId.isEmpty() || resourceGroupName.isEmpty() || regionName.isEmpty()) {
 
-        AzureEnvironment azureEnvironment = getAzureEnvironment();
-
-        AzureTokenCredentials azureTokenCredentials =
-                getApplicationTokenCredentials(clientId, tenantId, clientId, azureEnvironment)
-                .withDefaultSubscriptionId(subscriptionId);
-
-        Azure azure = Azure.configure()
-                .withLogLevel(LogLevel.BASIC)
-                .authenticate(azureTokenCredentials)
-                .withDefaultSubscription();
-
-        String resourceGroup = azure.resourceGroups().toString();
-        System.out.println(resourceGroup);
-
-        return new AzureUser(null, null, null, null, null, null, null, null);
-    }
-
-    @VisibleForTesting
-    static ApplicationTokenCredentials getApplicationTokenCredentials(
-            @NotBlank String clientId,
-            @NotBlank String tenantId,
-            @NotBlank String clientKey,
-            @NotNull AzureEnvironment azureEnvironment) {
-
-        return new ApplicationTokenCredentials(clientId, tenantId, clientKey, azureEnvironment);
-    }
-
-    @VisibleForTesting
-    static AzureEnvironment getAzureEnvironment() {
-        String activeDirectoryEndpoint = AzureEnvironment.AZURE.activeDirectoryEndpoint();
-        return new AzureEnvironment(new HashMap<String, String>() {
-            {
-                this.put(AzureEnvironment.Endpoint.ACTIVE_DIRECTORY.toString(),
-                        activeDirectoryEndpoint.endsWith(AzureConstants.URL_SEPARATOR) ? activeDirectoryEndpoint
-                                : activeDirectoryEndpoint + AzureConstants.URL_SEPARATOR);
-                this.put(AzureEnvironment.Endpoint.MANAGEMENT.toString(), AzureEnvironment.AZURE.managementEndpoint());
-                this.put(AzureEnvironment.Endpoint.RESOURCE_MANAGER.toString(), AzureEnvironment.AZURE.resourceManagerEndpoint());
-                this.put(AzureEnvironment.Endpoint.GRAPH.toString(), AzureEnvironment.AZURE.graphEndpoint());
-                this.put(AzureEnvironment.Endpoint.KEYVAULT.toString(), AzureEnvironment.AZURE.keyVaultDnsSuffix());
-            }
-        });
-    }
-
-    @VisibleForTesting
-    void checkCredentials(
-            @NotBlank String subscriptionId,
-            @NotBlank String clientId,
-            @NotBlank String accessKeyId,
-            @NotBlank String tenantId) throws InvalidParameterException {
-
-        if(subscriptionId == null || clientId == null || accessKeyId == null || tenantId == null) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }

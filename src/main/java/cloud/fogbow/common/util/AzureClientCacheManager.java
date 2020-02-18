@@ -15,6 +15,7 @@ import com.microsoft.azure.management.Azure;
 import com.microsoft.rest.LogLevel;
 import org.apache.log4j.Logger;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,7 @@ public class AzureClientCacheManager {
                 });
     }
 
+    @NotNull
     public static Azure getAzure(AzureUser azureUser) throws UnauthenticatedUserException {
         try {
             return loadingCache.get(azureUser);
@@ -47,6 +49,7 @@ public class AzureClientCacheManager {
         }
     }
 
+    @NotNull
     @VisibleForTesting
     static Azure createAzure(AzureUser azureUser) throws FogbowException {
         try {

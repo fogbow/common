@@ -2,12 +2,12 @@ package cloud.fogbow.common.constants;
 
 public class AzureConstants {
 
-    public static final String ACCESS_KEY = "cloud_user_credentials_access_key";
-    public static final String CLIENT_KEY = "cloud_user_credentials_client_key";
-    public static final String SUBSCRIPTION_KEY = "cloud_user_credentials_subscription_key";
-    public static final String TENANT_KEY = "cloud_user_credentials_tenant_key";
-
-    public static final String URL_SEPARATOR = "/";
+    public static final String CLIENT_ID_KEY = "client_id";
+    public static final String TENANT_ID_KEY = "tenant_id";
+    public static final String CLIENT_KEY = "client_key";
+    public static final String SUBSCRIPTION_ID_KEY = "subscription_id";
+    public static final String RESOURCE_GROUP_NAME_KEY = "resource_group_name";
+    public static final String REGION_NAME_KEY = "region_name";
 
     public static final String NON_TOKEN = null;
 
