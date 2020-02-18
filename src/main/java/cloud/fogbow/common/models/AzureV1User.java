@@ -1,20 +1,34 @@
 package cloud.fogbow.common.models;
 
+import javax.validation.constraints.NotBlank;
+
 import cloud.fogbow.common.constants.AzureConstants;
 
 public class AzureV1User extends CloudUser {
 
-    public AzureV1User(String userId, String userName, String token) {
+    public AzureV1User(
+            @NotBlank String userId,
+            @NotBlank String userName,
+            @NotBlank String token) {
+
         super(userId, userName, token);
     }
     
-    public AzureV1User(String userId, String userName, String subscriptionKey, String clientKey, String accessKey, String tenantKey) {
+    public AzureV1User(
+            @NotBlank String userId,
+            @NotBlank String userName,
+            @NotBlank String subscriptionKey,
+            @NotBlank String clientKey,
+            @NotBlank String accessKey,
+            @NotBlank String tenantKey) {
+
         super(userId, userName);
-        String token = subscriptionKey + AzureConstants.TOKEN_VALUE_SEPARATOR
-                + clientKey + AzureConstants.TOKEN_VALUE_SEPARATOR
-                + accessKey + AzureConstants.TOKEN_VALUE_SEPARATOR
+        String token = subscriptionKey
+                + AzureConstants.TOKEN_SEPARATOR
+                + clientKey + AzureConstants.TOKEN_SEPARATOR
+                + accessKey + AzureConstants.TOKEN_SEPARATOR
                 + tenantKey;
-        
+
         this.setToken(token);
     }
 
