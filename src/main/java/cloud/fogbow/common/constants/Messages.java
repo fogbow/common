@@ -59,11 +59,13 @@ public class Messages {
         public static final String ERROR_WHILE_INSTATIATING_INSTANCE_FROM_TEMPLATE_S = "Error while instatiating instance from template: %s.";
         public static final String UNABLE_TO_CLOSE_FILE_S = "Unable to close file %s.";
         public static final String UNABLE_TO_GET_TOKEN_FROM_JSON = "Unable to get token from json.";
+        public static final String ERROR_WHILE_CREATING_AZURE_CLIENT = "Error while creating a new Azure client";
     }
 
     public static class Info {
         public static final String TEMPLATE_POOL_LENGTH_S = "Template pool length: %s.";
         public static final String USER_POOL_LENGTH_S = "User pool length: %s.";
+        public static final String CREATING_AZURE_CLIENT = "Creating a new Azure client";
     }
 
     public static final class Warn {
