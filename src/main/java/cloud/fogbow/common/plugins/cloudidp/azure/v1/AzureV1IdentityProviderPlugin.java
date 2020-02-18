@@ -18,13 +18,13 @@ import cloud.fogbow.common.constants.AzureConstants;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.models.AzureV1User;
+import cloud.fogbow.common.models.AzureUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 
-public class AzureV1IdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureV1User> {
+public class AzureV1IdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureUser> {
 
     @Override
-    public AzureV1User getCloudUser(@NotNull Map<String, String> userCredentials) throws FogbowException {
+    public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws FogbowException {
         String subscriptionId = userCredentials.get(AzureConstants.SUBSCRIPTION_KEY);
         String clientId = userCredentials.get(AzureConstants.CLIENT_KEY);
         String accessKeyId = userCredentials.get(AzureConstants.ACCESS_KEY);
@@ -40,7 +40,7 @@ public class AzureV1IdentityProviderPlugin implements CloudIdentityProviderPlugi
     }
 
     @VisibleForTesting
-    AzureV1User authenticate(
+    AzureUser authenticate(
             @NotBlank String subscriptionId,
             @NotBlank String clientId,
             @NotBlank String accessKeyId,
@@ -62,7 +62,7 @@ public class AzureV1IdentityProviderPlugin implements CloudIdentityProviderPlugi
         String resourceGroup = azure.resourceGroups().toString();
         System.out.println(resourceGroup);
 
-        return new AzureV1User(null, null, null);
+        return new AzureUser(null, null, null, null, null, null, null, null);
     }
 
     @VisibleForTesting
