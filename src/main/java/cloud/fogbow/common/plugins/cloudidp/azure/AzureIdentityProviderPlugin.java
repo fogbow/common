@@ -1,4 +1,4 @@
-package cloud.fogbow.common.plugins.cloudidp.azure.v1;
+package cloud.fogbow.common.plugins.cloudidp.azure;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.models.AzureUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 
-public class AzureV1IdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureUser> {
+public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureUser> {
 
     @Override
     public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws FogbowException {
