@@ -14,11 +14,11 @@ public class AzureUser extends CloudUser {
     private String regionName;
 
     public AzureUser(String userId, String userName) {
-        super(userId, userName, AzureConstants.NON_TOKEN);
+        super(userId, userName);
     }
     
     public AzureUser(String userId, String userName, String clientId, String tenantId, String clientKey, String subscriptionId, String resourceGroupName, String regionName) {
-        super(userId, userName, AzureConstants.NON_TOKEN);
+        super(userId, userName);
         this.clientId = clientId;
         this.tenantId = tenantId;
         this.clientKey = clientKey;

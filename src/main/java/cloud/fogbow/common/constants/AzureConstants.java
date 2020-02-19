@@ -9,6 +9,4 @@ public class AzureConstants {
     public static final String RESOURCE_GROUP_NAME_KEY = "resource_group_name";
     public static final String REGION_NAME_KEY = "region_name";
 
-    public static final String NON_TOKEN = null;
-
 }
