@@ -2,6 +2,8 @@ package cloud.fogbow.common.models;
 
 import cloud.fogbow.common.constants.AzureConstants;
 
+import java.util.Objects;
+
 public class AzureUser extends CloudUser {
 
     private String clientId;
@@ -47,6 +49,24 @@ public class AzureUser extends CloudUser {
 
     public String getRegionName() {
         return this.regionName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AzureUser azureUser = (AzureUser) o;
+        return clientId.equals(azureUser.clientId) &&
+                tenantId.equals(azureUser.tenantId) &&
+                clientKey.equals(azureUser.clientKey) &&
+                subscriptionId.equals(azureUser.subscriptionId) &&
+                resourceGroupName.equals(azureUser.resourceGroupName) &&
+                regionName.equals(azureUser.regionName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clientId, tenantId, clientKey, subscriptionId, resourceGroupName, regionName);
     }
 
 }
