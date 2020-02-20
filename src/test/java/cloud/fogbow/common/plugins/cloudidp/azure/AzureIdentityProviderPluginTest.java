@@ -32,8 +32,8 @@ public class AzureIdentityProviderPluginTest {
         this.azureIdentityProviderPlugin = Mockito.spy(new AzureIdentityProviderPlugin());
     }
 
-    @Ignore
-    // test case:
+    // test case: When calling the getCloudUser method with mocked methods,
+    // it must verify if it returns right azureUser
     @Test
     public void testGetCloudUserSuccessfully() throws FogbowException {
         // set up
@@ -54,7 +54,10 @@ public class AzureIdentityProviderPluginTest {
         AzureUser azureUserExpected = new AzureUser(clientId, clientId, clientId, tenantId,
                 clientKey, subscriptionId, resourceGroupName, regionName);
 
-        mockAzure();
+        Azure azure = null;
+        PowerMockito.mockStatic(AzureClientCacheManager.class);
+        PowerMockito.when(AzureClientCacheManager.getAzure(Mockito.eq(azureUserExpected)))
+                .thenReturn(azure);
 
         // exercise
         AzureUser azureUser = this.azureIdentityProviderPlugin.getCloudUser(credentials);
@@ -63,27 +66,54 @@ public class AzureIdentityProviderPluginTest {
         Assert.assertEquals(azureUserExpected, azureUser);
     }
 
+    // test case: When calling the getCloudUser method with mocked methods,
+    // it must verify if it throws a FogbowException
+    @Test
+    public void testGetCloudUserFail() throws FogbowException {
+        // set up
+        Map<String, String> credentials = new HashMap<>();
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+        credentials.put(AzureConstants.REGION_NAME_KEY, regionName);
+        credentials.put(AzureConstants.RESOURCE_GROUP_NAME_KEY, resourceGroupName);
+        credentials.put(AzureConstants.CLIENT_KEY, clientKey);
+        credentials.put(AzureConstants.CLIENT_ID_KEY, clientId);
+        credentials.put(AzureConstants.SUBSCRIPTION_ID_KEY, subscriptionId);
+        credentials.put(AzureConstants.TENANT_ID_KEY, tenantId);
+
+        AzureUser azureUserExpected = new AzureUser(clientId, clientId, clientId, tenantId,
+                clientKey, subscriptionId, resourceGroupName, regionName);
+
+        PowerMockito.mockStatic(AzureClientCacheManager.class);
+        PowerMockito.when(AzureClientCacheManager.getAzure(Mockito.eq(azureUserExpected)))
+                .thenThrow(new UnauthenticatedUserException());
+
+        // verify
+        this.expectedException.expect(FogbowException.class);
+
+        // exercise
+        this.azureIdentityProviderPlugin.getCloudUser(credentials);
+    }
+
     // test case: When calling the authenticate method with mocked methods,
     // it must verify if it returns the same azureUser
     @Test
     public void testAuthenticateSuccessfully() throws UnauthenticatedUserException {
         // set up
-        mockAzure();
+        Azure azure = null;
+        PowerMockito.mockStatic(AzureClientCacheManager.class);
+        PowerMockito.when(AzureClientCacheManager.getAzure(Mockito.eq(this.azureUserDefault)))
+                .thenReturn(azure);
 
         // exercise
         AzureUser azureUser = this.azureIdentityProviderPlugin.authenticate(this.azureUserDefault);
 
         // verify
         Assert.assertEquals(this.azureUserDefault, azureUser);
-    }
-
-    private Azure mockAzure() throws UnauthenticatedUserException {
-        // TODO: Check how to mock this final class(Azure)
-        Azure azure = null;
-        PowerMockito.mockStatic(AzureClientCacheManager.class);
-        PowerMockito.when(AzureClientCacheManager.getAzure(Mockito.eq(this.azureUserDefault)))
-                .thenReturn(azure);
-        return azure;
     }
 
     // test case: When calling the authenticate method with mocked methods,
