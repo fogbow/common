@@ -25,6 +25,7 @@ public class Messages {
         public static final String NEITHER_BODY_OR_HEADERS_CAN_BE_NULL = "Neither body or headers can be null";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
+        public static final String NO_USER_CREDENTIAL_S = "No user credential given: %s.";
         public static final String OPERATION_RETURNED_ERROR_S = "Operation returned error: %s";
         public static final String QUOTA_EXCEEDED = "Quota exceeded.";
         public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
