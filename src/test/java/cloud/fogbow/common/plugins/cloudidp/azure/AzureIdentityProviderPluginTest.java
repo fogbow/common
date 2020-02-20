@@ -1,12 +1,17 @@
 package cloud.fogbow.common.plugins.cloudidp.azure;
 
 import cloud.fogbow.common.constants.AzureConstants;
+import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AzureUser;
 import cloud.fogbow.common.util.AzureClientCacheManager;
 import com.microsoft.azure.management.Azure;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -132,13 +137,211 @@ public class AzureIdentityProviderPluginTest {
         this.azureIdentityProviderPlugin.authenticate(this.azureUserDefault);
     }
 
-    // test case:
-    @Ignore
+    // test case: When calling the checkCredentials method with all parameters right,
+    // it must verify if it does not throw an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsSuccessfully() {
+    public void testCheckCredentialsSuccessfully() throws InvalidParameterException {
         // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
         // exercise
+        this.azureIdentityProviderPlugin.checkCredentials(
+                subscriptionId, clientId, clientKey, tenantId, resourceGroupName, regionName);
+    }
+
+    // test case: When calling the checkCredentials method with parameter regionName null,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenRegionNameIsNull() throws InvalidParameterException {
+        // set up
+        String regionName = null;
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter regionName empty,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenRegionNameIsEmpty() throws InvalidParameterException {
+        // set up
+        String regionName = "";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter resourceGroupName null,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenResourceGroupNameIsNull() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = null;
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter resourceGroupName empty,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenResourceGroupNameIsEmpty() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter clientKey null,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenClientKeyIsNull() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = null;
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter clientKey empty,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenClientKeyIsEmpty() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter clientId null,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenClientIdIsNull() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = null;
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter clientId empty,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenClientIdIsEmpty() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter subscriptionId null,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenSubscriptionIdIsNull() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = null;
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter subscriptionId empty,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenSubscriptionIdIsEmpty() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "";
+        String tenantId = "tenantId";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter tenantId null,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenTenantIdIsNull() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = null;
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    // test case: When calling the checkCredentials method with parameter tenantId empty,
+    // it must verify if it throws an UnauthenticatedUserException
+    @Test
+    public void testCheckCredentialsFailWhenTenantIdIdIsEmpty() throws InvalidParameterException {
+        // set up
+        String regionName = "regionName";
+        String resourceGroupName = "resourceGroupName";
+        String clientKey = "clientKey";
+        String clientId = "clientId";
+        String subscriptionId = "subscriptionId";
+        String tenantId = "";
+
+        assertCredentials(regionName, resourceGroupName, clientKey, clientId, subscriptionId, tenantId);
+    }
+
+    private void assertCredentials(String regionName, String resourceGroupName, String clientKey, String clientId, String subscriptionId, String tenantId) throws InvalidParameterException {
         // verify
+        this.expectedException.expect(InvalidParameterException.class);
+        this.expectedException.expectMessage(Messages.Exception.NO_USER_CREDENTIALS);
+
+        // exercise
+        this.azureIdentityProviderPlugin.checkCredentials(
+                subscriptionId, clientId, clientKey, tenantId, resourceGroupName, regionName);
     }
 
 }

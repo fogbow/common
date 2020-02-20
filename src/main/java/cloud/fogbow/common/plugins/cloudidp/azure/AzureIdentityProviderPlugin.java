@@ -38,23 +38,27 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
         return azureUser;
     }
 
+    @VisibleForTesting
+    void checkCredentials(String subscriptionId, String clientId, String clientKey,
+                          String tenantId, String resourceGroupName, String regionName)
+            throws InvalidParameterException {
+
+        if(subscriptionId == null || subscriptionId.isEmpty() ||
+                clientId == null || clientId.isEmpty() ||
+                clientKey == null || clientKey.isEmpty() ||
+                tenantId == null || tenantId.isEmpty() ||
+                resourceGroupName == null || resourceGroupName.isEmpty() ||
+                regionName == null || regionName.isEmpty()) {
+
+            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
+        }
+    }
+
     private void checkAzureClient(AzureUser azureUser) throws UnauthenticatedUserException {
         try {
             AzureClientCacheManager.getAzure(azureUser);
         } catch (UnauthenticatedUserException e) {
             throw e;
-        }
-    }
-
-    @VisibleForTesting
-    void checkCredentials(String subscriptionId, String clientId, String accessKeyId,
-                          String tenantId, String resourceGroupName, String regionName)
-            throws InvalidParameterException {
-
-        if(subscriptionId.isEmpty() || clientId.isEmpty() || accessKeyId.isEmpty()
-                || tenantId.isEmpty() || resourceGroupName.isEmpty() || regionName.isEmpty()) {
-
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
 
