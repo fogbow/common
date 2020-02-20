@@ -1,6 +1,7 @@
 package cloud.fogbow.common.plugins.cloudidp.azure;
 
 import cloud.fogbow.common.constants.AzureConstants;
+import static cloud.fogbow.common.constants.AzureConstants.Credential.*;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
@@ -17,19 +18,23 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
 
     @Override
     public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws FogbowException {
-        String subscriptionId = userCredentials.get(AzureConstants.SUBSCRIPTION_ID_KEY);
-        String clientId = userCredentials.get(AzureConstants.CLIENT_ID_KEY);
-        String clientKey = userCredentials.get(AzureConstants.CLIENT_KEY);
-        String tenantId = userCredentials.get(AzureConstants.TENANT_ID_KEY);
-        String resourceGroupName = userCredentials.get(AzureConstants.RESOURCE_GROUP_NAME_KEY);
-        String regionName = userCredentials.get(AzureConstants.REGION_NAME_KEY);
-        checkCredentials(subscriptionId, clientId, clientKey, tenantId, resourceGroupName, regionName);
+        checkCredentials(userCredentials);
+        String subscriptionId = getCredential(userCredentials, SUBSCRIPTION_ID_KEY);
+        String clientId = getCredential(userCredentials, CLIENT_ID_KEY);
+        String clientKey = getCredential(userCredentials, CLIENT_KEY);
+        String tenantId = getCredential(userCredentials, TENANT_ID_KEY);
+        String resourceGroupName = getCredential(userCredentials, RESOURCE_GROUP_NAME_KEY);
+        String regionName = getCredential(userCredentials, REGION_NAME_KEY);
 
         String userId = clientId;
         String userName = clientId;
         AzureUser azureUser = new AzureUser(userId, userName, clientId, tenantId,
                 clientKey, subscriptionId, resourceGroupName, regionName);
         return authenticate(azureUser);
+    }
+
+    private String getCredential(@NotNull Map<String, String> userCredentials, @NotNull AzureConstants.Credential credential) {
+        return userCredentials.get(credential.getValue());
     }
 
     @VisibleForTesting
@@ -39,18 +44,15 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
     }
 
     @VisibleForTesting
-    void checkCredentials(String subscriptionId, String clientId, String clientKey,
-                          String tenantId, String resourceGroupName, String regionName)
+    void checkCredentials(Map<String, String> userCredentials)
             throws InvalidParameterException {
 
-        if(subscriptionId == null || subscriptionId.isEmpty() ||
-                clientId == null || clientId.isEmpty() ||
-                clientKey == null || clientKey.isEmpty() ||
-                tenantId == null || tenantId.isEmpty() ||
-                resourceGroupName == null || resourceGroupName.isEmpty() ||
-                regionName == null || regionName.isEmpty()) {
-
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
+        String value;
+        for (AzureConstants.Credential credential : AzureConstants.Credential.values()) {
+            value = userCredentials.get(credential.getValue());
+            if (value == null || value.isEmpty()) {
+                throw new InvalidParameterException(String.format(Messages.Exception.NO_USER_CREDENTIAL_S, credential.getValue()));
+            }
         }
     }
 
