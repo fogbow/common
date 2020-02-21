@@ -25,6 +25,7 @@ public class Messages {
         public static final String NEITHER_BODY_OR_HEADERS_CAN_BE_NULL = "Neither body or headers can be null";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
+        public static final String NO_USER_CREDENTIAL_S = "No user credential given: %s.";
         public static final String OPERATION_RETURNED_ERROR_S = "Operation returned error: %s";
         public static final String QUOTA_EXCEEDED = "Quota exceeded.";
         public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
@@ -59,11 +60,13 @@ public class Messages {
         public static final String ERROR_WHILE_INSTATIATING_INSTANCE_FROM_TEMPLATE_S = "Error while instatiating instance from template: %s.";
         public static final String UNABLE_TO_CLOSE_FILE_S = "Unable to close file %s.";
         public static final String UNABLE_TO_GET_TOKEN_FROM_JSON = "Unable to get token from json.";
+        public static final String ERROR_WHILE_CREATING_AZURE_CLIENT = "Error while creating a new Azure client";
     }
 
     public static class Info {
         public static final String TEMPLATE_POOL_LENGTH_S = "Template pool length: %s.";
         public static final String USER_POOL_LENGTH_S = "User pool length: %s.";
+        public static final String CREATING_AZURE_CLIENT = "Creating a new Azure client";
     }
 
     public static final class Warn {
