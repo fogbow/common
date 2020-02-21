@@ -31,8 +31,6 @@ public class AzureIdentityProviderPluginTest {
     private static final String DEFAULT_TENANT_ID = "tenant-id";
     private static final String DEFAULT_CLIENT_KEY = "client-key";
     private static final String DEFAULT_SUBSCRIPTION_ID = "subscription-id";
-    private static final String DEFAULT_RESOURCE_GROUP_NAME = "resource-group-name";
-    private static final String DEFAULT_REGION_NAME = "region-name";
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -128,42 +126,6 @@ public class AzureIdentityProviderPluginTest {
         this.azureIdentityProviderPlugin.checkCredentials(userCredentials);
     }
 
-    // test case: When calling the checkCredentials method with parameter regionName null,
-    // it must verify if it throws an UnauthenticatedUserException
-    @Test
-    public void testCheckCredentialsFailWhenRegionNameIsNull() throws InvalidParameterException {
-        // set up
-        String regionName = null;
-        assertCredentials(regionName, REGION_NAME_KEY);
-    }
-
-    // test case: When calling the checkCredentials method with parameter regionName empty,
-    // it must verify if it throws an UnauthenticatedUserException
-    @Test
-    public void testCheckCredentialsFailWhenRegionNameIsEmpty() throws InvalidParameterException {
-        // set up
-        String regionName = "";
-        assertCredentials(regionName, REGION_NAME_KEY);
-    }
-
-    // test case: When calling the checkCredentials method with parameter resourceGroupName null,
-    // it must verify if it throws an UnauthenticatedUserException
-    @Test
-    public void testCheckCredentialsFailWhenResourceGroupNameIsNull() throws InvalidParameterException {
-        // set up
-        String resourceGroupName = null;
-        assertCredentials(resourceGroupName, RESOURCE_GROUP_NAME_KEY);
-    }
-
-    // test case: When calling the checkCredentials method with parameter resourceGroupName empty,
-    // it must verify if it throws an UnauthenticatedUserException
-    @Test
-    public void testCheckCredentialsFailWhenResourceGroupNameIsEmpty() throws InvalidParameterException {
-        // set up
-        String resourceGroupName = "";
-        assertCredentials(resourceGroupName, RESOURCE_GROUP_NAME_KEY);
-    }
-
     // test case: When calling the checkCredentials method with parameter clientKey null,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
@@ -250,10 +212,8 @@ public class AzureIdentityProviderPluginTest {
     }
 
 
-    private Map<String, String> createCredentials(String regionName, String resourceGroupName, String clientKey, String clientId, String subscriptionId, String tenantId) {
+    private Map<String, String> createCredentials(String clientKey, String clientId, String subscriptionId, String tenantId) {
         Map<String, String> credentials = new HashMap<>();
-        credentials.put(REGION_NAME_KEY.getValue(), regionName);
-        credentials.put(RESOURCE_GROUP_NAME_KEY.getValue(), resourceGroupName);
         credentials.put(CLIENT_KEY.getValue(), clientKey);
         credentials.put(CLIENT_ID_KEY.getValue(), clientId);
         credentials.put(SUBSCRIPTION_ID_KEY.getValue(), subscriptionId);
@@ -262,12 +222,12 @@ public class AzureIdentityProviderPluginTest {
     }
 
     private Map<String, String> createCredentials() {
-        return createCredentials(DEFAULT_REGION_NAME, DEFAULT_RESOURCE_GROUP_NAME, DEFAULT_CLIENT_KEY, DEFAULT_CLIENT_ID,
+        return createCredentials(DEFAULT_CLIENT_KEY, DEFAULT_CLIENT_ID,
                 DEFAULT_SUBSCRIPTION_ID, DEFAULT_TENANT_ID);
     }
 
     private AzureUser createUser() {
         return new AzureUser(DEFAULT_CLIENT_ID, DEFAULT_CLIENT_ID, DEFAULT_CLIENT_ID, DEFAULT_TENANT_ID,
-                DEFAULT_CLIENT_KEY, DEFAULT_SUBSCRIPTION_ID, DEFAULT_RESOURCE_GROUP_NAME, DEFAULT_REGION_NAME);
+                DEFAULT_CLIENT_KEY, DEFAULT_SUBSCRIPTION_ID);
     }
 }

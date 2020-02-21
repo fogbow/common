@@ -23,13 +23,11 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
         String clientId = getCredential(userCredentials, CLIENT_ID_KEY);
         String clientKey = getCredential(userCredentials, CLIENT_KEY);
         String tenantId = getCredential(userCredentials, TENANT_ID_KEY);
-        String resourceGroupName = getCredential(userCredentials, RESOURCE_GROUP_NAME_KEY);
-        String regionName = getCredential(userCredentials, REGION_NAME_KEY);
 
         String userId = clientId;
         String userName = clientId;
         AzureUser azureUser = new AzureUser(userId, userName, clientId, tenantId,
-                clientKey, subscriptionId, resourceGroupName, regionName);
+                clientKey, subscriptionId);
         return authenticate(azureUser);
     }
 

@@ -10,21 +10,17 @@ public class AzureUser extends CloudUser {
     private String tenantId;
     private String clientKey;
     private String subscriptionId;
-    private String resourceGroupName;
-    private String regionName;
 
     public AzureUser(String userId, String userName) {
         super(userId, userName);
     }
     
-    public AzureUser(String userId, String userName, String clientId, String tenantId, String clientKey, String subscriptionId, String resourceGroupName, String regionName) {
+    public AzureUser(String userId, String userName, String clientId, String tenantId, String clientKey, String subscriptionId) {
         super(userId, userName);
         this.clientId = clientId;
         this.tenantId = tenantId;
         this.clientKey = clientKey;
         this.subscriptionId = subscriptionId;
-        this.resourceGroupName = resourceGroupName;
-        this.regionName = regionName;
     }
 
     public String getClientId() {
@@ -43,14 +39,6 @@ public class AzureUser extends CloudUser {
         return this.subscriptionId;
     }
 
-    public String getResourceGroupName() {
-        return this.resourceGroupName;
-    }
-
-    public String getRegionName() {
-        return this.regionName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,14 +47,12 @@ public class AzureUser extends CloudUser {
         return clientId.equals(azureUser.clientId) &&
                 tenantId.equals(azureUser.tenantId) &&
                 clientKey.equals(azureUser.clientKey) &&
-                subscriptionId.equals(azureUser.subscriptionId) &&
-                resourceGroupName.equals(azureUser.resourceGroupName) &&
-                regionName.equals(azureUser.regionName);
+                subscriptionId.equals(azureUser.subscriptionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientId, tenantId, clientKey, subscriptionId, resourceGroupName, regionName);
+        return Objects.hash(clientId, tenantId, clientKey, subscriptionId);
     }
 
 }

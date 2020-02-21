@@ -53,7 +53,7 @@ public class AzureClientCacheManagerTest {
     public void testCreateAzure() throws FogbowException {
 
         AzureUser azureUserUnauthorized = new AzureUser(null, null, null,
-                null, null, null, null, null);
+                null, null, null);
 
         // verify
         this.expectedException.expect(FogbowException.class);
