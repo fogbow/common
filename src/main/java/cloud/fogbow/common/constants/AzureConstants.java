@@ -6,6 +6,12 @@ public class AzureConstants {
     public static final String VIRTUAL_MACHINE_STRUCTURE = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Compute/virtualMachines/%s";
     public static final String NETWORK_INTERFACE_STRUCTURE = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/networkInterfaces/%s";
     public static final String BIGGER_STRUCTURE = NETWORK_INTERFACE_STRUCTURE;
+    public static final String VIRTUAL_MACHINE_ID_PREFIX = "vm-";
+    public static final String VIRTUAL_NETWORK_ID_PREFIX = "vnet-";
+    public static final String VOLUME_ID_PREFIX = "vol-";
+    
+    // azure resource name
+    public static final String RESOURCE_NAME_SEPARATOR = "_";
     
     // azure properties keys
     public static final String DEFAULT_NETWORK_INTERFACE_NAME_KEY = "default_network_interface_name";
