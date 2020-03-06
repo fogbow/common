@@ -9,6 +9,7 @@ public class AzureConstants {
     public static final String VIRTUAL_MACHINE_ID_PREFIX = "vm-";
     public static final String VIRTUAL_NETWORK_ID_PREFIX = "vnet-";
     public static final String VOLUME_ID_PREFIX = "vol-";
+    public static final String PUBLIC_IP_ID_PREFIX = "pip-";
     
     // azure resource name
     public static final String RESOURCE_NAME_SEPARATOR = "_";
