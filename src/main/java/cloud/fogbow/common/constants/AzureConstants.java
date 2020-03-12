@@ -7,6 +7,12 @@ public class AzureConstants {
     public static final String VIRTUAL_NETWORK_STRUCTURE = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/virtualNetworks/%s";
     public static final String NETWORK_INTERFACE_STRUCTURE = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/networkInterfaces/%s";
     public static final String BIGGER_STRUCTURE = NETWORK_INTERFACE_STRUCTURE;
+
+    // azure resource name
+    public static final int MAXIMUM_RESOURCE_NAME_LENGTH = 30;
+    
+    // azure tags
+    public static final String TAG_NAME = "Name";
     
     // azure properties keys
     public static final String DEFAULT_NETWORK_INTERFACE_NAME_KEY = "default_network_interface_name";
