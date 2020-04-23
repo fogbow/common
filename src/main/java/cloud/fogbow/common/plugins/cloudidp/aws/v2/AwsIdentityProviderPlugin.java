@@ -14,9 +14,9 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.iam.IamClient;
 import java.util.Map;
 
-public class AwsV2IdentityProviderPlugin implements CloudIdentityProviderPlugin<AwsV2User> {
+public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<AwsV2User> {
 
-    private static final Logger LOGGER = Logger.getLogger(AwsV2IdentityProviderPlugin.class);
+    private static final Logger LOGGER = Logger.getLogger(AwsIdentityProviderPlugin.class);
 
     public AwsV2User getCloudUser(Map<String, String> userCredentials) throws FogbowException {
 

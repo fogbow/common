@@ -1,4 +1,4 @@
-package cloud.fogbow.common.plugins.cloudidp.cloudstack;
+package cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9;
 
 import cloud.fogbow.common.util.GsonHolder;
 import com.google.gson.annotations.SerializedName;

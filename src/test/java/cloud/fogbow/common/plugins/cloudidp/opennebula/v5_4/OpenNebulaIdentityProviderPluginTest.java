@@ -1,4 +1,4 @@
-package cloud.fogbow.common.plugins.cloudidp.opennebula;
+package cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4;
 
 import cloud.fogbow.common.constants.OpenNebulaConstants;
 import cloud.fogbow.common.exceptions.FogbowException;
@@ -6,6 +6,7 @@ import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.OpenNebulaUser;
+import cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4.OpenNebulaIdentityProviderPlugin;
 import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientUtil;
 import org.junit.Assert;
 import org.junit.Before;
