@@ -70,7 +70,6 @@ public class OpenStackConstants {
         public static final String ADDRESSES_KEY_JSON = "addresses";
         public static final String FLAVOR_KEY_JSON = "flavor";
         public static final String STATUS_KEY_JSON = "status";
-        public static final String PROVIDER_KEY_JSON = "provider";
         public static final String ADDRESS_KEY_JSON = "addr";
         public static final String IMAGE_REFERENCE_KEY_JSON = "imageRef";
         public static final String FLAVOR_REFERENCE_KEY_JSON = "flavorRef";
@@ -84,7 +83,6 @@ public class OpenStackConstants {
         public static final String PUBLIC_KEY_KEY_JSON = "public_key";
         public static final String ADD_SECURITY_GROUP_KEY_JSON = "addSecurityGroup";
         public static final String REMOVE_SECURITY_GROUP_KEY_JSON = "removeSecurityGroup";
-        public static final String FLAVORS_KEY_JSON = "flavors";
     }
 
     public static class Network {
