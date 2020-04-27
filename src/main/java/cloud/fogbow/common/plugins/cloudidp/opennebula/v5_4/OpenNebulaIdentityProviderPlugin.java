@@ -1,4 +1,4 @@
-package cloud.fogbow.common.plugins.cloudidp.opennebula;
+package cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4;
 
 import java.util.Map;
 

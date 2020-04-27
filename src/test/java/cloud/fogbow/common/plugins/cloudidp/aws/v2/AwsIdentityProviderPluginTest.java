@@ -14,16 +14,16 @@ import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AwsV2User;
 
-public class AwsV2IdentityProviderPluginTest {
+public class AwsIdentityProviderPluginTest {
 
 	private static final String ANY_VALUE = "anything";
 	private static final String FAKE_USER_ID = "fake-user-id";
 	
-	private AwsV2IdentityProviderPlugin plugin;
+	private AwsIdentityProviderPlugin plugin;
 	
 	@Before
 	public void setUp() {
-		this.plugin = Mockito.spy(new AwsV2IdentityProviderPlugin());
+		this.plugin = Mockito.spy(new AwsIdentityProviderPlugin());
 	}
 	
 	// test case: When invoking the getCloudUser method with an empty user

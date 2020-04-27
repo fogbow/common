@@ -1,10 +1,13 @@
-package cloud.fogbow.common.plugins.cloudidp.cloudstack;
+package cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9.CloudStackIdentityProviderPlugin;
+import cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9.ListAccountsRequest;
+import cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9.LoginRequest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
