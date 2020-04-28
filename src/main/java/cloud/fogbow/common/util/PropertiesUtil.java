@@ -14,6 +14,7 @@ public class PropertiesUtil {
     private static final Logger LOGGER = Logger.getLogger(PropertiesUtil.class.getName());
 
     public static Properties readProperties(String fileName) throws FatalErrorException {
+        LOGGER.info(String.format("Reading properties from file: %s", fileName));
         Properties prop = new Properties();
         FileInputStream fileInputStream = null;
 
