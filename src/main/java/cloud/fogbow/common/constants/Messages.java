@@ -10,7 +10,7 @@ public class Messages {
         public static final String ATTEMPTING_TO_REMOVE_A_NULL_ITEM = "Attempting to remove a null item.";
         public static final String AUTHENTICATION_ERROR = "Authentication error.";
         public static final String AUTHORIZATION_ERROR = "Authorization error.";
-        public static final String CLASS_S_SHOULD_BE_CLONEABLE = "Class %s should be cloneable";
+        public static final String CANNOT_DELETE_INSTANCE_WHILE_IT_IS_BEING_CREATED = "Cannot delete an instance while it is being created.";
         public static final String CONFIGURATION_ERROR = "There's an error in configuration files.";
         public static final String FATAL_ERROR = "Fatal error.";
         public static final String FOGBOW = "Fogbow exception.";
