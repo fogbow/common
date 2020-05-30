@@ -41,6 +41,7 @@ public class OpenStackConstants {
     public static final String FLAVORS_ENDPOINT = "/flavors";
     public static final String EXTRA_SPECS_ENDPOINT = "/os-extra_specs";
     public static final String OS_VOLUME_ATTACHMENTS = "/os-volume_attachments";
+    public static final String QUERY_FIELD_S = "?%s=";
 
     public static class Volume {
         public static final String VOLUME_KEY_JSON = "volume";
