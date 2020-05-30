@@ -11,6 +11,9 @@ public class CidrUtils {
     private static final String ipv4Pattern = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
     private static final String ipv6Pattern = "([0-9a-f]{1,4}:){7}([0-9a-f]){1,4}";
 
+    public static final String DEFAULT_IPV4_CIDR = "0.0.0.0/0";
+    public static final String DEFAULT_IPV6_CIDR = "::/0";
+
     static {
         try {
             VALID_IPV4_PATTERN = Pattern.compile(ipv4Pattern, Pattern.CASE_INSENSITIVE);
