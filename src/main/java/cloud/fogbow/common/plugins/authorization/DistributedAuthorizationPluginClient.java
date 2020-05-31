@@ -1,7 +1,6 @@
 package cloud.fogbow.common.plugins.authorization;
 
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.RestfulFogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
 
@@ -19,7 +18,7 @@ public abstract class DistributedAuthorizationPluginClient implements Authorizat
     }
 
     @Override
-    public boolean isAuthorized(SystemUser systemUserToken, RestfulFogbowOperation operation) throws UnexpectedException, UnauthorizedRequestException {
+    public boolean isAuthorized(SystemUser systemUserToken, RestfulFogbowOperation operation) throws UnauthorizedRequestException {
         String endpoint = operation.getEndpoint();
         StringBuffer content = null;
 
