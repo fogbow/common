@@ -27,7 +27,9 @@ import java.util.Map;
 public class HttpRequestClient {
 
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClient.class);
-    private static final int UNDISCERNED_HTTP_STATUS_CODE = -1;
+
+    @VisibleForTesting
+    static final int UNDISCERNED_HTTP_STATUS_CODE = -1;
 
     public static HttpResponse doGenericRequest(HttpMethod method, String endpoint, Map<String, String> headers,
             Map<String, String> body) throws FogbowException {
@@ -90,10 +92,10 @@ public class HttpRequestClient {
         if (!body.isEmpty()) {
             connection.setDoOutput(true);
             try {
-                OutputStream os = connection.getOutputStream();
-                os.write(toByteArray(body));
-                os.flush();
-                os.close();
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(toByteArray(body));
+                outputStream.flush();
+                outputStream.close();
             } catch (IOException e) {
                 throw new UnexpectedException(e.getMessage());
             }
@@ -110,7 +112,8 @@ public class HttpRequestClient {
     static HttpURLConnection prepareConnection(String endpoint, HttpMethod method, Map<String, String> headers)
             throws FogbowException {
 
-        HttpURLConnection connection = openConnection(endpoint);
+        URL url = createConnectionUrl(endpoint);
+        HttpURLConnection connection = openConnection(url);
         setMethodIntoConnection(connection, method);
         addHeadersIntoConnection(connection, headers);
         return connection;
@@ -134,8 +137,7 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
-    static HttpURLConnection openConnection(String endpoint) throws FogbowException {
-        URL url = createUrlEndpoint(endpoint);
+    static HttpURLConnection openConnection(URL url) throws FogbowException {
         try {
             return (HttpURLConnection) url.openConnection();
         } catch (IOException e) {
@@ -144,7 +146,7 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
-    static URL createUrlEndpoint(String endpoint) throws FogbowException {
+    static URL createConnectionUrl(String endpoint) throws FogbowException {
         try {
             return new URL(endpoint);
         } catch (MalformedURLException e) {
