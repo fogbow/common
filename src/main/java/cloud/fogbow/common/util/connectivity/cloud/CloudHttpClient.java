@@ -7,6 +7,7 @@ import cloud.fogbow.common.util.GsonHolder;
 import cloud.fogbow.common.util.connectivity.HttpRequest;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 
@@ -18,7 +19,6 @@ import java.util.Map;
 
 public abstract class CloudHttpClient<T extends CloudUser> {
 
-    public static final String BLANK_SPACE = " ";
     public static final String DESCRIPTION_KEY = "X-Description";
     public static final String EMPTY_BODY = "{}";
     public static final int SC_REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
@@ -63,9 +63,7 @@ public abstract class CloudHttpClient<T extends CloudUser> {
         String message = null;
         if (responseHeaders.containsKey(DESCRIPTION_KEY)) {
             List<String> descriptions = responseHeaders.get(DESCRIPTION_KEY);
-            for (String phrase : descriptions) {
-                message += phrase + BLANK_SPACE;
-            }
+            message = descriptions.listIterator().next();
         }
         return message;
     }
