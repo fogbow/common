@@ -68,8 +68,8 @@ public class HttpRequestClientTest {
         HttpRequestClient.doGenericRequest(httpMethod, validUrl, headers, body);
     }
 
-    // test case: When calling the doGenericRequest method, it must verify that
-    // is call was successful.
+    // test case: When calling the doGenericRequest method, it must verify if
+    // the call was successful.
     @Test
     public void testDoGenericRequestSuccessfully() throws Exception {
         // set up
@@ -109,8 +109,8 @@ public class HttpRequestClientTest {
         HttpRequestClient.getHttpResponse(Mockito.eq(connection));
     }
 
-    // test case: When calling the getHttpResponse method, it must verify that
-    // is call was successful.
+    // test case: When calling the getHttpResponse method, it must verify if the
+    // call was successful.
     @Test
     public void testGetHttpResponseSuccessfully() throws Exception {
         // set up
@@ -165,13 +165,14 @@ public class HttpRequestClientTest {
             HttpRequestClient.getHttpResponse(connection);
             Assert.fail();
         } catch (UnexpectedException e) {
+            // Verify
             PowerMockito.verifyStatic(HttpErrorToFogbowExceptionMapper.class, Mockito.times(RUN_ONCE));
             HttpErrorToFogbowExceptionMapper.map(Mockito.eq(expectedHttpStatus), Mockito.eq(message));
         }
     }
 
-    // test case: When calling the getResponseBody method, it must verify that
-    // is call was successful.
+    // test case: When calling the getResponseBody method, it must verify if the
+    // call was successful.
     @Test
     public void testGetResponseBodySuccessfully() throws Exception {
         // set up
@@ -198,7 +199,7 @@ public class HttpRequestClientTest {
     }
 
     // test case: When calling the getResponseFrom method with a valid input
-    // stream object, it must verify that is call was successful.
+    // stream object, it must verify if the call was successful.
     @Test
     public void testGetResponseFromInputStreamSuccessfully() throws Exception {
         // set up
@@ -230,7 +231,7 @@ public class HttpRequestClientTest {
     }
 
     // test case: When calling the sendRequestBody method with a valid
-    // connection and a body non-empty, it must verify that is call was
+    // connection and a body non-empty, it must verify that if the call was
     // successful.
     @Test
     public void testSendRequestBodySuccessfully() throws Exception {
@@ -262,8 +263,8 @@ public class HttpRequestClientTest {
         Mockito.verify(outputStream, Mockito.times(RUN_ONCE)).close();
     }
 
-    // test case: When calling the prepareConnection method, it must verify that
-    // is call was successful.
+    // test case: When calling the prepareConnection method, it must verify if
+    // the call was successful.
     @Test
     public void testPrepareConnectionSuccessfully() throws Exception {
         // set up
@@ -309,7 +310,7 @@ public class HttpRequestClientTest {
     }
 
     // test case: When calling the setMethodIntoConnection method, it must
-    // verify that is call was successful.
+    // verify that if the call was successful.
     @Test
     public void testSetMethodIntoConnectionSuccessfully() throws Exception {
         // set up
