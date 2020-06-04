@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util.connectvity.cloud.cloudstack;
+package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
