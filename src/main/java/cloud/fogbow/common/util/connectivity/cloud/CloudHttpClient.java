@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util.connectivity.cloud;
 
+import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.models.CloudUser;
@@ -19,7 +20,6 @@ import java.util.Map;
 
 public abstract class CloudHttpClient<T extends CloudUser> {
 
-    public static final String DESCRIPTION_KEY = "X-Description";
     public static final String EMPTY_BODY = "{}";
     public static final int SC_REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
 
@@ -61,8 +61,8 @@ public abstract class CloudHttpClient<T extends CloudUser> {
     @VisibleForTesting
     String getMessageFrom(Map<String, List<String>> responseHeaders) {
         String message = null;
-        if (responseHeaders.containsKey(DESCRIPTION_KEY)) {
-            List<String> descriptions = responseHeaders.get(DESCRIPTION_KEY);
+        if (responseHeaders.containsKey(CloudStackConstants.X_DESCRIPTION_KEY)) {
+            List<String> descriptions = responseHeaders.get(CloudStackConstants.X_DESCRIPTION_KEY);
             message = descriptions.listIterator().next();
         }
         return message;
@@ -71,7 +71,7 @@ public abstract class CloudHttpClient<T extends CloudUser> {
     public HttpResponse doGenericRequest(HttpMethod method, String url, Map<String, String> headers,
             Map<String, String> body, T cloudUser) throws FogbowException {
 
-        HttpRequest request = new HttpRequest(method, url, body, headers);
+        HttpRequest request = createHttpRequest(method, url, body, headers);
         HttpRequest preparedRequest = prepareRequest(request, cloudUser);
 
         HttpMethod requestMethod = preparedRequest.getMethod();
@@ -79,6 +79,12 @@ public abstract class CloudHttpClient<T extends CloudUser> {
         Map<String, String> requestHeaders = preparedRequest.getHeaders();
         Map<String, String> requestBody = preparedRequest.getBody();
         return HttpRequestClient.doGenericRequest(requestMethod, requestUrl, requestHeaders, requestBody);
+    }
+
+    @VisibleForTesting
+    HttpRequest createHttpRequest(HttpMethod method, String url, Map<String, String> body,
+            Map<String, String> headers) {
+        return new HttpRequest(method, url, body, headers);
     }
 
     public abstract HttpRequest prepareRequest(HttpRequest genericRequest, T cloudUser);
