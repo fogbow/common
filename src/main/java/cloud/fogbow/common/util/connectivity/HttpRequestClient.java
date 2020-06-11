@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 public class HttpRequestClient {
 
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClient.class);
@@ -53,13 +55,14 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
+    @Nullable
     static String getResponseBody(HttpURLConnection connection) {
         String response = null;
         try {
             InputStream inputStream = connection.getInputStream();
             response = getResponseFrom(inputStream);
         } catch (IOException e) {
-            LOGGER.error(String.format(Messages.Error.ERROR_MESSAGE_IS_S, e.getMessage()), e);
+            LOGGER.warn(String.format(Messages.Error.ERROR_MESSAGE_IS_S, e.getMessage()), e);
         }
         return response;
     }
