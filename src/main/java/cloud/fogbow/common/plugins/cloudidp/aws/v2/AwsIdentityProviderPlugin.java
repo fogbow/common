@@ -28,7 +28,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
         return new AwsV2User(userId, userId, accessKey, secretAccessKey);
     }
 
-    private void checkCredentials(String accessKey, String secretAccessKey) throws InvalidParameterException{
+    private void checkCredentials(String accessKey, String secretAccessKey) throws InvalidParameterException {
         if(accessKey == null || secretAccessKey == null) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }

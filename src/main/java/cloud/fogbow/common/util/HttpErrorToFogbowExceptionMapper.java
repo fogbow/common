@@ -15,9 +15,9 @@ public class HttpErrorToFogbowExceptionMapper {
             case HttpStatus.SC_NOT_FOUND:
                 return new InstanceNotFoundException(message);
             case HttpStatus.SC_CONFLICT:
-                return new QuotaExceededException(message);
+                return new ConfigurationErrorException(message);
             case HttpStatus.SC_NOT_ACCEPTABLE:
-                return new NoAvailableResourcesException(message);
+                return new UnacceptableOperationException(message);
             case HttpStatus.SC_GATEWAY_TIMEOUT:
                 return new UnavailableProviderException(message);
             case HttpStatus.SC_INTERNAL_SERVER_ERROR:
