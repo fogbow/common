@@ -34,7 +34,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
         }
     }
 
-    protected String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException{
+    protected String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException {
         try {
             AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretAccessKey);
             StaticCredentialsProvider awsProvider = StaticCredentialsProvider.create(awsCreds);
@@ -45,7 +45,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
             
             return client.getUser().user().userId();
         } catch (Exception e) {
-            LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR, e);
+            LOGGER.error(Messages.Log.AUTHENTICATION_ERROR, e);
             throw new UnauthenticatedUserException(e.getMessage());
         }
     }

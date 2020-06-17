@@ -113,15 +113,14 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         HttpResponse response = doGenerateAccountsList(request, cookieHeaders);
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
-            FogbowException exception = HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
-            throw exception;
+            throw HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
         } else {
             try {
                 ListAccountsResponse listAccountsResponse = ListAccountsResponse.fromJson(response.getContent());
                 return mountCloudStackUser(listAccountsResponse, cookieHeaders);
             } catch (Exception e) {
-                LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-                throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+                LOGGER.error(Messages.Log.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+                throw new UnexpectedException(Messages.Exception.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
             }
         }
     }

@@ -1,6 +1,7 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AzureUser;
@@ -34,7 +35,7 @@ public class AzureClientCacheManager {
                 .build(new CacheLoader<AzureUser, Azure>() {
                     @Override
                     public Azure load(AzureUser azureUser) throws Exception {
-                        LOGGER.debug(Messages.Info.CREATING_AZURE_CLIENT);
+                        LOGGER.debug(Messages.Log.CREATING_AZURE_CLIENT);
                         return createAzure(azureUser);
                     }
                 });
@@ -59,7 +60,7 @@ public class AzureClientCacheManager {
                     .authenticate(azureTokenCredentials)
                     .withDefaultSubscription();
         } catch (IOException | Error e) {
-            throw new FogbowException(Messages.Error.ERROR_WHILE_CREATING_AZURE_CLIENT, e);
+            throw new ConfigurationErrorException(Messages.Exception.ERROR_WHILE_CREATING_AZURE_CLIENT, e);
         }
     }
 

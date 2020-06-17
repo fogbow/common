@@ -9,6 +9,10 @@ public class UnauthorizedRequestException extends FogbowException {
         super(Messages.Exception.AUTHORIZATION_ERROR);
     }
 
+    public UnauthorizedRequestException(Throwable cause) {
+        super(Messages.Exception.AUTHORIZATION_ERROR, cause);
+    }
+
     public UnauthorizedRequestException(String message) {
         super(message);
     }

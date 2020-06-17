@@ -54,7 +54,7 @@ public class SystemUser extends User {
             SystemUser systemUser = serializedSystemUserHolder.getSerializedEntity();
             return systemUser;
         } catch (ClassNotFoundException e) {
-            throw new UnexpectedException(Messages.Exception.UNABLE_TO_FIND_SYSTEM_USER_CLASS_S);
+            throw new UnexpectedException(Messages.Exception.UNABLE_TO_FIND_SYSTEM_USER_CLASS);
         }
     }
 }

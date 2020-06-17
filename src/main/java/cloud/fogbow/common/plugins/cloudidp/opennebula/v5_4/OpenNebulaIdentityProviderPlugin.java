@@ -49,7 +49,7 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
 
         String openNebulaTokenValue = username + OpenNebulaConstants.TOKEN_VALUE_SEPARATOR + password;
         if (!isAuthenticated(openNebulaTokenValue)) {
-            LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR);
+            LOGGER.error(Messages.Log.AUTHENTICATION_ERROR);
             throw new UnauthenticatedUserException();
         }
 
@@ -82,14 +82,13 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
         	client = OpenNebulaClientUtil.createClient(this.endpoint, openNebulaTokenValue);
         	userPool = OpenNebulaClientUtil.getUserPool(client);
         } catch (UnexpectedException e) {
-            LOGGER.error(Messages.Exception.UNEXPECTED, e);
+            LOGGER.error(Messages.Log.UNEXPECTED, e);
             return false;
         }
 
         OneResponse info = userPool.info();
         if (info.isError()) {
-            LOGGER.error(String.format(
-                    Messages.Exception.OPERATION_RETURNED_ERROR_S, info.getMessage()));
+            LOGGER.error(String.format(Messages.Exception.OPERATION_RETURNED_ERROR_S, info.getMessage()));
             return false;
         }
         return true;
@@ -98,7 +97,7 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
 	private boolean isUrlValid(String url) throws FatalErrorException {
 		if (url == null || url.trim().isEmpty()) {
 			throw new FatalErrorException(
-					String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : url)));
+					String.format(Messages.Exception.INVALID_SERVICE_URL_S, (url == null ? "null" : url)));
 		}
 		return true;
 	}

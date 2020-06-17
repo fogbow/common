@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util;
 
+import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class ServiceAsymmetricKeysHolderTest {
     }
 
     @Test
-    public void getPublicKey() throws IOException, GeneralSecurityException {
+    public void getPublicKey() throws IOException, GeneralSecurityException, ConfigurationErrorException {
         //setup
         RSAPublicKey expectedPublicKey = CryptoUtil.getPublicKey(pubKeyPath);
 
@@ -41,7 +42,7 @@ public class ServiceAsymmetricKeysHolderTest {
     }
 
     @Test
-    public void getPrivateKey() throws IOException, GeneralSecurityException {
+    public void getPrivateKey() throws IOException, GeneralSecurityException, ConfigurationErrorException {
         //setup
         RSAPrivateKey expectedPrivateKey = CryptoUtil.getPrivateKey(privKeyPath);
 

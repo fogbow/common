@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util;
 
+import cloud.fogbow.common.exceptions.UnexpectedException;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
@@ -159,7 +160,7 @@ public class CloudInitUserDataBuilder {
     /**
      * Initiates a new instance of the builder with the "UTF-8" charset.
      */
-    public static CloudInitUserDataBuilder start() {
+    public static CloudInitUserDataBuilder start() throws UnexpectedException {
         return new CloudInitUserDataBuilder(Charsets.UTF_8);
     }
 
@@ -168,7 +169,7 @@ public class CloudInitUserDataBuilder {
      *
      * @param charset used to generate the mime message.
      */
-    public static CloudInitUserDataBuilder start(String charset) {
+    public static CloudInitUserDataBuilder start(String charset) throws UnexpectedException {
         return new CloudInitUserDataBuilder(Charset.forName(charset));
     }
 
@@ -192,14 +193,14 @@ public class CloudInitUserDataBuilder {
      */
     private final MimeMultipart userDataMultipart;
 
-    private CloudInitUserDataBuilder(Charset charset) {
+    private CloudInitUserDataBuilder(Charset charset) throws UnexpectedException {
         super();
         this.userDataMimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()));
         this.userDataMultipart = new MimeMultipart();
         try {
             this.userDataMimeMessage.setContent(this.userDataMultipart);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new UnexpectedException(e.getMessage());
         }
         this.charset = Preconditions.checkNotNull(charset, "'charset' can NOT be null");
     }
@@ -213,7 +214,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#CLOUD_BOOTHOOK
      */
-    public CloudInitUserDataBuilder addBootHook(Readable bootHook) {
+    public CloudInitUserDataBuilder addBootHook(Readable bootHook) throws UnexpectedException {
         return addFile(FileType.CLOUD_BOOTHOOK, bootHook);
     }
 
@@ -226,7 +227,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#CLOUD_CONFIG
      */
-    public CloudInitUserDataBuilder addCloudConfig(Readable cloudConfig) {
+    public CloudInitUserDataBuilder addCloudConfig(Readable cloudConfig) throws UnexpectedException {
         return addFile(FileType.CLOUD_CONFIG, cloudConfig);
     }
 
@@ -239,7 +240,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#CLOUD_CONFIG
      */
-    public CloudInitUserDataBuilder addCloudConfig(String cloudConfig) {
+    public CloudInitUserDataBuilder addCloudConfig(String cloudConfig) throws UnexpectedException {
         return addCloudConfig(new StringReader(cloudConfig));
     }
 
@@ -252,8 +253,7 @@ public class CloudInitUserDataBuilder {
      * @throws IllegalArgumentException the given <code>fileType</code> was already added to this
      *                                  cloud-init mime message.
      */
-    public CloudInitUserDataBuilder addFile(FileType fileType, Readable in)
-            throws IllegalArgumentException {
+    public CloudInitUserDataBuilder addFile(FileType fileType, Readable in) throws UnexpectedException {
         Preconditions.checkNotNull(fileType, "'fileType' can NOT be null");
         Preconditions.checkNotNull(in, "'in' can NOT be null");
         // Preconditions.checkArgument(!alreadyAddedFileTypes.contains(fileType),
@@ -268,10 +268,8 @@ public class CloudInitUserDataBuilder {
             mimeBodyPart.setFileName((this.userDataCounter++) + fileType.getFileName());
             this.userDataMultipart.addBodyPart(mimeBodyPart);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | MessagingException e) {
+            throw new UnexpectedException(e.getMessage());
         }
         return this;
     }
@@ -285,7 +283,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#INCLUDE_URL
      */
-    public CloudInitUserDataBuilder addIncludeUrl(Readable includeUrl) {
+    public CloudInitUserDataBuilder addIncludeUrl(Readable includeUrl) throws UnexpectedException {
         return addFile(FileType.INCLUDE_URL, includeUrl);
     }
 
@@ -298,7 +296,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#INCLUDE_URL
      */
-    public CloudInitUserDataBuilder addIncludeUrl(String includeUrl) {
+    public CloudInitUserDataBuilder addIncludeUrl(String includeUrl) throws UnexpectedException {
         return addIncludeUrl(new StringReader(includeUrl));
     }
 
@@ -311,7 +309,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#PART_HANDLER
      */
-    public CloudInitUserDataBuilder addPartHandler(Readable partHandler) {
+    public CloudInitUserDataBuilder addPartHandler(Readable partHandler) throws UnexpectedException {
         return addFile(FileType.PART_HANDLER, partHandler);
     }
 
@@ -324,7 +322,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#PART_HANDLER
      */
-    public CloudInitUserDataBuilder addPartHandler(String partHandler) {
+    public CloudInitUserDataBuilder addPartHandler(String partHandler) throws UnexpectedException {
         return addPartHandler(new StringReader(partHandler));
     }
 
@@ -337,7 +335,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#SHELL_SCRIPT
      */
-    public CloudInitUserDataBuilder addShellScript(Readable shellScript) {
+    public CloudInitUserDataBuilder addShellScript(Readable shellScript) throws UnexpectedException {
         return addFile(FileType.SHELL_SCRIPT, shellScript);
     }
 
@@ -350,33 +348,33 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#SHELL_SCRIPT
      */
-    public CloudInitUserDataBuilder addShellScript(String shellScript) {
+    public CloudInitUserDataBuilder addShellScript(String shellScript) throws UnexpectedException {
         return addShellScript(new StringReader(shellScript));
     }
 
     /**
      * Add a upstart-job file.
      *
-     * @param shellScript
+     * @param in
      * @return the builder
      * @throws IllegalArgumentException a upstart-job file was already added to this cloud-init mime
      *                                  message.
      * @see FileType#UPSTART_JOB
      */
-    public CloudInitUserDataBuilder addUpstartJob(Readable in) {
+    public CloudInitUserDataBuilder addUpstartJob(Readable in) throws UnexpectedException {
         return addFile(FileType.UPSTART_JOB, in);
     }
 
     /**
      * Add a upstart-job file.
      *
-     * @param shellScript
+     * @param upstartJob
      * @return the builder
      * @throws IllegalArgumentException a upstart-job file was already added to this cloud-init mime
      *                                  message.
      * @see FileType#UPSTART_JOB
      */
-    public CloudInitUserDataBuilder addUpstartJob(String upstartJob) {
+    public CloudInitUserDataBuilder addUpstartJob(String upstartJob) throws UnexpectedException {
         return addUpstartJob(new StringReader(upstartJob));
     }
 
@@ -385,16 +383,14 @@ public class CloudInitUserDataBuilder {
      *
      * @return the generate mime message
      */
-    public String buildUserData() {
+    public String buildUserData() throws UnexpectedException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             this.userDataMimeMessage.writeTo(baos);
             return new String(baos.toByteArray(), this.charset);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (MessagingException | IOException e) {
+            throw new UnexpectedException(e.getMessage());
         }
     }
 
@@ -403,7 +399,7 @@ public class CloudInitUserDataBuilder {
      *
      * @return the base64 encoded encoded mime message
      */
-    public String buildBase64UserData() {
+    public String buildBase64UserData() throws UnexpectedException {
         return Base64.encodeBase64String(buildUserData().getBytes());
     }
 }

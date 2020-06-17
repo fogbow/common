@@ -205,7 +205,7 @@ public class AzureIdentityProviderPluginTest {
 
         // verify
         this.expectedException.expect(InvalidParameterException.class);
-        this.expectedException.expectMessage(String.format(Messages.Exception.NO_USER_CREDENTIAL_S, credential.getValue()));
+        this.expectedException.expectMessage(Messages.Exception.NO_USER_CREDENTIALS);
 
         // exercise
         this.azureIdentityProviderPlugin.checkCredentials(credentials);

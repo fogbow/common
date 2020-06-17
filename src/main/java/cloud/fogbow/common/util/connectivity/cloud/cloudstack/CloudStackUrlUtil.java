@@ -36,7 +36,7 @@ public class CloudStackUrlUtil {
             query = requestEndpoint.toString().substring(
                     requestEndpoint.toString().indexOf("?") + 1);
         } catch (IndexOutOfBoundsException e) {
-            LOGGER.warn(Messages.Warn.UNABLE_TO_GENERATE_SIGNATURE, e);
+            LOGGER.info(Messages.Log.UNABLE_TO_GENERATE_SIGNATURE, e);
             throw new UnauthorizedRequestException();
         }
 
@@ -67,7 +67,7 @@ public class CloudStackUrlUtil {
 
             requestEndpoint.addParameter(SIGNATURE, signature);
         } catch (Exception e) {
-            LOGGER.warn(Messages.Warn.UNABLE_TO_GENERATE_SIGNATURE, e);
+            LOGGER.warn(Messages.Log.UNABLE_TO_GENERATE_SIGNATURE, e);
             throw new UnauthorizedRequestException();
         }
     }
@@ -80,7 +80,7 @@ public class CloudStackUrlUtil {
             uriBuilder.addParameter(RESPONSE_FORMAT, JSON);
             return uriBuilder;
         } catch (Exception e) {
-            throw new InvalidParameterException(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S);
+            throw new InvalidParameterException(String.format(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S, endpoint));
         }
     }
 }

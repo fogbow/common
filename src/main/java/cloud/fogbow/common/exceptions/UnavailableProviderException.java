@@ -9,6 +9,10 @@ public class UnavailableProviderException extends FogbowException {
         super(Messages.Exception.UNAVAILABLE_PROVIDER);
     }
 
+    public UnavailableProviderException(Throwable cause) {
+        super(Messages.Exception.UNAVAILABLE_PROVIDER, cause);
+    }
+
     public UnavailableProviderException(String message) {
         super(message);
     }

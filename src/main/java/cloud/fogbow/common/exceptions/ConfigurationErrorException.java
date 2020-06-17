@@ -9,6 +9,10 @@ public class ConfigurationErrorException extends FogbowException {
         super(Messages.Exception.CONFIGURATION_ERROR);
     }
 
+    public ConfigurationErrorException(Throwable cause) {
+        super(Messages.Exception.CONFIGURATION_ERROR, cause);
+    }
+
     public ConfigurationErrorException(String message) {
         super(message);
     }

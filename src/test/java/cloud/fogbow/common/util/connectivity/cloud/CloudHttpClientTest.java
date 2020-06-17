@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cloud.fogbow.common.exceptions.FogbowException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 import org.junit.Assert;
@@ -138,7 +139,7 @@ public class CloudHttpClientTest {
     }
 
     // test case: When calling the callDoGenericRequest method with non-content
-    // response status codes, it must verify that the HttpResponseException was
+    // response status codes, it must verify that the FogbowException was
     // thrown.
     @Test
     public void testCallDoGenericRequestFail() throws Exception {
@@ -155,15 +156,13 @@ public class CloudHttpClientTest {
         Mockito.when(this.client.doGenericRequest(Mockito.eq(method), Mockito.eq(url),
                 Mockito.anyMap(), Mockito.anyMap(), Mockito.eq(this.cloudUser))).thenReturn(response );
 
-        String expected = String.format(STATUS_CODE_MESSAGE_FORMAT, HttpStatus.SC_FORBIDDEN);
-
         try {
             // exercise
             this.client.callDoGenericRequest(method, url, bodyContent, this.cloudUser);
             Assert.fail();
-        } catch (HttpResponseException e) {
+        } catch (FogbowException e) {
             // verify
-            Assert.assertEquals(expected, e.getMessage());
+            Assert.assertEquals(null, e.getMessage());
         }
     }
 
@@ -189,16 +188,13 @@ public class CloudHttpClientTest {
         Mockito.when(this.client.doGenericRequest(Mockito.eq(method), Mockito.eq(url),
                 Mockito.anyMap(), Mockito.anyMap(), Mockito.eq(this.cloudUser))).thenReturn(response );
 
-        String expected = String
-                .format(COMPLETE_MESSAGE_FORMAT, CloudHttpClient.SC_REQUEST_HEADER_FIELDS_TOO_LARGE, ANY_VALUE);
-
         try {
             // exercise
             this.client.callDoGenericRequest(method, url, bodyContent, this.cloudUser);
             Assert.fail();
-        } catch (HttpResponseException e) {
+        } catch (FogbowException e) {
             // verify
-            Assert.assertEquals(expected, e.getMessage());
+            Assert.assertEquals(ANY_VALUE, e.getMessage());
         }
     }
 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cloud.fogbow.common.exceptions.UnavailableProviderException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,8 +52,8 @@ public class HttpRequestClientTest {
 
     // test case: When invoking the doGenericRequest method with a valid URL,
     // but can not open a connection through this URL, it must throw the
-    // UnexpectedException.
-    @Test(expected = UnexpectedException.class) // verify
+    // UnavailableProviderException.
+    @Test(expected = UnavailableProviderException.class) // verify
     public void testDoGenericRequestWithoutAValidConnection() throws FogbowException {
         // set up
         HttpMethod httpMethod = HttpMethod.GET;
@@ -357,7 +358,7 @@ public class HttpRequestClientTest {
     }
 
     // test case: When calling the openConnection method and an error occurs, it
-    // must verify that an UnexpectedException has been thrown.
+    // must verify that an InvalidParameterException has been thrown.
     @Test
     public void testOpenConnectionFail() throws Exception {
         // set up
@@ -374,7 +375,7 @@ public class HttpRequestClientTest {
             // exercise
             HttpRequestClient.openConnection(url);
             Assert.fail();
-        } catch (UnexpectedException e) {
+        } catch (InvalidParameterException e) {
             // verify
             Assert.assertEquals(message, e.getMessage());
         }

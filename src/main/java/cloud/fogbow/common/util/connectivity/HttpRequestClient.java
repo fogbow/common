@@ -4,6 +4,7 @@ import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
+import cloud.fogbow.common.exceptions.UnavailableProviderException;
 import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.util.GsonHolder;
 import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
@@ -62,7 +63,7 @@ public class HttpRequestClient {
             InputStream inputStream = connection.getInputStream();
             response = getResponseFrom(inputStream);
         } catch (IOException e) {
-            LOGGER.warn(String.format(Messages.Error.ERROR_MESSAGE_IS_S, e.getMessage()), e);
+            LOGGER.warn(String.format(Messages.Log.ERROR_MESSAGE_IS_S, e.getMessage()), e);
         }
         return response;
     }
@@ -91,7 +92,8 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
-    static void sendRequestBody(HttpURLConnection connection, Map<String, String> body) throws FogbowException {
+    static void sendRequestBody(HttpURLConnection connection, Map<String, String> body)
+            throws UnavailableProviderException {
         if (!body.isEmpty()) {
             connection.setDoOutput(true);
             try {
@@ -100,7 +102,7 @@ public class HttpRequestClient {
                 outputStream.flush();
                 outputStream.close();
             } catch (IOException e) {
-                throw new UnexpectedException(e.getMessage());
+                throw new UnavailableProviderException(e.getMessage());
             }
         }
     }
@@ -113,7 +115,7 @@ public class HttpRequestClient {
 
     @VisibleForTesting
     static HttpURLConnection prepareConnection(String endpoint, HttpMethod method, Map<String, String> headers)
-            throws FogbowException {
+            throws InvalidParameterException, UnexpectedException {
 
         URL url = createConnectionUrl(endpoint);
         HttpURLConnection connection = openConnection(url);
@@ -130,7 +132,7 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
-    static void setMethodIntoConnection(HttpURLConnection connection, HttpMethod method) throws FogbowException {
+    static void setMethodIntoConnection(HttpURLConnection connection, HttpMethod method) throws InvalidParameterException {
         try {
             String methodName = method.getName();
             connection.setRequestMethod(methodName);
@@ -140,16 +142,16 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
-    static HttpURLConnection openConnection(URL url) throws FogbowException {
+    static HttpURLConnection openConnection(URL url) throws InvalidParameterException {
         try {
             return (HttpURLConnection) url.openConnection();
         } catch (IOException e) {
-            throw new UnexpectedException(e.getMessage());
+            throw new InvalidParameterException(e.getMessage());
         }
     }
 
     @VisibleForTesting
-    static URL createConnectionUrl(String endpoint) throws FogbowException {
+    static URL createConnectionUrl(String endpoint) throws InvalidParameterException {
         try {
             return new URL(endpoint);
         } catch (MalformedURLException e) {

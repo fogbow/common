@@ -9,6 +9,10 @@ public class UnexpectedException extends FogbowException {
         super(Messages.Exception.UNEXPECTED);
     }
 
+    public UnexpectedException(Throwable cause) {
+        super(Messages.Exception.UNEXPECTED, cause);
+    }
+
     public UnexpectedException(String message) {
         super(message);
     }

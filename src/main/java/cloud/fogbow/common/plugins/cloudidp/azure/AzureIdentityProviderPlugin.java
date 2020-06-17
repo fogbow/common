@@ -37,7 +37,7 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
 
     @VisibleForTesting
     AzureUser authenticate(AzureUser azureUser) throws UnauthenticatedUserException {
-        checkAzureClient(azureUser);
+        AzureClientCacheManager.getAzure(azureUser);
         return azureUser;
     }
 
@@ -49,16 +49,8 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
         for (AzureConstants.Credential credential : AzureConstants.Credential.values()) {
             value = userCredentials.get(credential.getValue());
             if (value == null || value.isEmpty()) {
-                throw new InvalidParameterException(String.format(Messages.Exception.NO_USER_CREDENTIAL_S, credential.getValue()));
+                throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
             }
-        }
-    }
-
-    private void checkAzureClient(AzureUser azureUser) throws UnauthenticatedUserException {
-        try {
-            AzureClientCacheManager.getAzure(azureUser);
-        } catch (UnauthenticatedUserException e) {
-            throw e;
         }
     }
 

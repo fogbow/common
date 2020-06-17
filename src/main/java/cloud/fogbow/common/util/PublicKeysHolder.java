@@ -28,7 +28,7 @@ public class PublicKeysHolder {
         try {
             uri = new URI(serviceAddress);
         } catch (URISyntaxException e) {
-            throw new ConfigurationErrorException(String.format(Messages.Exception.INVALID_URL, serviceAddress));
+            throw new ConfigurationErrorException(String.format(Messages.Exception.INVALID_SERVICE_URL_S, serviceAddress));
         }
         uri = UriComponentsBuilder.fromUri(uri).port(servicePort).path(suffix).build(true).toUri();
 
@@ -45,7 +45,7 @@ public class PublicKeysHolder {
                 String publicKeyString = jsonResponse.get("publicKey");
                 publicKey = CryptoUtil.getPublicKeyFromString(publicKeyString);
             } catch (GeneralSecurityException e) {
-                throw new UnexpectedException(Messages.Exception.INVALID_PUBLIC_KEY);
+                throw new UnexpectedException(Messages.Exception.INVALID_PUBLIC_KEY_FETCHED);
             }
             return publicKey;
         }

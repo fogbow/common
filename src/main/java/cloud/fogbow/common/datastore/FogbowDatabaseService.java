@@ -27,7 +27,7 @@ public class FogbowDatabaseService<T> {
 
                 saveTruncatedObject(truncated, repository);
             } else {
-                throw new UnexpectedException("", e);
+                throw new UnexpectedException(e);
             }
         }
     }
@@ -35,8 +35,8 @@ public class FogbowDatabaseService<T> {
     private void saveTruncatedObject(T truncatedObject, JpaRepository<T, ?> repository) throws UnexpectedException{
         try {
             repository.save(truncatedObject);
-        } catch (DataIntegrityViolationException e1) {
-            throw new UnexpectedException(Messages.Exception.DATABASE_INTEGRITY_VIOLATED, e1);
+        } catch (DataIntegrityViolationException e) {
+            throw new UnexpectedException(Messages.Exception.DATABASE_INTEGRITY_VIOLATED, e);
         }
     }
 
@@ -48,7 +48,7 @@ public class FogbowDatabaseService<T> {
     private void safeFlush(JpaRepository repository) {
         try {
             repository.flush();
-        } catch (Exception e1) {
+        } catch (Exception e) {
         }
     }
 

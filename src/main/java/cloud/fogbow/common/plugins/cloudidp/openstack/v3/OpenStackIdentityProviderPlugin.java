@@ -35,7 +35,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
 
     private boolean isUrlValid(String url) throws FatalErrorException {
         if (url == null || url.trim().isEmpty()) {
-            throw new FatalErrorException(String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : "")));
+            throw new FatalErrorException(String.format(
+                    Messages.Exception.INVALID_SERVICE_URL_S, (url == null ? "null" : "")));
         }
         return true;
     }
@@ -66,8 +67,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
             String projectId = projectTokenResponse.getId();
             return new OpenStackV3User(userId, userName, tokenValue, projectId);
         } catch (Exception e) {
-            LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-            throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            LOGGER.error(Messages.Log.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            throw new UnexpectedException(Messages.Exception.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
         }
     }
 
@@ -81,8 +82,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
             String userName = userTokenResponse.getName();
             return new OpenStackV3User(userId, userName, tokenValue, null);
         } catch (Exception e) {
-            LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-            throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            LOGGER.error(Messages.Log.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            throw new UnexpectedException(Messages.Exception.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
         }
     }
 

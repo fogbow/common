@@ -1,6 +1,7 @@
 package cloud.fogbow.common.models.linkedlists;
 
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.UnexpectedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: Adding an element to the list should reflect on getHead()
     // getCurrent() and getTail().
     @Test
-    public void testAddFirst() {
+    public void testAddFirst() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
         Assert.assertNull(this.integerList.getCurrent());
@@ -38,7 +39,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: When a new element is added to the list and the current pointer
     // already points to the end of it, a newly added element should be the next element.
     @Test
-    public void testAddOrder() {
+    public void testAddOrder() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 
@@ -66,7 +67,7 @@ public class SynchronizedDoublyLinkedListTest {
         Assert.assertEquals(numberThree, this.integerList.getNext());
     }
 
-    // test case: Adding a null element to the list should throw an IllegalArgumentException.
+    // test case: Adding a null element to the list should throw an UnexpectedException.
     @Test
     public void testAddNullOrder() {
         // verify
@@ -77,7 +78,7 @@ public class SynchronizedDoublyLinkedListTest {
             // exercise
             this.integerList.addItem(null);
             Assert.fail("Null item should not be added.");
-        } catch (IllegalArgumentException e) {
+        } catch (UnexpectedException e) {
             // verify
             Assert.assertEquals(Messages.Exception.ATTEMPTING_TO_ADD_A_NULL_ITEM, e.getMessage());
         }
@@ -86,7 +87,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: Navigating the list once, reseting the pointer and navigating again should
     // produce the same item of visited elements.
     @Test
-    public void testResetPointer() {
+    public void testResetPointer() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 
@@ -112,7 +113,7 @@ public class SynchronizedDoublyLinkedListTest {
         Assert.assertNull(this.integerList.getNext());
     }
 
-    // test case: Removing a null item should throw an IllegalArgumentException.
+    // test case: Removing a null item should throw an UnexpectedException.
     @Test
     public void testRemoveNullItem() {
         // verify
@@ -123,7 +124,7 @@ public class SynchronizedDoublyLinkedListTest {
             // exercise
             this.integerList.removeItem(null);
             Assert.fail("Null item should not be removed.");
-        } catch (IllegalArgumentException e) {
+        } catch (UnexpectedException e) {
             // verify
             Assert.assertEquals(Messages.Exception.ATTEMPTING_TO_REMOVE_A_NULL_ITEM, e.getMessage());
         }
@@ -132,7 +133,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: Searching for an element that was added to the list should
     // return that element.
     @Test
-    public void testFindNodeToRemove() {
+    public void testFindNodeToRemove() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 
@@ -161,7 +162,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: Removing an element that is the head of the list should
     // update the references of the pointers head and current.
     @Test
-    public void testRemoveItemOnHead() {
+    public void testRemoveItemOnHead() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 
@@ -200,7 +201,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: Removing an element that is the tail of the list should update
     // the tail pointer of the list.
     @Test
-    public void testRemoveItemOnTail() {
+    public void testRemoveItemOnTail() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 
@@ -232,7 +233,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: A list containing one element should have the head, current,
     // tail and next pointers to null.
     @Test
-    public void testRemoveItemOneElementOnList() {
+    public void testRemoveItemOneElementOnList() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 
@@ -300,7 +301,7 @@ public class SynchronizedDoublyLinkedListTest {
     // test case: A list that had all of its elements removed should behave like
     // a newly created list.
     @Test
-    public void testReinitializingList() {
+    public void testReinitializingList() throws UnexpectedException {
         // verify
         Assert.assertNull(this.integerList.getHead());
 

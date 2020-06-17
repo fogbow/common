@@ -3,8 +3,10 @@ package cloud.fogbow.common.util.connectivity.cloud;
 import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.CloudUser;
 import cloud.fogbow.common.util.GsonHolder;
+import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
 import cloud.fogbow.common.util.connectivity.HttpRequest;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
@@ -40,7 +42,7 @@ public abstract class CloudHttpClient<T extends CloudUser> {
 
     @VisibleForTesting
     String callDoGenericRequest(HttpMethod method, String url, String bodyContent, T cloudUser)
-            throws FogbowException, HttpResponseException {
+            throws FogbowException {
 
         HashMap<String, String> headers = new HashMap<>();
         HashMap<String, String> body = GsonHolder.getInstance().fromJson(bodyContent, HashMap.class);
@@ -50,9 +52,9 @@ public abstract class CloudHttpClient<T extends CloudUser> {
                 // When the status code is 431, the error message must be obtained in the
                 // response headers.
                 Map<String, List<String>> responseHeaders = response.getHeaders();
-                throw new HttpResponseException(response.getHttpCode(), getMessageFrom(responseHeaders));
+                throw HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), getMessageFrom(responseHeaders));
             } else {
-                throw new HttpResponseException(response.getHttpCode(), response.getContent());
+                throw HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
             }
         }
         return response.getContent();
@@ -82,11 +84,11 @@ public abstract class CloudHttpClient<T extends CloudUser> {
     }
 
     @VisibleForTesting
-    HttpRequest createHttpRequest(HttpMethod method, String url, Map<String, String> body,
-            Map<String, String> headers) {
+    HttpRequest createHttpRequest(HttpMethod method, String url, Map<String, String> body, Map<String, String> headers)
+            throws UnexpectedException {
         return new HttpRequest(method, url, body, headers);
     }
 
-    public abstract HttpRequest prepareRequest(HttpRequest genericRequest, T cloudUser);
+    public abstract HttpRequest prepareRequest(HttpRequest genericRequest, T cloudUser) throws FogbowException;
 
 }

@@ -9,6 +9,10 @@ public class UnacceptableOperationException extends FogbowException {
         super(Messages.Exception.NO_AVAILABLE_RESOURCES);
     }
 
+    public UnacceptableOperationException(Throwable cause) {
+        super(Messages.Exception.NO_AVAILABLE_RESOURCES, cause);
+    }
+
     public UnacceptableOperationException(String message) {
         super(message);
     }

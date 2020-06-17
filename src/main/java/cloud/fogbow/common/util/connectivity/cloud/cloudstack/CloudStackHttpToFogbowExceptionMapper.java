@@ -1,9 +1,6 @@
 package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
-import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.InstanceNotFoundException;
-import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
-import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
+import cloud.fogbow.common.exceptions.*;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
 
@@ -19,7 +16,7 @@ public class CloudStackHttpToFogbowExceptionMapper {
             case HttpStatus.SC_NOT_FOUND:
                 throw new InstanceNotFoundException(e.getMessage(), e);
             default:
-                throw new FogbowException(e.getMessage(), e);
+                throw new UnexpectedException(e.getMessage(), e);
         }
     }
     
@@ -32,7 +29,7 @@ public class CloudStackHttpToFogbowExceptionMapper {
             case HttpStatus.SC_NOT_FOUND:
                 return new InstanceNotFoundException(e.getMessage(), e);
             default:
-                return new FogbowException(e.getMessage(), e);
+                return new UnexpectedException(e.getMessage(), e);
         }
     }    
 }
