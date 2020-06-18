@@ -1,6 +1,6 @@
 package cloud.fogbow.common.util;
 
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.models.SystemUser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +13,7 @@ public class SystemUserTest {
 
     // Test if a SystemUser is correctly serialized and later deserialized
     @Test
-    public void testSerializationDeserealizationOfSystemUserObject() throws UnexpectedException {
+    public void testSerializationDeserealizationOfSystemUserObject() throws InternalServerErrorException {
         // Setup
         SystemUser systemUser = createSystemUser();
 
@@ -26,8 +26,8 @@ public class SystemUserTest {
     }
 
     // Test if size of content is going to overflow the limit a SystemUSer is allowed
-    @Test(expected = UnexpectedException.class)
-    public void testCreateUserWithTooMuchData() throws UnexpectedException {
+    @Test(expected = InternalServerErrorException.class)
+    public void testCreateUserWithTooMuchData() throws InternalServerErrorException {
 
         // setup
         String FAKE_USER_NAME = getLongUserName();

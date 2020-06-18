@@ -2,8 +2,6 @@ package cloud.fogbow.common.plugins.cloudidp.aws.v2;
 
 import cloud.fogbow.common.constants.AwsConstants;
 import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AwsV2User;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
@@ -18,7 +16,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
 
     private static final Logger LOGGER = Logger.getLogger(AwsIdentityProviderPlugin.class);
 
-    public AwsV2User getCloudUser(Map<String, String> userCredentials) throws FogbowException {
+    public AwsV2User getCloudUser(Map<String, String> userCredentials) throws UnauthenticatedUserException {
 
         String accessKey = userCredentials.get(AwsConstants.ACCESS_KEY);
         String secretAccessKey = userCredentials.get(AwsConstants.SECRET_ACCESS_KEY);
@@ -28,13 +26,13 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
         return new AwsV2User(userId, userId, accessKey, secretAccessKey);
     }
 
-    private void checkCredentials(String accessKey, String secretAccessKey) throws InvalidParameterException {
+    private void checkCredentials(String accessKey, String secretAccessKey) throws UnauthenticatedUserException {
         if(accessKey == null || secretAccessKey == null) {
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
+            throw new UnauthenticatedUserException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
 
-    protected String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException{
+    protected String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException {
         try {
             AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretAccessKey);
             StaticCredentialsProvider awsProvider = StaticCredentialsProvider.create(awsCreds);
@@ -45,7 +43,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
             
             return client.getUser().user().userId();
         } catch (Exception | Error e) {
-            LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR, e);
+            LOGGER.error(Messages.Log.AUTHENTICATION_ERROR, e);
             throw new UnauthenticatedUserException(e.getMessage());
         }
     }

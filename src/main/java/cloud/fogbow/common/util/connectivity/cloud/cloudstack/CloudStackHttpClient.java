@@ -1,5 +1,7 @@
 package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.models.CloudStackUser;
 import cloud.fogbow.common.util.connectivity.cloud.CloudHttpClient;
@@ -13,7 +15,8 @@ public class CloudStackHttpClient extends CloudHttpClient<CloudStackUser> {
     }
 
     @Override
-    public HttpRequest prepareRequest(HttpRequest genericRequest, CloudStackUser cloudUser) {
+    public HttpRequest prepareRequest(HttpRequest genericRequest, CloudStackUser cloudUser) throws InternalServerErrorException,
+            UnauthorizedRequestException {
         try {
             HttpRequest clonedRequest = new HttpRequest(
                 genericRequest.getMethod(), genericRequest.getUrl(), genericRequest.getBody(), genericRequest.getHeaders());
@@ -24,9 +27,9 @@ public class CloudStackHttpClient extends CloudHttpClient<CloudStackUser> {
             clonedRequest.setHeaders(cloudUser.getCookieHeaders());
             return clonedRequest;
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new InternalServerErrorException(e.getMessage());
         } catch (UnauthorizedRequestException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new UnauthorizedRequestException(e.getMessage());
         }
     }
 

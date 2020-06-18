@@ -1,6 +1,8 @@
 package cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9;
 
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.util.connectivity.cloud.cloudstack.CloudStackRequest;
 
 public class LoginRequest extends CloudStackRequest {
@@ -9,7 +11,7 @@ public class LoginRequest extends CloudStackRequest {
     public static final String PASSWORD_KEY = "password";
     public static final String DOMAIN_KEY = "domain";
 
-    private LoginRequest(Builder builder) throws InvalidParameterException {
+    private LoginRequest(Builder builder) throws InternalServerErrorException {
         super(builder.cloudStackUrl);
         addParameter(USERNAME_KEY, builder.username);
         addParameter(PASSWORD_KEY, builder.password);
@@ -47,9 +49,13 @@ public class LoginRequest extends CloudStackRequest {
             return this;
         }
 
-        public LoginRequest build(String cloudStackUrl) throws InvalidParameterException {
+        public LoginRequest build(String cloudStackUrl) throws UnauthenticatedUserException {
             this.cloudStackUrl = cloudStackUrl;
-            return new LoginRequest(this);
+            try {
+                return new LoginRequest(this);
+            } catch (InternalServerErrorException e) {
+                throw new UnauthenticatedUserException(e.getMessage());
+            }
         }
     }
 }

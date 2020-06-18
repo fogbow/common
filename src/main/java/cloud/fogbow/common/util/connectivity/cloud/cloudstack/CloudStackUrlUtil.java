@@ -2,6 +2,7 @@ package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import org.apache.commons.codec.binary.Base64;
@@ -36,7 +37,7 @@ public class CloudStackUrlUtil {
             query = requestEndpoint.toString().substring(
                     requestEndpoint.toString().indexOf("?") + 1);
         } catch (IndexOutOfBoundsException e) {
-            LOGGER.warn(Messages.Warn.UNABLE_TO_GENERATE_SIGNATURE, e);
+            LOGGER.info(Messages.Log.UNABLE_TO_GENERATE_SIGNATURE, e);
             throw new UnauthorizedRequestException();
         }
 
@@ -67,20 +68,20 @@ public class CloudStackUrlUtil {
 
             requestEndpoint.addParameter(SIGNATURE, signature);
         } catch (Exception e) {
-            LOGGER.warn(Messages.Warn.UNABLE_TO_GENERATE_SIGNATURE, e);
+            LOGGER.warn(Messages.Log.UNABLE_TO_GENERATE_SIGNATURE, e);
             throw new UnauthorizedRequestException();
         }
     }
 
 
-    public static URIBuilder createURIBuilder(String endpoint, String command) throws InvalidParameterException {
+    public static URIBuilder createURIBuilder(String endpoint, String command) throws InternalServerErrorException {
         try {
             URIBuilder uriBuilder = new URIBuilder(endpoint);
             uriBuilder.addParameter(COMMAND, command);
             uriBuilder.addParameter(RESPONSE_FORMAT, JSON);
             return uriBuilder;
         } catch (Exception e) {
-            throw new InvalidParameterException(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S);
+            throw new InternalServerErrorException(String.format(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S, endpoint));
         }
     }
 }

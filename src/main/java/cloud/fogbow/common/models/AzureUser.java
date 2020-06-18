@@ -1,7 +1,5 @@
 package cloud.fogbow.common.models;
 
-import cloud.fogbow.common.constants.AzureConstants;
-
 import java.util.Objects;
 
 public class AzureUser extends CloudUser {

@@ -7,7 +7,7 @@ import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AzureUser;
-import cloud.fogbow.common.util.AzureClientCacheManager;
+import cloud.fogbow.common.util.connectivity.cloud.azure.AzureClientCacheManager;
 import com.microsoft.azure.management.Azure;
 import org.junit.Assert;
 import org.junit.Before;
@@ -118,7 +118,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with all parameters right,
     // it must verify if it does not throw an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsSuccessfully() throws InvalidParameterException {
+    public void testCheckCredentialsSuccessfully() throws UnauthenticatedUserException {
         // set up
         Map<String, String> userCredentials = createCredentials();
 
@@ -129,7 +129,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter clientKey null,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenClientKeyIsNull() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenClientKeyIsNull() throws UnauthenticatedUserException {
         // set up
         String clientKey = null;
         assertCredentials(clientKey, CLIENT_KEY);
@@ -138,7 +138,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter clientKey empty,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenClientKeyIsEmpty() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenClientKeyIsEmpty() throws UnauthenticatedUserException {
         // set up
         String clientKey = "";
         assertCredentials(clientKey, CLIENT_KEY);
@@ -147,7 +147,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter clientId null,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenClientIdIsNull() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenClientIdIsNull() throws UnauthenticatedUserException {
         // set up
         String clientId = null;
         assertCredentials(clientId, CLIENT_ID_KEY);
@@ -156,7 +156,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter clientId empty,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenClientIdIsEmpty() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenClientIdIsEmpty() throws UnauthenticatedUserException {
         // set up
         String clientId = "";
         assertCredentials(clientId, CLIENT_ID_KEY);
@@ -165,7 +165,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter subscriptionId null,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenSubscriptionIdIsNull() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenSubscriptionIdIsNull() throws UnauthenticatedUserException {
         // set up
         String subscriptionId = null;
         assertCredentials(subscriptionId, SUBSCRIPTION_ID_KEY);
@@ -174,7 +174,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter subscriptionId empty,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenSubscriptionIdIsEmpty() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenSubscriptionIdIsEmpty() throws UnauthenticatedUserException {
         // set up
         String subscriptionId = "";
         assertCredentials(subscriptionId, SUBSCRIPTION_ID_KEY);
@@ -183,7 +183,7 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter tenantId null,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenTenantIdIsNull() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenTenantIdIsNull() throws UnauthenticatedUserException {
         // set up
         String tenantId = null;
         assertCredentials(tenantId, TENANT_ID_KEY);
@@ -192,20 +192,20 @@ public class AzureIdentityProviderPluginTest {
     // test case: When calling the checkCredentials method with parameter tenantId empty,
     // it must verify if it throws an UnauthenticatedUserException
     @Test
-    public void testCheckCredentialsFailWhenTenantIdIdIsEmpty() throws InvalidParameterException {
+    public void testCheckCredentialsFailWhenTenantIdIdIsEmpty() throws UnauthenticatedUserException {
         // set up
         String tenantId = "";
         assertCredentials(tenantId, TENANT_ID_KEY);
     }
 
-    private void assertCredentials(String value, AzureConstants.Credential credential) throws InvalidParameterException {
+    private void assertCredentials(String value, AzureConstants.Credential credential) throws UnauthenticatedUserException {
         // set up
         Map<String, String> credentials = createCredentials();
         credentials.put(credential.getValue(), value);
 
         // verify
-        this.expectedException.expect(InvalidParameterException.class);
-        this.expectedException.expectMessage(String.format(Messages.Exception.NO_USER_CREDENTIAL_S, credential.getValue()));
+        this.expectedException.expect(UnauthenticatedUserException.class);
+        this.expectedException.expectMessage(Messages.Exception.NO_USER_CREDENTIALS);
 
         // exercise
         this.azureIdentityProviderPlugin.checkCredentials(credentials);

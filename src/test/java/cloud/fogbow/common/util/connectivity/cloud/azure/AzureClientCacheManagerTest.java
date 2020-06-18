@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util;
+package cloud.fogbow.common.util.connectivity.cloud.azure;
 
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
@@ -31,13 +31,13 @@ public class AzureClientCacheManagerTest {
     }
 
     // test case: When calling the getAzure method and throws an exception,
-    // it must verify if It throws an UnauthenticatedUserException.
+    // it must verify if it throws an UnauthenticatedUserException.
     @Test
     public void testGetAzureFail() throws Exception {
         // set up
         PowerMockito.spy(AzureClientCacheManager.class);
 
-        PowerMockito.doThrow(new FogbowException())
+        PowerMockito.doThrow(new FogbowException(""))
                 .when(AzureClientCacheManager.class, "createAzure", Mockito.eq(this.azureUser));
 
         // verify

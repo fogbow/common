@@ -2,6 +2,7 @@ package cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4;
 
 import java.util.Map;
 
+import cloud.fogbow.common.exceptions.*;
 import org.apache.log4j.Logger;
 import org.opennebula.client.Client;
 import org.opennebula.client.OneResponse;
@@ -9,11 +10,7 @@ import org.opennebula.client.user.UserPool;
 
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.constants.OpenNebulaConstants;
-import cloud.fogbow.common.exceptions.FatalErrorException;
-import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.models.OpenNebulaUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientUtil;
@@ -34,7 +31,7 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
      * The userId is the same as the userName, because the userName is unique in Opennebula
      */
     @Override
-    public OpenNebulaUser getCloudUser(Map<String, String> userCredentials) throws FogbowException {
+    public OpenNebulaUser getCloudUser(Map<String, String> userCredentials) throws UnauthenticatedUserException {
         checkCredentials(userCredentials);
 
         String username = userCredentials.get(OpenNebulaConstants.USERNAME);
@@ -49,16 +46,16 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
 
         String openNebulaTokenValue = username + OpenNebulaConstants.TOKEN_VALUE_SEPARATOR + password;
         if (!isAuthenticated(openNebulaTokenValue)) {
-            LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR);
+            LOGGER.error(Messages.Log.AUTHENTICATION_ERROR);
             throw new UnauthenticatedUserException();
         }
 
         return openNebulaTokenValue;
     }
 
-    private void checkCredentials(Map<String, String> userCredentials) throws InvalidParameterException {
+    private void checkCredentials(Map<String, String> userCredentials) throws UnauthenticatedUserException {
         if (userCredentials == null) {
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
+            throw new UnauthenticatedUserException(Messages.Exception.NO_USER_CREDENTIALS);
         }
 
         String username = userCredentials.get(OpenNebulaConstants.USERNAME);
@@ -66,7 +63,7 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
 
         if (username == null || username.trim().isEmpty()
                 || password == null || password.trim().isEmpty()) {
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
+            throw new UnauthenticatedUserException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
 
@@ -81,15 +78,14 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
         try {
         	client = OpenNebulaClientUtil.createClient(this.endpoint, openNebulaTokenValue);
         	userPool = OpenNebulaClientUtil.getUserPool(client);
-        } catch (UnexpectedException e) {
-            LOGGER.error(Messages.Exception.UNEXPECTED, e);
+        } catch (InternalServerErrorException e) {
+            LOGGER.error(Messages.Log.UNEXPECTED, e);
             return false;
         }
 
         OneResponse info = userPool.info();
         if (info.isError()) {
-            LOGGER.error(String.format(
-                    Messages.Exception.OPERATION_RETURNED_ERROR_S, info.getMessage()));
+            LOGGER.error(String.format(Messages.Exception.OPERATION_RETURNED_ERROR_S, info.getMessage()));
             return false;
         }
         return true;
@@ -98,7 +94,7 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
 	private boolean isUrlValid(String url) throws FatalErrorException {
 		if (url == null || url.trim().isEmpty()) {
 			throw new FatalErrorException(
-					String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : url)));
+					String.format(Messages.Exception.INVALID_SERVICE_URL_S, (url == null ? "null" : url)));
 		}
 		return true;
 	}

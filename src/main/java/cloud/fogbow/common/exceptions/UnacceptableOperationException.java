@@ -12,9 +12,4 @@ public class UnacceptableOperationException extends FogbowException {
     public UnacceptableOperationException(String message) {
         super(message);
     }
-
-    public UnacceptableOperationException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

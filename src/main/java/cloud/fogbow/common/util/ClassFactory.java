@@ -10,8 +10,7 @@ import java.util.Arrays;
 
 public class ClassFactory {
 
-    public Object createPluginInstance(String pluginClassName, String ... params)
-            throws FatalErrorException {
+    public Object createPluginInstance(String pluginClassName, String ... params) throws FatalErrorException {
 
         Object pluginInstance;
         Constructor<?> constructor;
@@ -28,8 +27,7 @@ public class ClassFactory {
 
             pluginInstance = constructor.newInstance(params);
         } catch (ClassNotFoundException e) {
-            String msg = Messages.Fatal.UNABLE_TO_FIND_CLASS_S;
-            throw new FatalErrorException(String.format(msg, pluginClassName));
+            throw new FatalErrorException(String.format(Messages.Exception.UNABLE_TO_FIND_CLASS_S, pluginClassName));
         } catch (Exception e) {
             throw new FatalErrorException(e.getMessage(), e);
         }

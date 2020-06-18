@@ -3,12 +3,10 @@ package cloud.fogbow.common.plugins.cloudidp.azure;
 import cloud.fogbow.common.constants.AzureConstants;
 import static cloud.fogbow.common.constants.AzureConstants.Credential.*;
 import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AzureUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
-import cloud.fogbow.common.util.AzureClientCacheManager;
+import cloud.fogbow.common.util.connectivity.cloud.azure.AzureClientCacheManager;
 import com.google.common.annotations.VisibleForTesting;
 
 import javax.validation.constraints.NotNull;
@@ -17,7 +15,7 @@ import java.util.Map;
 public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureUser> {
 
     @Override
-    public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws FogbowException {
+    public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws UnauthenticatedUserException {
         checkCredentials(userCredentials);
         String subscriptionId = getCredential(userCredentials, SUBSCRIPTION_ID_KEY);
         String clientId = getCredential(userCredentials, CLIENT_ID_KEY);
@@ -37,28 +35,19 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
 
     @VisibleForTesting
     AzureUser authenticate(AzureUser azureUser) throws UnauthenticatedUserException {
-        checkAzureClient(azureUser);
+        AzureClientCacheManager.getAzure(azureUser);
         return azureUser;
     }
 
     @VisibleForTesting
-    void checkCredentials(Map<String, String> userCredentials)
-            throws InvalidParameterException {
+    void checkCredentials(Map<String, String> userCredentials) throws UnauthenticatedUserException {
 
         String value;
         for (AzureConstants.Credential credential : AzureConstants.Credential.values()) {
             value = userCredentials.get(credential.getValue());
             if (value == null || value.isEmpty()) {
-                throw new InvalidParameterException(String.format(Messages.Exception.NO_USER_CREDENTIAL_S, credential.getValue()));
+                throw new UnauthenticatedUserException(Messages.Exception.NO_USER_CREDENTIALS);
             }
-        }
-    }
-
-    private void checkAzureClient(AzureUser azureUser) throws UnauthenticatedUserException {
-        try {
-            AzureClientCacheManager.getAzure(azureUser);
-        } catch (UnauthenticatedUserException e) {
-            throw e;
         }
     }
 

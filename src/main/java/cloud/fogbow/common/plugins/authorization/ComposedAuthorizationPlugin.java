@@ -41,8 +41,8 @@ public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements A
         try {
             input = new Scanner(file);
         } catch (FileNotFoundException e) {
-            throw new FatalErrorException(
-                    String.format(Messages.Fatal.UNABLE_TO_READ_COMPOSED_AUTHORIZATION_PLUGIN_CONFIGURATION_FILE_S, confPath));
+            throw new FatalErrorException(String.format(
+                    Messages.Exception.UNABLE_TO_READ_CONFIGURATION_FILE_S, confPath));
         }
 
         while (input.hasNextLine()) {

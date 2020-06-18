@@ -6,7 +6,7 @@ import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.constants.OpenStackConstants;
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.OpenStackV3User;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import cloud.fogbow.common.util.GsonHolder;
@@ -35,13 +35,14 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
 
     private boolean isUrlValid(String url) throws FatalErrorException {
         if (url == null || url.trim().isEmpty()) {
-            throw new FatalErrorException(String.format(Messages.Fatal.INVALID_SERVICE_URL_S, (url == null ? "null" : "")));
+            throw new FatalErrorException(String.format(
+                    Messages.Exception.INVALID_SERVICE_URL_S, (url == null ? "null" : "")));
         }
         return true;
     }
 
     @Override
-    public OpenStackV3User getCloudUser(Map<String, String> credentials) throws FogbowException {
+    public OpenStackV3User getCloudUser(Map<String, String> credentials) throws UnauthenticatedUserException {
         boolean unscopedAuth = credentials.get(OpenStackConstants.Identity.PROJECT_NAME_KEY_JSON) == null;
         String jsonBody = unscopedAuth ? mountUnscopedJsonBody(credentials) : mountJsonBody(credentials);
 
@@ -49,12 +50,17 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         HashMap<String, String> headers = new HashMap<>();
         headers.put(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.JSON_CONTENT_TYPE_KEY);
         headers.put(HttpConstants.ACCEPT_KEY, HttpConstants.JSON_CONTENT_TYPE_KEY);
-        HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, this.v3TokensEndpoint, headers, body);
+        HttpResponse response = null;
+        try {
+            response = HttpRequestClient.doGenericRequest(HttpMethod.POST, this.v3TokensEndpoint, headers, body);
+        } catch (FogbowException e) {
+            throw new UnauthenticatedUserException(e.getMessage());
+        }
 
         return unscopedAuth ? this.getUnscopedCloudUserFromJson(response) : this.getCloudUserFromJson(response);
     }
 
-    protected OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnexpectedException {
+    protected OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnauthenticatedUserException {
         String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
@@ -66,12 +72,12 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
             String projectId = projectTokenResponse.getId();
             return new OpenStackV3User(userId, userName, tokenValue, projectId);
         } catch (Exception e) {
-            LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-            throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            LOGGER.error(Messages.Log.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            throw new UnauthenticatedUserException(Messages.Exception.UNABLE_TO_GET_TOKEN_FROM_JSON);
         }
     }
 
-    protected OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnexpectedException {
+    protected OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnauthenticatedUserException {
         String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
@@ -81,8 +87,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
             String userName = userTokenResponse.getName();
             return new OpenStackV3User(userId, userName, tokenValue, null);
         } catch (Exception e) {
-            LOGGER.error(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-            throw new UnexpectedException(Messages.Error.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            LOGGER.error(Messages.Log.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
+            throw new UnauthenticatedUserException(Messages.Exception.UNABLE_TO_GET_TOKEN_FROM_JSON);
         }
     }
 

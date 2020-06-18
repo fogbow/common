@@ -2,11 +2,10 @@ package cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4;
 
 import cloud.fogbow.common.constants.OpenNebulaConstants;
 import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.OpenNebulaUser;
-import cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4.OpenNebulaIdentityProviderPlugin;
 import cloud.fogbow.common.util.connectivity.cloud.opennebula.OpenNebulaClientUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,7 +35,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     public static final String ONE_RESPONSE_MESSAGE = "Random oneResponse return message";
 
     @Before
-    public void setup() throws UnexpectedException {
+    public void setup() throws InternalServerErrorException {
         this.plugin = Mockito.spy(new OpenNebulaIdentityProviderPlugin(FAKE_IDENTITY_URL));
 
         Client client = Mockito.mock(Client.class);
@@ -75,7 +74,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     }
 
     // Test case: When an null password is provided
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = UnauthenticatedUserException.class)
     public void testAuthenticateWithNullParams() throws FogbowException {
         Map<String,String> credentials = getCredentials(FAKE_USER_ID, null);
 
@@ -84,7 +83,7 @@ public class OpenNebulaIdentityProviderPluginTest {
     }
 
     // Test case: When an empty password is provided
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = UnauthenticatedUserException.class)
     public void testAuthenticateWithEmptyParams() throws FogbowException {
         Map<String,String> credentials = getCredentials(FAKE_USER_ID, "");
 

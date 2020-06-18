@@ -1,5 +1,7 @@
 package cloud.fogbow.common.util;
 
+import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -31,18 +33,26 @@ public class ServiceAsymmetricKeysHolder {
         this.privateKeyFilePath = privateKeyFilePath;
     }
 
-    public RSAPublicKey getPublicKey() throws IOException, GeneralSecurityException {
+    public RSAPublicKey getPublicKey() throws InternalServerErrorException {
 	    if (this.servicePublicKey == null) {
-	        if (this.publicKeyFilePath == null) throw new IOException();
-            this.servicePublicKey = CryptoUtil.getPublicKey(this.publicKeyFilePath);
+	        if (this.publicKeyFilePath == null) throw new InternalServerErrorException(Messages.Exception.NO_PUBLIC_KEY_DEFINED);
+            try {
+                this.servicePublicKey = CryptoUtil.getPublicKey(this.publicKeyFilePath);
+            } catch (IOException | GeneralSecurityException e) {
+                throw new InternalServerErrorException(Messages.Exception.INVALID_PUBLIC_KEY);
+            }
         }
 	    return this.servicePublicKey;
     }
 
-    public RSAPrivateKey getPrivateKey() throws IOException, GeneralSecurityException {
+    public RSAPrivateKey getPrivateKey() throws InternalServerErrorException {
         if (this.servicePrivateKey == null) {
-            if (this.privateKeyFilePath == null) throw new IOException();
-            this.servicePrivateKey = CryptoUtil.getPrivateKey(this.privateKeyFilePath);
+            if (this.privateKeyFilePath == null) throw new InternalServerErrorException(Messages.Exception.NO_PRIVATE_KEY_DEFINED);
+            try {
+                this.servicePrivateKey = CryptoUtil.getPrivateKey(this.privateKeyFilePath);
+            } catch (IOException | GeneralSecurityException e) {
+                throw new InternalServerErrorException(Messages.Exception.INVALID_PRIVATE_KEY);
+            }
         }
         return this.servicePrivateKey;
     }

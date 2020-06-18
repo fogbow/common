@@ -27,8 +27,8 @@ public class AwsIdentityProviderPluginTest {
 	}
 	
 	// test case: When invoking the getCloudUser method with an empty user
-	// credential map, it must throw an InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// credential map, it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithEmptyUserCredentials() throws FogbowException {
 		// set up
 		Map<String, String> emptyUserCredentials = new HashMap<String, String>();
@@ -39,8 +39,8 @@ public class AwsIdentityProviderPluginTest {
     
 	// test case: When invoking the getCloudUser method with a map of the user's
 	// credentials, without an access key, it must throw an
-	// InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithoutAccessKey() throws FogbowException {
 		// set up
 		Map<String, String> userCredentials = new HashMap<String, String>();
@@ -52,8 +52,8 @@ public class AwsIdentityProviderPluginTest {
 	
 	// test case: When invoking the getCloudUser method with a map of the user's
 	// credentials, without a secret access key, it must throw an
-	// InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithoutSecretAccessKey() throws FogbowException {
 		// set up
 		Map<String, String> userCredentials = new HashMap<String, String>();

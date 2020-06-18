@@ -64,7 +64,7 @@ public class FogbowExceptionToHttpErrorConditionTranslator extends ResponseEntit
         return new ResponseEntity<>(errorDetails, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    @ExceptionHandler(UnexpectedException.class)
+    @ExceptionHandler(InternalServerErrorException.class)
     public final ResponseEntity<ExceptionResponse> handleUnexpectedException(Exception ex, WebRequest request) {
 
         ExceptionResponse errorDetails = new ExceptionResponse(ex.getMessage(), request.getDescription(false));

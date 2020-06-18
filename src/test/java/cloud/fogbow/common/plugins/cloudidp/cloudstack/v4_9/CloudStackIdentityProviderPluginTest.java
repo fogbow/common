@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9.CloudStackIdentityProviderPlugin;
-import cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9.ListAccountsRequest;
-import cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9.LoginRequest;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,7 @@ import org.mockito.Mockito;
 import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.models.CloudStackUser;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
 
@@ -42,8 +40,8 @@ public class CloudStackIdentityProviderPluginTest {
 	}
 
 	// test case: When invoking the getCloudUser method with a null credential map,
-	// it must throw an InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithNullCredentialsMap() throws FogbowException {
 		// set up
 		Map<String, String> credentials = null;
@@ -53,8 +51,8 @@ public class CloudStackIdentityProviderPluginTest {
 	}
 		
 	// test case: When invoking the getCloudUser method with an empty credential
-	// map, it must throw an InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// map, it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithEmptyCredentialsMap() throws FogbowException {
 		// set up
 		Map<String, String> credentials = new HashMap<String, String>();
@@ -64,8 +62,8 @@ public class CloudStackIdentityProviderPluginTest {
 	}
 
 	// test case: When invoking the getCloudUser method with a credential map
-	// without a user name, it must throw an InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// without a user name, it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithoutUsername() throws FogbowException {
 		// set up
 		Map<String, String> credentials = new HashMap<String, String>();
@@ -77,8 +75,8 @@ public class CloudStackIdentityProviderPluginTest {
 	}
 
 	// test case: When invoking the getCloudUser method with a credential map
-	// without a password, it must throw an InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// without a password, it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithoutPassword() throws FogbowException {
 		// set up
 		Map<String, String> credentials = new HashMap<String, String>();
@@ -90,8 +88,8 @@ public class CloudStackIdentityProviderPluginTest {
 	}
 
 	// test case: When invoking the getCloudUser method with a credential map
-	// without a domain, it must throw an InvalidParameterException.
-	@Test(expected = InvalidParameterException.class) // verify
+	// without a domain, it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithoutDomain() throws FogbowException {
 		// set up
 		Map<String, String> credentials = new HashMap<String, String>();
@@ -146,8 +144,8 @@ public class CloudStackIdentityProviderPluginTest {
     
 	// test case: When invoking the getCloudUser method with a valid credential map,
 	// and the response returns an invalid content from an accounts list request in
-	// the server, it must throw an UnexpectedException.
-	@Test(expected = UnexpectedException.class) // verify
+	// the server, it must throw an UnauthenticatedUserException.
+	@Test(expected = UnauthenticatedUserException.class) // verify
 	public void testGetCloudUserWithInvalidContentFromListAccountsResponse() throws FogbowException {
 		// set up
 		Map<String, String> credentials = new HashMap<String, String>();

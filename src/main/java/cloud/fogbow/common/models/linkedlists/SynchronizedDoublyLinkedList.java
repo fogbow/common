@@ -2,6 +2,7 @@ package cloud.fogbow.common.models.linkedlists;
 
 
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 
 public class SynchronizedDoublyLinkedList<T> implements ChainedList<T> {
     private Node<T> head;
@@ -25,9 +26,9 @@ public class SynchronizedDoublyLinkedList<T> implements ChainedList<T> {
     }
 
     @Override
-    public synchronized void addItem(T item) {
+    public synchronized void addItem(T item) throws InternalServerErrorException {
         if (item == null) {
-            throw new IllegalArgumentException(Messages.Exception.ATTEMPTING_TO_ADD_A_NULL_ITEM);
+            throw new InternalServerErrorException(Messages.Exception.ATTEMPTING_TO_ADD_A_NULL_ITEM);
         }
         if (this.head == null) {
             Node<T> firstNode = new Node<>(null, item, null);
@@ -71,11 +72,12 @@ public class SynchronizedDoublyLinkedList<T> implements ChainedList<T> {
      * @param item
      * @return True if it was removed from the list. False, if another thread removed this order
      * from the list and the item couldn't be find.
+     * @throws InternalServerErrorException when the passed parameter is null (should never occur)
      */
     @Override
-    public synchronized boolean removeItem(T item) {
+    public synchronized boolean removeItem(T item) throws InternalServerErrorException {
         if (item == null) {
-            throw new IllegalArgumentException(Messages.Exception.ATTEMPTING_TO_REMOVE_A_NULL_ITEM);
+            throw new InternalServerErrorException(Messages.Exception.ATTEMPTING_TO_REMOVE_A_NULL_ITEM);
         }
         Node<T> nodeToRemove = findNodeToRemove(item);
         if (nodeToRemove == null) {
@@ -91,8 +93,7 @@ public class SynchronizedDoublyLinkedList<T> implements ChainedList<T> {
         } else { // removing the tail
             this.tail = nodeToRemove.getPrevious();
         }
-        if (this.current
-                == nodeToRemove) { // fix current, if current was pointing to cell just removed
+        if (this.current == nodeToRemove) { // fix current, if current was pointing to cell just removed
             this.current = nodeToRemove.getNext();
         }
         return true;

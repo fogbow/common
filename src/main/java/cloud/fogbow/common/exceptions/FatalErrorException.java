@@ -9,6 +9,10 @@ public class FatalErrorException extends RuntimeException {
         super(Messages.Exception.FATAL_ERROR);
     }
 
+    public FatalErrorException(Throwable cause) {
+        super(Messages.Exception.FATAL_ERROR, cause);
+    }
+
     public FatalErrorException(String message) {
         super(message);
     }

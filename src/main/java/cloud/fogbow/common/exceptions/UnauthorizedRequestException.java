@@ -12,8 +12,4 @@ public class UnauthorizedRequestException extends FogbowException {
     public UnauthorizedRequestException(String message) {
         super(message);
     }
-
-    public UnauthorizedRequestException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
