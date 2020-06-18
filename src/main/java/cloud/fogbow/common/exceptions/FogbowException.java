@@ -8,8 +8,4 @@ public class FogbowException extends Exception {
     public FogbowException(String message) {
         super(message);
     }
-
-    public FogbowException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

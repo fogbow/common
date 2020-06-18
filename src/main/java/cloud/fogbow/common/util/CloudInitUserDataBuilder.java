@@ -1,6 +1,6 @@
 package cloud.fogbow.common.util;
 
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
@@ -160,7 +160,7 @@ public class CloudInitUserDataBuilder {
     /**
      * Initiates a new instance of the builder with the "UTF-8" charset.
      */
-    public static CloudInitUserDataBuilder start() throws UnexpectedException {
+    public static CloudInitUserDataBuilder start() throws InternalServerErrorException {
         return new CloudInitUserDataBuilder(Charsets.UTF_8);
     }
 
@@ -169,7 +169,7 @@ public class CloudInitUserDataBuilder {
      *
      * @param charset used to generate the mime message.
      */
-    public static CloudInitUserDataBuilder start(String charset) throws UnexpectedException {
+    public static CloudInitUserDataBuilder start(String charset) throws InternalServerErrorException {
         return new CloudInitUserDataBuilder(Charset.forName(charset));
     }
 
@@ -193,14 +193,14 @@ public class CloudInitUserDataBuilder {
      */
     private final MimeMultipart userDataMultipart;
 
-    private CloudInitUserDataBuilder(Charset charset) throws UnexpectedException {
+    private CloudInitUserDataBuilder(Charset charset) throws InternalServerErrorException {
         super();
         this.userDataMimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()));
         this.userDataMultipart = new MimeMultipart();
         try {
             this.userDataMimeMessage.setContent(this.userDataMultipart);
         } catch (MessagingException e) {
-            throw new UnexpectedException(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
         this.charset = Preconditions.checkNotNull(charset, "'charset' can NOT be null");
     }
@@ -214,7 +214,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#CLOUD_BOOTHOOK
      */
-    public CloudInitUserDataBuilder addBootHook(Readable bootHook) throws UnexpectedException {
+    public CloudInitUserDataBuilder addBootHook(Readable bootHook) throws InternalServerErrorException {
         return addFile(FileType.CLOUD_BOOTHOOK, bootHook);
     }
 
@@ -227,7 +227,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#CLOUD_CONFIG
      */
-    public CloudInitUserDataBuilder addCloudConfig(Readable cloudConfig) throws UnexpectedException {
+    public CloudInitUserDataBuilder addCloudConfig(Readable cloudConfig) throws InternalServerErrorException {
         return addFile(FileType.CLOUD_CONFIG, cloudConfig);
     }
 
@@ -240,7 +240,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#CLOUD_CONFIG
      */
-    public CloudInitUserDataBuilder addCloudConfig(String cloudConfig) throws UnexpectedException {
+    public CloudInitUserDataBuilder addCloudConfig(String cloudConfig) throws InternalServerErrorException {
         return addCloudConfig(new StringReader(cloudConfig));
     }
 
@@ -253,7 +253,7 @@ public class CloudInitUserDataBuilder {
      * @throws IllegalArgumentException the given <code>fileType</code> was already added to this
      *                                  cloud-init mime message.
      */
-    public CloudInitUserDataBuilder addFile(FileType fileType, Readable in) throws UnexpectedException {
+    public CloudInitUserDataBuilder addFile(FileType fileType, Readable in) throws InternalServerErrorException {
         Preconditions.checkNotNull(fileType, "'fileType' can NOT be null");
         Preconditions.checkNotNull(in, "'in' can NOT be null");
         // Preconditions.checkArgument(!alreadyAddedFileTypes.contains(fileType),
@@ -269,7 +269,7 @@ public class CloudInitUserDataBuilder {
             this.userDataMultipart.addBodyPart(mimeBodyPart);
 
         } catch (IOException | MessagingException e) {
-            throw new UnexpectedException(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
         return this;
     }
@@ -283,7 +283,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#INCLUDE_URL
      */
-    public CloudInitUserDataBuilder addIncludeUrl(Readable includeUrl) throws UnexpectedException {
+    public CloudInitUserDataBuilder addIncludeUrl(Readable includeUrl) throws InternalServerErrorException {
         return addFile(FileType.INCLUDE_URL, includeUrl);
     }
 
@@ -296,7 +296,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#INCLUDE_URL
      */
-    public CloudInitUserDataBuilder addIncludeUrl(String includeUrl) throws UnexpectedException {
+    public CloudInitUserDataBuilder addIncludeUrl(String includeUrl) throws InternalServerErrorException {
         return addIncludeUrl(new StringReader(includeUrl));
     }
 
@@ -309,7 +309,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#PART_HANDLER
      */
-    public CloudInitUserDataBuilder addPartHandler(Readable partHandler) throws UnexpectedException {
+    public CloudInitUserDataBuilder addPartHandler(Readable partHandler) throws InternalServerErrorException {
         return addFile(FileType.PART_HANDLER, partHandler);
     }
 
@@ -322,7 +322,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#PART_HANDLER
      */
-    public CloudInitUserDataBuilder addPartHandler(String partHandler) throws UnexpectedException {
+    public CloudInitUserDataBuilder addPartHandler(String partHandler) throws InternalServerErrorException {
         return addPartHandler(new StringReader(partHandler));
     }
 
@@ -335,7 +335,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#SHELL_SCRIPT
      */
-    public CloudInitUserDataBuilder addShellScript(Readable shellScript) throws UnexpectedException {
+    public CloudInitUserDataBuilder addShellScript(Readable shellScript) throws InternalServerErrorException {
         return addFile(FileType.SHELL_SCRIPT, shellScript);
     }
 
@@ -348,7 +348,7 @@ public class CloudInitUserDataBuilder {
      *                                  mime message.
      * @see FileType#SHELL_SCRIPT
      */
-    public CloudInitUserDataBuilder addShellScript(String shellScript) throws UnexpectedException {
+    public CloudInitUserDataBuilder addShellScript(String shellScript) throws InternalServerErrorException {
         return addShellScript(new StringReader(shellScript));
     }
 
@@ -361,7 +361,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#UPSTART_JOB
      */
-    public CloudInitUserDataBuilder addUpstartJob(Readable in) throws UnexpectedException {
+    public CloudInitUserDataBuilder addUpstartJob(Readable in) throws InternalServerErrorException {
         return addFile(FileType.UPSTART_JOB, in);
     }
 
@@ -374,7 +374,7 @@ public class CloudInitUserDataBuilder {
      *                                  message.
      * @see FileType#UPSTART_JOB
      */
-    public CloudInitUserDataBuilder addUpstartJob(String upstartJob) throws UnexpectedException {
+    public CloudInitUserDataBuilder addUpstartJob(String upstartJob) throws InternalServerErrorException {
         return addUpstartJob(new StringReader(upstartJob));
     }
 
@@ -383,14 +383,14 @@ public class CloudInitUserDataBuilder {
      *
      * @return the generate mime message
      */
-    public String buildUserData() throws UnexpectedException {
+    public String buildUserData() throws InternalServerErrorException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             this.userDataMimeMessage.writeTo(baos);
             return new String(baos.toByteArray(), this.charset);
 
         } catch (MessagingException | IOException e) {
-            throw new UnexpectedException(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -399,7 +399,7 @@ public class CloudInitUserDataBuilder {
      *
      * @return the base64 encoded encoded mime message
      */
-    public String buildBase64UserData() throws UnexpectedException {
+    public String buildBase64UserData() throws InternalServerErrorException {
         return Base64.encodeBase64String(buildUserData().getBytes());
     }
 }

@@ -1,6 +1,7 @@
 package cloud.fogbow.common.util.connectivity.cloud.opennebula;
 
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.apache.log4j.Logger;
 import org.opennebula.client.Client;
 import org.opennebula.client.ClientConfigurationException;
@@ -18,7 +19,6 @@ import org.opennebula.client.vnet.VirtualNetwork;
 import cloud.fogbow.common.exceptions.InstanceNotFoundException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
 
 public class OpenNebulaClientUtil {
 
@@ -27,17 +27,17 @@ public class OpenNebulaClientUtil {
 	protected static final String RESPONSE_NOT_AUTHORIZED = "Not authorized";
 	protected static final String RESPONSE_DONE = "DONE";
 
-	public static Client createClient(String endpoint, String tokenValue) throws UnexpectedException {
+	public static Client createClient(String endpoint, String tokenValue) throws InternalServerErrorException {
 		try {
 			return new Client(tokenValue, endpoint);
 		} catch (ClientConfigurationException e) {
 			LOGGER.error(Messages.Log.ERROR_WHILE_CREATING_CLIENT, e);
-			throw new UnexpectedException(Messages.Exception.ERROR_WHILE_CREATING_CLIENT);
+			throw new InternalServerErrorException(Messages.Exception.ERROR_WHILE_CREATING_CLIENT);
 		}
 	}
 
 	public static VirtualMachine getVirtualMachine(Client client, String virtualMachineId)
-			throws UnauthorizedRequestException, InstanceNotFoundException, InvalidParameterException {
+			throws UnauthorizedRequestException, InstanceNotFoundException, InternalServerErrorException {
 
 		VirtualMachine virtualMachine = (VirtualMachine) generateOnePoolElement(client, virtualMachineId, VirtualMachine.class);
 		OneResponse response = virtualMachine.info();
@@ -57,26 +57,26 @@ public class OpenNebulaClientUtil {
 		return virtualMachine;
 	}
 
-	public static UserPool getUserPool(Client client) throws UnexpectedException {
+	public static UserPool getUserPool(Client client) throws InternalServerErrorException {
 		UserPool userpool = (UserPool) generateOnePool(client, UserPool.class);
  		OneResponse response = userpool.info();
  		if (response.isError()) {
  			LOGGER.error(String.format(Messages.Log.ERROR_WHILE_GETTING_USERS_S, response.getErrorMessage()));
-			throw new UnexpectedException(String.format(Messages.Exception.ERROR_WHILE_GETTING_USERS_S, response.getErrorMessage()));
+			throw new InternalServerErrorException(String.format(Messages.Exception.ERROR_WHILE_GETTING_USERS_S, response.getErrorMessage()));
  		}
  		LOGGER.info(String.format(Messages.Log.USER_POOL_LENGTH_S, userpool.getLength()));
 		return userpool;
 	}
 
 	protected static PoolElement generateOnePoolElement(Client client, String poolElementId, Class classType)
-			throws InvalidParameterException {
+			throws InternalServerErrorException {
 		
 		int id;
 		try {
 			id = Integer.parseInt(poolElementId);
 		} catch (Exception e) {
 			LOGGER.error(String.format(Messages.Log.ERROR_WHILE_CONVERTING_INSTANCE_ID_S, poolElementId), e);
-			throw new InvalidParameterException(String.format(Messages.Exception.ERROR_WHILE_CONVERTING_INSTANCE_ID_S, poolElementId));
+			throw new InternalServerErrorException(String.format(Messages.Exception.ERROR_WHILE_CONVERTING_INSTANCE_ID_S, poolElementId));
 		}
 		if (classType.isAssignableFrom(SecurityGroup.class)) {
 			return new SecurityGroup(id, client);

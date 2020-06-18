@@ -1,5 +1,6 @@
 package cloud.fogbow.common.plugins.cloudidp.cloudstack.v4_9;
 
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.util.connectivity.cloud.cloudstack.CloudStackRequest;
 
@@ -7,7 +8,7 @@ public class ListAccountsRequest extends CloudStackRequest {
     public static final String LIST_ACCOUNTS_COMMAND = "listAccounts";
     public static final String SESSION_KEY = "sessionkey";
 
-    private ListAccountsRequest(Builder builder) throws InvalidParameterException {
+    private ListAccountsRequest(Builder builder) throws InternalServerErrorException {
         super(builder.cloudStackUrl);
         addParameter(SESSION_KEY, builder.sessionKey);
     }
@@ -31,7 +32,7 @@ public class ListAccountsRequest extends CloudStackRequest {
             return this;
         }
 
-        public ListAccountsRequest build(String cloudStackUrl) throws InvalidParameterException {
+        public ListAccountsRequest build(String cloudStackUrl) throws InternalServerErrorException {
             this.cloudStackUrl = cloudStackUrl;
             return new ListAccountsRequest(this);
         }

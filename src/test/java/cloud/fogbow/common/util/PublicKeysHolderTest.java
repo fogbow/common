@@ -2,6 +2,7 @@ package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.junit.Test;
 
 public class PublicKeysHolderTest {
@@ -12,8 +13,8 @@ public class PublicKeysHolderTest {
     private final String SUFFIX = "/publicKey";
 
     // test case: When calling getPublicKey method with an invalid URI, it must
-    // throw a ConfigurationErrorException.
-    @Test(expected = ConfigurationErrorException.class) // verify
+    // throw a InternalServerErrorException.
+    @Test(expected = InternalServerErrorException.class) // verify
     public void testWithAnInvalidUri() throws FogbowException {
         // exercise
         PublicKeysHolder.getPublicKey(MALFORMED_URI, PORT, SUFFIX);

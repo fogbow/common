@@ -1,4 +1,4 @@
-package cloud.fogbow.common.util;
+package cloud.fogbow.common.util.connectivity.cloud.azure;
 
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;

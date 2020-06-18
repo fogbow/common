@@ -9,16 +9,7 @@ public class InstanceNotFoundException extends FogbowException {
         super(Messages.Exception.INSTANCE_NOT_FOUND);
     }
 
-    public InstanceNotFoundException(Throwable cause) {
-        super(Messages.Exception.INSTANCE_NOT_FOUND, cause);
-    }
-
     public InstanceNotFoundException(String message) {
         super(message);
     }
-
-    public InstanceNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

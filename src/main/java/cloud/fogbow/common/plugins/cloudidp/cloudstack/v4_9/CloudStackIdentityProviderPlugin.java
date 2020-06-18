@@ -4,11 +4,10 @@ import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.CloudStackUser;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
-import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
+import cloud.fogbow.common.util.connectivity.HttpErrorConditionToFogbowExceptionMapper;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -33,33 +32,41 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
     }
 
     @Override
-    public CloudStackUser getCloudUser(Map<String, String> credentials) throws FogbowException {
+    public CloudStackUser getCloudUser(Map<String, String> credentials) throws UnauthenticatedUserException {
         checkCredentials(credentials);
 
-        LoginRequest request = createLoginRequest(credentials);
-        HttpResponse response = authenticate(request);
-        Map<String, String> cookieHeaders = getCookieHeaders(response);
+        try {
+            LoginRequest request = createLoginRequest(credentials);
+            HttpResponse response = authenticate(request);
+            Map<String, String> cookieHeaders = getCookieHeaders(response);
 
-        return getCloudStackUser(LoginResponse.fromJson(response.getContent()), cookieHeaders);
+            return getCloudStackUser(LoginResponse.fromJson(response.getContent()), cookieHeaders);
+        } catch (Exception e) {
+            throw new UnauthenticatedUserException(e.getMessage());
+        }
     }
 
-    protected HttpResponse authenticate(LoginRequest request) throws FogbowException, InvalidParameterException {
+    protected HttpResponse authenticate(LoginRequest request) throws UnauthenticatedUserException {
         // Since all cloudstack requests params are passed via url args, we do not need
         // to send a valid json body in the post request
-        return HttpRequestClient.doGenericRequest(HttpMethod.POST, request.getUriBuilder().toString(),
-                new HashMap<>(), new HashMap<>());
+        try {
+            return HttpRequestClient.doGenericRequest(HttpMethod.POST, request.getUriBuilder().toString(),
+                    new HashMap<>(), new HashMap<>());
+        } catch (FogbowException e) {
+            throw new UnauthenticatedUserException(e.getMessage());
+        }
     }
 
-    private void checkCredentials(Map<String, String> credentials) throws InvalidParameterException {
+    private void checkCredentials(Map<String, String> credentials) throws UnauthenticatedUserException {
         if (credentials == null
                 || credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON) == null
                 || credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON) == null
                 || credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON) == null) {
-            throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
+            throw new UnauthenticatedUserException(Messages.Exception.NO_USER_CREDENTIALS);
         }
     }
 
-    private LoginRequest createLoginRequest(Map<String, String> credentials) throws InvalidParameterException {
+    private LoginRequest createLoginRequest(Map<String, String> credentials) throws UnauthenticatedUserException {
         String userId = credentials.get(CloudStackConstants.Identity.USERNAME_KEY_JSON);
         String password = credentials.get(CloudStackConstants.Identity.PASSWORD_KEY_JSON);
         String domain = credentials.get(CloudStackConstants.Identity.DOMAIN_KEY_JSON);
@@ -105,23 +112,24 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return cookieHeaders;
     }
 
-    private CloudStackUser getCloudStackUser(LoginResponse loginAuthentication, Map<String, String> cookieHeaders) throws FogbowException {
-        String sessionKey = loginAuthentication.getSessionKey();
-        ListAccountsRequest request = new ListAccountsRequest.Builder().sessionKey(sessionKey)
-                .build(this.cloudStackUrl);
+    private CloudStackUser getCloudStackUser(LoginResponse loginAuthentication, Map<String, String> cookieHeaders)
+            throws UnauthenticatedUserException {
+        HttpResponse response = null;
 
-        HttpResponse response = doGenerateAccountsList(request, cookieHeaders);
+        try {
+            String sessionKey = loginAuthentication.getSessionKey();
+            ListAccountsRequest request = new ListAccountsRequest.Builder().sessionKey(sessionKey).build(this.cloudStackUrl);
+
+            response = doGenerateAccountsList(request, cookieHeaders);
+        } catch (FogbowException e) {
+            throw new UnauthenticatedUserException(e.getMessage());
+        }
 
         if (response.getHttpCode() > HttpStatus.SC_OK) {
-            throw HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
+            throw new UnauthenticatedUserException(response.getContent());
         } else {
-            try {
-                ListAccountsResponse listAccountsResponse = ListAccountsResponse.fromJson(response.getContent());
+            ListAccountsResponse listAccountsResponse = ListAccountsResponse.fromJson(response.getContent());
                 return mountCloudStackUser(listAccountsResponse, cookieHeaders);
-            } catch (Exception e) {
-                LOGGER.error(Messages.Log.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-                throw new UnexpectedException(Messages.Exception.UNABLE_TO_GET_TOKEN_FROM_JSON, e);
-            }
         }
     }
 

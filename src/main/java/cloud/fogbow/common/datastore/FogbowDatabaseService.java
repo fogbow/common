@@ -1,7 +1,7 @@
 package cloud.fogbow.common.datastore;
 
 import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.TransactionSystemException;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class FogbowDatabaseService<T> {
     public static final String SIZE_CONSTRAINT_MESSAGE = "{javax.validation.constraints.Size.message}";
 
-    public <S extends T> void safeSave(S o, JpaRepository<T, ?> repository) throws UnexpectedException {
+    public <S extends T> void safeSave(S o, JpaRepository<T, ?> repository) throws InternalServerErrorException {
         try {
             repository.save(o);
         } catch (RuntimeException e) {
@@ -27,16 +27,17 @@ public class FogbowDatabaseService<T> {
 
                 saveTruncatedObject(truncated, repository);
             } else {
-                throw new UnexpectedException(e);
+                throw new InternalServerErrorException(e.getMessage());
             }
         }
     }
 
-    private void saveTruncatedObject(T truncatedObject, JpaRepository<T, ?> repository) throws UnexpectedException{
+    private void saveTruncatedObject(T truncatedObject, JpaRepository<T, ?> repository)
+            throws InternalServerErrorException {
         try {
             repository.save(truncatedObject);
         } catch (DataIntegrityViolationException e) {
-            throw new UnexpectedException(Messages.Exception.DATABASE_INTEGRITY_VIOLATED, e);
+            throw new InternalServerErrorException(Messages.Exception.DATABASE_INTEGRITY_VIOLATED);
         }
     }
 

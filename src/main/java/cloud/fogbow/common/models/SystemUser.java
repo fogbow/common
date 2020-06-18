@@ -1,7 +1,7 @@
 package cloud.fogbow.common.models;
 
 import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.util.GsonHolder;
 import cloud.fogbow.common.util.SerializedEntityHolder;
 
@@ -37,24 +37,24 @@ public class SystemUser extends User {
         return Objects.hash(identityProviderId, getId(), getName());
     }
 
-    public static String serialize(SystemUser systemUser) throws UnexpectedException {
+    public static String serialize(SystemUser systemUser) throws InternalServerErrorException {
         SerializedEntityHolder<SystemUser> serializedSystemUserHolder = new SerializedEntityHolder<SystemUser>(systemUser);
         String serializedSystemUser = serializedSystemUserHolder.toString();
 
         if(serializedSystemUser.length() > SystemUser.SERIALIZED_SYSTEM_USER_MAX_SIZE) {
-            throw new UnexpectedException(Messages.Exception.MAXIMUM_SIZE_EXCEEDED);
+            throw new InternalServerErrorException(Messages.Exception.MAXIMUM_SIZE_EXCEEDED);
         }
 
         return serializedSystemUser;
     }
 
-    public static SystemUser deserialize(String serializedSystemUser) throws UnexpectedException {
+    public static SystemUser deserialize(String serializedSystemUser) throws InternalServerErrorException {
         try {
             SerializedEntityHolder<SystemUser> serializedSystemUserHolder = GsonHolder.getInstance().fromJson(serializedSystemUser, SerializedEntityHolder.class);
             SystemUser systemUser = serializedSystemUserHolder.getSerializedEntity();
             return systemUser;
         } catch (ClassNotFoundException e) {
-            throw new UnexpectedException(Messages.Exception.UNABLE_TO_FIND_SYSTEM_USER_CLASS);
+            throw new InternalServerErrorException(Messages.Exception.UNABLE_TO_FIND_SYSTEM_USER_CLASS);
         }
     }
 }

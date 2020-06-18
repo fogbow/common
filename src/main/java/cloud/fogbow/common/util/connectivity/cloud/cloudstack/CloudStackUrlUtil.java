@@ -2,6 +2,7 @@ package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import org.apache.commons.codec.binary.Base64;
@@ -73,14 +74,14 @@ public class CloudStackUrlUtil {
     }
 
 
-    public static URIBuilder createURIBuilder(String endpoint, String command) throws InvalidParameterException {
+    public static URIBuilder createURIBuilder(String endpoint, String command) throws InternalServerErrorException {
         try {
             URIBuilder uriBuilder = new URIBuilder(endpoint);
             uriBuilder.addParameter(COMMAND, command);
             uriBuilder.addParameter(RESPONSE_FORMAT, JSON);
             return uriBuilder;
         } catch (Exception e) {
-            throw new InvalidParameterException(String.format(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S, endpoint));
+            throw new InternalServerErrorException(String.format(Messages.Exception.WRONG_SYNTAX_FOR_ENDPOINT_S, endpoint));
         }
     }
 }

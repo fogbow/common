@@ -165,7 +165,6 @@ public class CryptoUtil {
             throws IOException, GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        return new String(
-                cipher.doFinal(Base64.decode(cipherText)), "UTF-8");
+        return new String(cipher.doFinal(Base64.decode(cipherText)), "UTF-8");
     }
 }

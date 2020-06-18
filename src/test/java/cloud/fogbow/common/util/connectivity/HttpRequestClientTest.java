@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.UnavailableProviderException;
+import cloud.fogbow.common.util.connectivity.HttpErrorConditionToFogbowExceptionMapper;
 import org.apache.commons.httpclient.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,11 +27,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
-import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ HttpErrorToFogbowExceptionMapper.class, HttpRequestClient.class })
+@PrepareForTest({ HttpErrorConditionToFogbowExceptionMapper.class, HttpRequestClient.class })
 public class HttpRequestClientTest {
 
     private static final String ANY_VALUE = "anything";
@@ -143,7 +143,7 @@ public class HttpRequestClientTest {
 
     // test case: When calling the getHttpResponse method and an error occurs,
     // it must verify that an UnespectedException has been thrown and the map
-    // method from HttpErrorToFogbowExceptionMapper class was called.
+    // method from HttpErrorConditionToFogbowExceptionMapper class was called.
     @Test
     public void testGetHttpResponseFail() throws Exception {
         // set up
@@ -156,19 +156,19 @@ public class HttpRequestClientTest {
         IOException exception = new IOException(message);
         Mockito.when(connection.getResponseCode()).thenThrow(exception);
 
-        int expectedHttpStatus = HttpRequestClient.UNDISCERNED_HTTP_STATUS_CODE;
-        PowerMockito.mockStatic(HttpErrorToFogbowExceptionMapper.class);
-        PowerMockito.doReturn(new UnexpectedException())
-                .when(HttpErrorToFogbowExceptionMapper.class, "map", Mockito.anyInt(),
+        int expectedHttpStatus = HttpRequestClient.INVALID_HTTP_STATUS_CODE;
+        PowerMockito.mockStatic(HttpErrorConditionToFogbowExceptionMapper.class);
+        PowerMockito.doReturn(new InternalServerErrorException())
+                .when(HttpErrorConditionToFogbowExceptionMapper.class, "map", Mockito.anyInt(),
                 Mockito.anyString());
         try {
             // exercise
             HttpRequestClient.getHttpResponse(connection);
             Assert.fail();
-        } catch (UnexpectedException e) {
+        } catch (InternalServerErrorException e) {
             // Verify
-            PowerMockito.verifyStatic(HttpErrorToFogbowExceptionMapper.class, Mockito.times(RUN_ONCE));
-            HttpErrorToFogbowExceptionMapper.map(Mockito.eq(expectedHttpStatus), Mockito.eq(message));
+            PowerMockito.verifyStatic(HttpErrorConditionToFogbowExceptionMapper.class, Mockito.times(RUN_ONCE));
+            HttpErrorConditionToFogbowExceptionMapper.map(Mockito.eq(expectedHttpStatus), Mockito.eq(message));
         }
     }
 
@@ -333,7 +333,7 @@ public class HttpRequestClientTest {
     }
 
     // test case: When calling the setMethodIntoConnection method and an error
-    // occurs, it must verify that an InvalidParameterException has been thrown.
+    // occurs, it must verify that an InternalServerErrorException has been thrown.
     @Test
     public void testSetMethodIntoConnectionFail() throws Exception {
         // set up
@@ -351,14 +351,14 @@ public class HttpRequestClientTest {
             // exercise
             HttpRequestClient.setMethodIntoConnection(connection, method);
             Assert.fail();
-        } catch (InvalidParameterException e) {
+        } catch (InternalServerErrorException e) {
             // verify
             Assert.assertEquals(message, e.getMessage());
         }
     }
 
     // test case: When calling the openConnection method and an error occurs, it
-    // must verify that an InvalidParameterException has been thrown.
+    // must verify that an InternalServerErrorException has been thrown.
     @Test
     public void testOpenConnectionFail() throws Exception {
         // set up
@@ -375,7 +375,7 @@ public class HttpRequestClientTest {
             // exercise
             HttpRequestClient.openConnection(url);
             Assert.fail();
-        } catch (InvalidParameterException e) {
+        } catch (InternalServerErrorException e) {
             // verify
             Assert.assertEquals(message, e.getMessage());
         }

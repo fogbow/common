@@ -10,8 +10,7 @@ import java.util.Arrays;
 
 public class ClassFactory {
 
-    public Object createPluginInstance(String pluginClassName, String ... params)
-            throws FatalErrorException {
+    public Object createPluginInstance(String pluginClassName, String ... params) throws FatalErrorException {
 
         Object pluginInstance;
         Constructor<?> constructor;

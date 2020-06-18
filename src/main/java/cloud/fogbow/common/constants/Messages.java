@@ -32,7 +32,7 @@ public class Messages {
         public static final String UNABLE_TO_FIND_CLASS_S = "Unable to find class %s.";
         public static final String UNABLE_TO_FIND_SYSTEM_USER_CLASS = "Unable to find system user class.";
         public static final String UNABLE_TO_GET_TOKEN_FROM_JSON = "Unable to get token from json.";
-        public static final String UNABLE_TO_READ_COMPOSED_AUTHORIZATION_PLUGIN_CONFIGURATION_FILE_S = "Unable to read ComposedAuthorizationPlugin configuration file %s.";
+        public static final String UNABLE_TO_READ_CONFIGURATION_FILE_S = "Unable to read configuration file %s.";
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
         public static final String WRONG_SYNTAX_FOR_ENDPOINT_S = "Wrong syntax for endpoint %s.";

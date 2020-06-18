@@ -1,7 +1,7 @@
 package cloud.fogbow.common.util;
 
 import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.exceptions.ConfigurationErrorException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -33,25 +33,25 @@ public class ServiceAsymmetricKeysHolder {
         this.privateKeyFilePath = privateKeyFilePath;
     }
 
-    public RSAPublicKey getPublicKey() throws ConfigurationErrorException {
+    public RSAPublicKey getPublicKey() throws InternalServerErrorException {
 	    if (this.servicePublicKey == null) {
-	        if (this.publicKeyFilePath == null) throw new ConfigurationErrorException(Messages.Exception.NO_PUBLIC_KEY_DEFINED);
+	        if (this.publicKeyFilePath == null) throw new InternalServerErrorException(Messages.Exception.NO_PUBLIC_KEY_DEFINED);
             try {
                 this.servicePublicKey = CryptoUtil.getPublicKey(this.publicKeyFilePath);
             } catch (IOException | GeneralSecurityException e) {
-                throw new ConfigurationErrorException(Messages.Exception.INVALID_PUBLIC_KEY);
+                throw new InternalServerErrorException(Messages.Exception.INVALID_PUBLIC_KEY);
             }
         }
 	    return this.servicePublicKey;
     }
 
-    public RSAPrivateKey getPrivateKey() throws ConfigurationErrorException {
+    public RSAPrivateKey getPrivateKey() throws InternalServerErrorException {
         if (this.servicePrivateKey == null) {
-            if (this.privateKeyFilePath == null) throw new ConfigurationErrorException(Messages.Exception.NO_PRIVATE_KEY_DEFINED);
+            if (this.privateKeyFilePath == null) throw new InternalServerErrorException(Messages.Exception.NO_PRIVATE_KEY_DEFINED);
             try {
                 this.servicePrivateKey = CryptoUtil.getPrivateKey(this.privateKeyFilePath);
             } catch (IOException | GeneralSecurityException e) {
-                throw new ConfigurationErrorException(Messages.Exception.INVALID_PRIVATE_KEY);
+                throw new InternalServerErrorException(Messages.Exception.INVALID_PRIVATE_KEY);
             }
         }
         return this.servicePrivateKey;

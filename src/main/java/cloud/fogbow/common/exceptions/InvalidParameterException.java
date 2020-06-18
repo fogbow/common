@@ -9,16 +9,7 @@ public class InvalidParameterException extends FogbowException {
         super(Messages.Exception.INVALID_PARAMETER);
     }
 
-    public InvalidParameterException(Throwable cause) {
-        super(Messages.Exception.INVALID_PARAMETER, cause);
-    }
-
     public InvalidParameterException(String message) {
         super(message);
     }
-
-    public InvalidParameterException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

@@ -2,7 +2,7 @@ package cloud.fogbow.common.util.connectivity;
 
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.constants.Messages;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +15,9 @@ public class HttpRequest implements FogbowGenericRequest, Cloneable {
     private Map<String, String> body;
 
     public HttpRequest(HttpMethod method, String url, Map<String, String> body, Map<String, String> headers)
-            throws UnexpectedException {
+            throws InternalServerErrorException {
         if (headers == null || body == null) {
-            throw new UnexpectedException(Messages.Exception.NEITHER_BODY_OR_HEADERS_CAN_BE_NULL);
+            throw new InternalServerErrorException(Messages.Exception.NEITHER_BODY_OR_HEADERS_CAN_BE_NULL);
         }
 
         this.method = method;
@@ -27,11 +27,11 @@ public class HttpRequest implements FogbowGenericRequest, Cloneable {
     }
 
 
-    public HttpRequest(HttpMethod method, String url, Map<String, String> body) throws UnexpectedException {
+    public HttpRequest(HttpMethod method, String url, Map<String, String> body) throws InternalServerErrorException {
         this(method, url, body, new HashMap<>());
     }
 
-    public HttpRequest(HttpMethod method, String url) throws UnexpectedException {
+    public HttpRequest(HttpMethod method, String url) throws InternalServerErrorException {
         this(method, url, new HashMap<>(), new HashMap<>());
     }
 

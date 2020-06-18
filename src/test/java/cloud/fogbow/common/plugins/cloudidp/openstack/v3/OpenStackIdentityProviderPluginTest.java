@@ -2,7 +2,8 @@ package cloud.fogbow.common.plugins.cloudidp.openstack.v3;
 
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.constants.OpenStackConstants;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.OpenStackV3User;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
@@ -33,7 +34,7 @@ public class OpenStackIdentityProviderPluginTest {
     }
 
     // test case: When invoking the getCloudUser method with a null credential map,
-    // it must throw an UnexpectedException.
+    // it must throw an InternalServerErrorException.
     @Test(expected = NullPointerException.class) // verify
     public void testGetCloudUserWithNullCredentialsMap() throws FogbowException {
         // set up
@@ -44,8 +45,8 @@ public class OpenStackIdentityProviderPluginTest {
     }
 
     // test case: When invoking the getCloudUser method with an empty credential
-    // map, it must throw an UnexpectedException.
-    @Test(expected = UnexpectedException.class) // verify
+    // map, it must throw an UnauthenticatedUserException.
+    @Test(expected = UnauthenticatedUserException.class) // verify
     public void testGetCloudUserWithEmptyCredentialsMap() throws FogbowException {
         // set up
         Map<String, String> credentials = new HashMap<String, String>();
@@ -55,8 +56,8 @@ public class OpenStackIdentityProviderPluginTest {
     }
 
     // test case: When invoking the getCloudUser method with a credential map
-    // without a user name, it must throw an UnexpectedException.
-    @Test(expected = UnexpectedException.class) // verify
+    // without a user name, it must throw an UnauthenticatedUserException.
+    @Test(expected = UnauthenticatedUserException.class) // verify
     public void testGetCloudUserWithoutUsername() throws FogbowException {
         // set up
         Map<String, String> credentials = createCredentials(null, ANY_VALUE, ANY_VALUE, ANY_VALUE);
@@ -66,8 +67,8 @@ public class OpenStackIdentityProviderPluginTest {
     }
 
     // test case: When invoking the getCloudUser method with a credential map
-    // without a password, it must throw an UnexpectedException.
-    @Test(expected = UnexpectedException.class) // verify
+    // without a password, it must throw an UnauthenticatedUserException.
+    @Test(expected = UnauthenticatedUserException.class) // verify
     public void testGetCloudUserWithoutPassword() throws FogbowException {
         // set up
         Map<String, String> credentials = createCredentials(ANY_VALUE, null, ANY_VALUE, ANY_VALUE);
@@ -77,8 +78,8 @@ public class OpenStackIdentityProviderPluginTest {
     }
 
     // test case: When invoking the getCloudUser method with a credential map
-    // without a domain, it must throw an UnexpectedException.
-    @Test(expected = UnexpectedException.class) // verify
+    // without a domain, it must throw an UnauthenticatedUserException.
+    @Test(expected = UnauthenticatedUserException.class) // verify
     public void testGetCloudUserWithoutDomain() throws FogbowException {
         // set up
         Map<String, String> credentials = createCredentials(ANY_VALUE, ANY_VALUE, null, ANY_VALUE);
@@ -88,8 +89,8 @@ public class OpenStackIdentityProviderPluginTest {
     }
 
     // test case: When invoking the getCloudUser method with a credential map
-    // without a domain, it must throw an UnexpectedException.
-    @Test(expected = UnexpectedException.class) // verify
+    // without a domain, it must throw an UnauthenticatedUserException.
+    @Test(expected = UnauthenticatedUserException.class) // verify
     public void testGetCloudUserWithoutProject() throws FogbowException {
         // set up
         Map<String, String> credentials = createCredentials(ANY_VALUE, ANY_VALUE, ANY_VALUE, ANY_VALUE);

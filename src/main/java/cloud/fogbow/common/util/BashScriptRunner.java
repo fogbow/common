@@ -1,6 +1,6 @@
 package cloud.fogbow.common.util;
 
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class BashScriptRunner {
     private static final String LINE_BREAK = System.getProperty("line.separator");
 
-    public Output runtimeRun(String... command) throws UnexpectedException {
+    public Output runtimeRun(String... command) throws InternalServerErrorException {
         Process p;
         try {
             p = Runtime.getRuntime().exec(command);
@@ -25,17 +25,17 @@ public class BashScriptRunner {
                     p.getErrorStream()));
             Iterator<String> outputLines2 = reader2.lines().iterator();
             return new Output(exitCode, StringUtils.join(outputLines, LINE_BREAK), StringUtils.join(outputLines2, LINE_BREAK));
-        } catch (InterruptedException|IOException e) {
-            throw new UnexpectedException("", e);
+        } catch (InterruptedException | IOException e) {
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @Deprecated
-    public Output run(String... command) throws UnexpectedException {
+    public Output run(String... command) throws InternalServerErrorException {
         return run(null, command);
     }
 
-    private Output run(File outputFile, String... command) throws UnexpectedException {
+    private Output run(File outputFile, String... command) throws InternalServerErrorException {
         ProcessBuilder pb = new ProcessBuilder(command);
 
         if (outputFile != null) {
@@ -46,8 +46,8 @@ public class BashScriptRunner {
             Process p = pb.start();
             int exitCode = p.waitFor();
             return new Output(exitCode, null, null);
-        } catch (IOException|InterruptedException e) {
-            throw new UnexpectedException(e.getMessage(), e);
+        } catch (IOException | InterruptedException e) {
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

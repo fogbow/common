@@ -3,16 +3,15 @@ package cloud.fogbow.common.util.connectivity.cloud;
 import cloud.fogbow.common.constants.CloudStackConstants;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.exceptions.FogbowException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.models.CloudUser;
 import cloud.fogbow.common.util.GsonHolder;
-import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
+import cloud.fogbow.common.util.connectivity.HttpErrorConditionToFogbowExceptionMapper;
 import cloud.fogbow.common.util.connectivity.HttpRequest;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpResponseException;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -27,22 +26,20 @@ public abstract class CloudHttpClient<T extends CloudUser> {
 
     public CloudHttpClient() {}
 
-    public String doGetRequest(String url, T cloudUser) throws FogbowException, HttpResponseException {
+    public String doGetRequest(String url, T cloudUser) throws FogbowException {
         return callDoGenericRequest(HttpMethod.GET, url, EMPTY_BODY, cloudUser);
     }
 
-    public void doDeleteRequest(String url, T cloudUser) throws FogbowException, HttpResponseException {
+    public void doDeleteRequest(String url, T cloudUser) throws FogbowException {
         callDoGenericRequest(HttpMethod.DELETE, url, EMPTY_BODY, cloudUser);
     }
 
-    public String doPostRequest(String url, String bodyContent, T cloudUser)
-            throws FogbowException, HttpResponseException {
+    public String doPostRequest(String url, String bodyContent, T cloudUser) throws FogbowException {
         return callDoGenericRequest(HttpMethod.POST, url, bodyContent, cloudUser);
     }
 
     @VisibleForTesting
-    String callDoGenericRequest(HttpMethod method, String url, String bodyContent, T cloudUser)
-            throws FogbowException {
+    String callDoGenericRequest(HttpMethod method, String url, String bodyContent, T cloudUser) throws FogbowException {
 
         HashMap<String, String> headers = new HashMap<>();
         HashMap<String, String> body = GsonHolder.getInstance().fromJson(bodyContent, HashMap.class);
@@ -52,9 +49,9 @@ public abstract class CloudHttpClient<T extends CloudUser> {
                 // When the status code is 431, the error message must be obtained in the
                 // response headers.
                 Map<String, List<String>> responseHeaders = response.getHeaders();
-                throw HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), getMessageFrom(responseHeaders));
+                throw HttpErrorConditionToFogbowExceptionMapper.map(response.getHttpCode(), getMessageFrom(responseHeaders));
             } else {
-                throw HttpErrorToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
+                throw HttpErrorConditionToFogbowExceptionMapper.map(response.getHttpCode(), response.getContent());
             }
         }
         return response.getContent();
@@ -85,7 +82,7 @@ public abstract class CloudHttpClient<T extends CloudUser> {
 
     @VisibleForTesting
     HttpRequest createHttpRequest(HttpMethod method, String url, Map<String, String> body, Map<String, String> headers)
-            throws UnexpectedException {
+            throws InternalServerErrorException {
         return new HttpRequest(method, url, body, headers);
     }
 

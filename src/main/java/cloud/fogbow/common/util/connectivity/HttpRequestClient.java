@@ -3,11 +3,11 @@ package cloud.fogbow.common.util.connectivity;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.FogbowException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnavailableProviderException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.util.GsonHolder;
-import cloud.fogbow.common.util.HttpErrorToFogbowExceptionMapper;
+import cloud.fogbow.common.util.connectivity.HttpErrorConditionToFogbowExceptionMapper;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +32,7 @@ public class HttpRequestClient {
     private static final Logger LOGGER = Logger.getLogger(HttpRequestClient.class);
 
     @VisibleForTesting
-    static final int UNDISCERNED_HTTP_STATUS_CODE = -1;
+    static final int INVALID_HTTP_STATUS_CODE = -1;
 
     public static HttpResponse doGenericRequest(HttpMethod method, String endpoint, Map<String, String> headers,
             Map<String, String> body) throws FogbowException {
@@ -44,14 +44,14 @@ public class HttpRequestClient {
 
     @VisibleForTesting
     static HttpResponse getHttpResponse(HttpURLConnection connection) throws FogbowException {
-        int responseCode = UNDISCERNED_HTTP_STATUS_CODE;
+        int responseCode = INVALID_HTTP_STATUS_CODE;
         try {
             responseCode = connection.getResponseCode();
             Map<String, List<String>> responseHeaders = connection.getHeaderFields();
             String responseBody = getResponseBody(connection);
             return new HttpResponse(responseBody, responseCode, responseHeaders);
         } catch (IOException e) {
-            throw HttpErrorToFogbowExceptionMapper.map(responseCode, e.getMessage());
+            throw HttpErrorConditionToFogbowExceptionMapper.map(responseCode, e.getMessage());
         }
     }
 
@@ -115,7 +115,7 @@ public class HttpRequestClient {
 
     @VisibleForTesting
     static HttpURLConnection prepareConnection(String endpoint, HttpMethod method, Map<String, String> headers)
-            throws InvalidParameterException, UnexpectedException {
+            throws InvalidParameterException, InternalServerErrorException {
 
         URL url = createConnectionUrl(endpoint);
         HttpURLConnection connection = openConnection(url);
@@ -132,21 +132,21 @@ public class HttpRequestClient {
     }
 
     @VisibleForTesting
-    static void setMethodIntoConnection(HttpURLConnection connection, HttpMethod method) throws InvalidParameterException {
+    static void setMethodIntoConnection(HttpURLConnection connection, HttpMethod method) throws InternalServerErrorException {
         try {
             String methodName = method.getName();
             connection.setRequestMethod(methodName);
         } catch (ProtocolException e) {
-            throw new InvalidParameterException(e.getMessage(), e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @VisibleForTesting
-    static HttpURLConnection openConnection(URL url) throws InvalidParameterException {
+    static HttpURLConnection openConnection(URL url) throws InternalServerErrorException {
         try {
             return (HttpURLConnection) url.openConnection();
         } catch (IOException e) {
-            throw new InvalidParameterException(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -155,7 +155,7 @@ public class HttpRequestClient {
         try {
             return new URL(endpoint);
         } catch (MalformedURLException e) {
-            throw new InvalidParameterException(e.getMessage(), e);
+            throw new InvalidParameterException(e.getMessage());
         }
     }
 
