@@ -28,7 +28,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
         return new AwsV2User(userId, userId, accessKey, secretAccessKey);
     }
 
-    private void checkCredentials(String accessKey, String secretAccessKey) throws InvalidParameterException{
+    private void checkCredentials(String accessKey, String secretAccessKey) throws InvalidParameterException {
         if(accessKey == null || secretAccessKey == null) {
             throw new InvalidParameterException(Messages.Exception.NO_USER_CREDENTIALS);
         }
@@ -44,7 +44,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
             		.build();
             
             return client.getUser().user().userId();
-        } catch (Exception e) {
+        } catch (Exception | Error e) {
             LOGGER.error(Messages.Exception.AUTHENTICATION_ERROR, e);
             throw new UnauthenticatedUserException(e.getMessage());
         }

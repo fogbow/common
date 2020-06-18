@@ -18,9 +18,9 @@ public class OpenStackHttpToFogbowExceptionMapper {
             case HttpStatus.SC_NOT_FOUND:
                 throw new InstanceNotFoundException(e.getMessage(), e);
             case HttpStatus.SC_CONFLICT:
-                throw new QuotaExceededException(e.getMessage(), e);
+                throw new ConfigurationErrorException(e.getMessage(), e);
             case HttpStatus.SC_NOT_ACCEPTABLE:
-                throw new NoAvailableResourcesException(e.getMessage(), e);
+                throw new UnacceptableOperationException(e.getMessage(), e);
             case HttpStatus.SC_GATEWAY_TIMEOUT:
                 throw new UnavailableProviderException(e.getMessage(), e);
             default:
