@@ -70,6 +70,7 @@ public class OpenStackConstants {
         public static final String ADDRESSES_KEY_JSON = "addresses";
         public static final String FLAVOR_KEY_JSON = "flavor";
         public static final String STATUS_KEY_JSON = "status";
+        public static final String FAULT_MSG_KEY_JSON = "fault.message";
         public static final String ADDRESS_KEY_JSON = "addr";
         public static final String IMAGE_REFERENCE_KEY_JSON = "imageRef";
         public static final String FLAVOR_REFERENCE_KEY_JSON = "flavorRef";
