@@ -42,7 +42,7 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
             		.build();
             
             return client.getUser().user().userId();
-        } catch (Exception | Error e) {
+        } catch (Exception e) {
             LOGGER.error(Messages.Log.AUTHENTICATION_ERROR, e);
             throw new UnauthenticatedUserException(e.getMessage());
         }
