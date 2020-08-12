@@ -12,6 +12,12 @@ public class BinaryUnit {
     public static Gigabyte gigabytes(double value) {
         return new Gigabyte(value);
     }
+    public static Terabyte terabytes(double value) {
+        return new Terabyte(value);
+    }
+    public static Petabyte petabytes(double value) {
+        return new Petabyte(value);
+    }
 
     public static class Byte {
         private double value;
@@ -25,6 +31,12 @@ public class BinaryUnit {
         public double asGigabytes() {
             return value / Math.pow(BINARY_BASE_UNIT, 3);
         }
+        public double asTerabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 4);
+        }
+        public double asPetabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 5);
+        }
     }
 
     public static class Kilobyte {
@@ -37,6 +49,12 @@ public class BinaryUnit {
         public double asGigabytes() {
             return value / Math.pow(BINARY_BASE_UNIT, 2);
         }
+        public double asTerabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 3);
+        }
+        public double asPetabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 4);
+        }
     }
 
     public static class Megabyte {
@@ -46,8 +64,12 @@ public class BinaryUnit {
         }
         public double asBytes() { return value * Math.pow(BINARY_BASE_UNIT, 2); }
         public double asKilobytes() { return value * Math.pow(BINARY_BASE_UNIT, 1); }
-        public double asGigabytes() {
-            return value / Math.pow(BINARY_BASE_UNIT, 1);
+        public double asGigabytes() { return value / Math.pow(BINARY_BASE_UNIT, 1); }
+        public double asTerabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 2);
+        }
+        public double asPetabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 3);
         }
     }
 
@@ -59,5 +81,36 @@ public class BinaryUnit {
         public double asBytes() { return value * Math.pow(BINARY_BASE_UNIT, 3); }
         public double asKilobytes() { return value * Math.pow(BINARY_BASE_UNIT, 2); }
         public double asMegabytes() { return value * Math.pow(BINARY_BASE_UNIT, 1); }
+        public double asTerabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 1);
+        }
+        public double asPetabytes() {
+            return value / Math.pow(BINARY_BASE_UNIT, 2);
+        }
+    }
+
+    public static class Terabyte {
+        private double value;
+        private Terabyte(double value) {
+            this.value = value;
+        }
+        public double asBytes() { return value * Math.pow(BINARY_BASE_UNIT, 4); }
+        public double asKilobytes() { return value * Math.pow(BINARY_BASE_UNIT, 3); }
+        public double asMegabytes() { return value * Math.pow(BINARY_BASE_UNIT, 2); }
+        public double asGigabytes() { return value * Math.pow(BINARY_BASE_UNIT, 1); }
+        public double asPetabytes() { return value / Math.pow(BINARY_BASE_UNIT, 1); }
+    }
+
+    public static class Petabyte {
+        private double value;
+        private Petabyte(double value) {
+            this.value = value;
+        }
+        public double asBytes() { return value * Math.pow(BINARY_BASE_UNIT, 5); }
+        public double asKilobytes() { return value * Math.pow(BINARY_BASE_UNIT, 4); }
+        public double asMegabytes() { return value * Math.pow(BINARY_BASE_UNIT, 3); }
+        public double asGigabytes() { return value * Math.pow(BINARY_BASE_UNIT, 2); }
+        public double asTerabytes() { return value * Math.pow(BINARY_BASE_UNIT, 1); }
+
     }
 }
