@@ -357,4 +357,34 @@ public class BinaryUnitTest {
         Assert.assertEquals(expected3, result3, delta);
         Assert.assertEquals(expected4, result4, delta);
     }
+
+    @Test
+    public void testPetabyteToGigabyte() {
+        // set up
+        double ONE_PETABYTE = Math.pow(1024, 2);
+
+        double expected1 = 0.5 * ONE_PETABYTE;
+        double expected2 = ONE_PETABYTE;
+        double expected3 = 1.5 * ONE_PETABYTE;
+        double expected4 = 2 * ONE_PETABYTE;
+
+        double value1 = 0.5;
+        double value2 = 1;
+        double value3 = 1.5;
+        double value4 = 2;
+
+        double delta = 0;
+
+        // exercise
+        double result1 = BinaryUnit.petabytes(value1).asGigabytes();
+        double result2 = BinaryUnit.petabytes(value2).asGigabytes();
+        double result3 = BinaryUnit.petabytes(value3).asGigabytes();
+        double result4 = BinaryUnit.petabytes(value4).asGigabytes();
+
+        // verify
+        Assert.assertEquals(expected1, result1, delta);
+        Assert.assertEquals(expected2, result2, delta);
+        Assert.assertEquals(expected3, result3, delta);
+        Assert.assertEquals(expected4, result4, delta);
+    }
 }
