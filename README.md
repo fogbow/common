@@ -1,6 +1,6 @@
 # Common
 
-This is a module responsible for constants and classes used by many fogbow services like [Resource Allocation Service (RAS)](https://github.com/fogbow/resource-allocation-service) and [Authentication Service (AS)](https://github.com/fogbow/authentication-service).
+This is a module responsible for common code (constants, exceptions, model classes, etc) used by many fogbow services like [Resource Allocation Service (RAS)](https://github.com/fogbow/resource-allocation-service) and [Authentication Service (AS)](https://github.com/fogbow/authentication-service).
 
 ## How to use
 
