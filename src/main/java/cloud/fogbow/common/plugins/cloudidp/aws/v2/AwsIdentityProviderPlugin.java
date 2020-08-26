@@ -5,6 +5,7 @@ import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.AwsV2User;
 import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.log4j.Logger;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -32,7 +33,8 @@ public class AwsIdentityProviderPlugin implements CloudIdentityProviderPlugin<Aw
         }
     }
 
-    protected String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException {
+    @VisibleForTesting
+    String authenticate(String accessKey, String secretAccessKey) throws UnauthenticatedUserException {
         try {
             AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretAccessKey);
             StaticCredentialsProvider awsProvider = StaticCredentialsProvider.create(awsCreds);

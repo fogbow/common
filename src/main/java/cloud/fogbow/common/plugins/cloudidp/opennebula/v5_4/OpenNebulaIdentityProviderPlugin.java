@@ -3,6 +3,7 @@ package cloud.fogbow.common.plugins.cloudidp.opennebula.v5_4;
 import java.util.Map;
 
 import cloud.fogbow.common.exceptions.*;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.log4j.Logger;
 import org.opennebula.client.Client;
 import org.opennebula.client.OneResponse;
@@ -72,7 +73,8 @@ public class OpenNebulaIdentityProviderPlugin implements CloudIdentityProviderPl
      * user is authenticated. We opted to use UserPool.
      * TODO: check to request directly in the XML-RPC API
      */
-    protected boolean isAuthenticated(String openNebulaTokenValue) {
+    @VisibleForTesting
+    boolean isAuthenticated(String openNebulaTokenValue) {
     	Client client;
         UserPool userPool;
         try {

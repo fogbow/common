@@ -10,6 +10,7 @@ import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import cloud.fogbow.common.util.connectivity.HttpErrorConditionToFogbowExceptionMapper;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
@@ -21,9 +22,12 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
     private static final Logger LOGGER = Logger.getLogger(CloudStackIdentityProviderPlugin.class);
     private static final String COOKIE_HEADER = "Cookie";
     private static final String STRING_SPACE = " ";
-    protected static final String COOKIE_SEPARATOR = ";";
-    protected static final String SET_COOKIE_HEADER_1 = "Set-Cookie";
-    protected static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
+    @VisibleForTesting
+    static final String COOKIE_SEPARATOR = ";";
+    @VisibleForTesting
+    static final String SET_COOKIE_HEADER_1 = "Set-Cookie";
+    @VisibleForTesting
+    static final String SET_COOKIE_HEADER_2 = "SET-COOKIE";
 
     private String cloudStackUrl;
 
@@ -46,7 +50,8 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         }
     }
 
-    protected HttpResponse authenticate(LoginRequest request) throws UnauthenticatedUserException {
+    @VisibleForTesting
+    HttpResponse authenticate(LoginRequest request) throws UnauthenticatedUserException {
         // Since all cloudstack requests params are passed via url args, we do not need
         // to send a valid json body in the post request
         try {
@@ -146,7 +151,8 @@ public class CloudStackIdentityProviderPlugin implements CloudIdentityProviderPl
         return cloudStackUser;
     }
 
-    protected HttpResponse doGenerateAccountsList(ListAccountsRequest request, Map<String, String> cookieHeaders)
+    @VisibleForTesting
+    HttpResponse doGenerateAccountsList(ListAccountsRequest request, Map<String, String> cookieHeaders)
             throws FogbowException {
 
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET, request.getUriBuilder().toString(),
