@@ -12,6 +12,7 @@ import cloud.fogbow.common.plugins.cloudidp.CloudIdentityProviderPlugin;
 import cloud.fogbow.common.util.GsonHolder;
 import cloud.fogbow.common.util.connectivity.HttpRequestClient;
 import cloud.fogbow.common.util.connectivity.HttpResponse;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -60,7 +61,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         return unscopedAuth ? this.getUnscopedCloudUserFromJson(response) : this.getCloudUserFromJson(response);
     }
 
-    protected OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnauthenticatedUserException {
+    @VisibleForTesting
+    OpenStackV3User getCloudUserFromJson(HttpResponse response) throws UnauthenticatedUserException {
         String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
@@ -77,7 +79,8 @@ public class OpenStackIdentityProviderPlugin implements CloudIdentityProviderPlu
         }
     }
 
-    protected OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnauthenticatedUserException {
+    @VisibleForTesting
+    OpenStackV3User getUnscopedCloudUserFromJson(HttpResponse response) throws UnauthenticatedUserException {
         String tokenValue = this.getTokenValue(response.getHeaders());
 
         try {
