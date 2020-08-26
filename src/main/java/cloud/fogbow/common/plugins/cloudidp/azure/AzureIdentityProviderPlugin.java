@@ -15,7 +15,7 @@ import java.util.Map;
 public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<AzureUser> {
 
     @Override
-    public AzureUser getCloudUser(@NotNull Map<String, String> userCredentials) throws UnauthenticatedUserException {
+    public AzureUser getCloudUser(Map<String, String> userCredentials) throws UnauthenticatedUserException {
         checkCredentials(userCredentials);
         String subscriptionId = getCredential(userCredentials, SUBSCRIPTION_ID_KEY);
         String clientId = getCredential(userCredentials, CLIENT_ID_KEY);
@@ -29,7 +29,7 @@ public class AzureIdentityProviderPlugin implements CloudIdentityProviderPlugin<
         return authenticate(azureUser);
     }
 
-    private String getCredential(@NotNull Map<String, String> userCredentials, @NotNull AzureConstants.Credential credential) {
+    private String getCredential(Map<String, String> userCredentials, AzureConstants.Credential credential) {
         return userCredentials.get(credential.getValue());
     }
 
