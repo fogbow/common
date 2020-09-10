@@ -11,7 +11,7 @@ public class OpenNebulaConstants {
     public static final String DISK = "DISK";
     public static final String DISK_ID = "DISK_ID";
     public static final String DISK_TYPE = "DISK_TYPE";
-    public static final String FILE_SYSTEM_TYPE = "FSTYPE";
+    public static final String DRIVER = "DRIVER";
     public static final String FORMAT = "FORMAT";
     public static final String GRAPHICS = "GRAPHICS";
     public static final String ID = "ID";

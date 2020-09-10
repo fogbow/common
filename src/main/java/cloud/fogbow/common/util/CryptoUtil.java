@@ -145,13 +145,13 @@ public class CryptoUtil {
         return keyPair;
     }
 
-    public static String savePublicKey(PublicKey publ) throws GeneralSecurityException {
+    public static String toBase64(PublicKey publ) throws GeneralSecurityException {
         KeyFactory fact = KeyFactory.getInstance("RSA");
         X509EncodedKeySpec spec = fact.getKeySpec(publ, X509EncodedKeySpec.class);
         return new String(Base64.encode(spec.getEncoded()));
     }
 
-    public static String savePrivateKey(PrivateKey priv) throws GeneralSecurityException {
+    public static String toBase64(PrivateKey priv) throws GeneralSecurityException {
         KeyFactory fact = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec spec = fact.getKeySpec(priv, PKCS8EncodedKeySpec.class);
         byte[] packed = spec.getEncoded();
@@ -165,7 +165,6 @@ public class CryptoUtil {
             throws IOException, GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        return new String(
-                cipher.doFinal(Base64.decode(cipherText)), "UTF-8");
+        return new String(cipher.doFinal(Base64.decode(cipherText)), "UTF-8");
     }
 }

@@ -12,9 +12,4 @@ public class InstanceNotFoundException extends FogbowException {
     public InstanceNotFoundException(String message) {
         super(message);
     }
-
-    public InstanceNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

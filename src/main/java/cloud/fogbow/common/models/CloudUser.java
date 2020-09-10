@@ -7,6 +7,10 @@ public class CloudUser extends User {
         super(userId, userName);
         this.token = token;
     }
+    
+    public CloudUser(String userId, String userName) {
+        super(userId, userName);
+    }
 
     public String getToken() {
         return token;

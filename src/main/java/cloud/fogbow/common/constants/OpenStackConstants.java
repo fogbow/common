@@ -3,6 +3,44 @@ package cloud.fogbow.common.constants;
 public class OpenStackConstants {
     public static final String X_SUBJECT_TOKEN = "X-Subject-Token";
     public static final String X_AUTH_TOKEN_KEY = "X-Auth-Token";
+    public static final String NETWORK_PORTS_RESOURCE = "Network Ports";
+    public static final String SECURITY_GROUP_RESOURCE = "Security Group";
+    public static final String PUBLIC_IP_RESOURCE = "Public IP";
+    public static final String IPV4_ETHER_TYPE = "IPv4";
+    public static final String IPV6_ETHER_TYPE = "IPv6";
+    public static final String INGRESS_DIRECTION = "ingress";
+    public static final String TCP_PROTOCOL = "tcp";
+    public static final String UDP_PROTOCOL = "udp";
+    public static final String ICMP_PROTOCOL = "icmp";
+    public static final String ACTION = "action";
+    public static final String ENDPOINT_SEPARATOR = "/";
+    public static final String QUERY_NAME = "?name=";
+    public static final String ACTIVE_STATE = "active";
+    public static final String PUBLIC_VISIBILITY = "public";
+    public static final String PRIVATE_VISIBILITY = "private";
+    public static final String QUERY_ACTIVE_IMAGES = "?status=" + ACTIVE_STATE;
+    public static final String NOVA_V2_API_ENDPOINT = "/v2";
+    public static final String NEUTRON_V2_API_ENDPOINT = "/v2.0";
+    public static final String CINDER_V2_API_ENDPOINT = "/v2";
+    public static final String CINDER_V3_API_ENDPOINT = "/v3";
+    public static final String GLANCE_V2_API_ENDPOINT = "/v2";
+    public static final String SERVERS_ENDPOINT = "/servers";
+    public static final String VOLUMES_ENDPOINT = "/volumes";
+    public static final String TYPES_ENDPOINT = "/types";
+    public static final String SECURITY_GROUP_RULES_ENDPOINT = "/security-group-rules";
+    public static final String SECURITY_GROUPS_ENDPOINT = "/security-groups";
+    public static final String LIMITS_ENDPOINT = "/limits";
+    public static final String QUOTAS_ENDPOINT = "/quotas";
+    public static final String SUFFIX_ENDPOINT = "/details.json";
+    public static final String FLOATINGIPS_ENDPOINT = "/floatingips";
+    public static final String PORTS_ENDPOINT = "/ports";
+    public static final String NETWORK_ENDPOINT = "/networks";
+    public static final String SUBNET_ENDPOINT = "/subnets";
+    public static final String IMAGE_ENDPOINT = "images";
+    public static final String KEYPAIRS_ENDPOINT = "/os-keypairs";
+    public static final String FLAVORS_ENDPOINT = "/flavors";
+    public static final String EXTRA_SPECS_ENDPOINT = "/os-extra_specs";
+    public static final String OS_VOLUME_ATTACHMENTS = "/os-volume_attachments";
 
     public static class Volume {
         public static final String VOLUME_KEY_JSON = "volume";
@@ -32,7 +70,7 @@ public class OpenStackConstants {
         public static final String ADDRESSES_KEY_JSON = "addresses";
         public static final String FLAVOR_KEY_JSON = "flavor";
         public static final String STATUS_KEY_JSON = "status";
-        public static final String PROVIDER_KEY_JSON = "provider";
+        public static final String FAULT_MSG_KEY_JSON = "fault.message";
         public static final String ADDRESS_KEY_JSON = "addr";
         public static final String IMAGE_REFERENCE_KEY_JSON = "imageRef";
         public static final String FLAVOR_REFERENCE_KEY_JSON = "flavorRef";
@@ -46,7 +84,6 @@ public class OpenStackConstants {
         public static final String PUBLIC_KEY_KEY_JSON = "public_key";
         public static final String ADD_SECURITY_GROUP_KEY_JSON = "addSecurityGroup";
         public static final String REMOVE_SECURITY_GROUP_KEY_JSON = "removeSecurityGroup";
-        public static final String FLAVORS_KEY_JSON = "flavors";
     }
 
     public static class Network {
@@ -116,6 +153,16 @@ public class OpenStackConstants {
         public static final String TOTAL_CORES_USED_KEY_JSON = "totalCoresUsed";
         public static final String TOTAL_RAM_USED_KEY_JSON = "totalRAMUsed";
         public static final String TOTAL_INSTANCES_USED_KEY_JSON = "totalInstancesUsed";
+        public static final String MAX_TOTAL_VOLUME_GIGABYTES_KEY_JSON = "maxTotalVolumeGigabytes";
+        public static final String MAX_TOTAL_VOLUMES_KEY_JSON = "maxTotalVolumes";
+        public static final String TOTAL_VOLUMES_USED_KEY_JSON = "totalVolumesUsed";
+        public static final String TOTAL_GIGABYTES_USED_KEY_JSON = "totalGigabytesUsed";
+        public static final String QUOTA_KEY_JSON = "quota";
+        public static final String FLOATING_IP_KEY_JSON = "floatingip";
+        public static final String NETWORK_KEY_JSON = "network";
+        public static final String LIMIT_KEY_JSON = "limit";
+        public static final String RESERVED_KEY_JSON = "reserved";
+        public static final String USED_KEY_JSON = "used";
     }
 
     public static class PublicIp {
@@ -127,5 +174,10 @@ public class OpenStackConstants {
         public static final String PORT_ID_KEY_JSON = "port_id";
         public static final String PROJECT_ID_KEY_JSON = "project_id";
         public static final String PORTS_KEY_JSON = "ports";
+    }
+
+    public static class SecurityRule {
+        public static final String SECURITY_GROUP_ID_KEY_JSON = "security_group_id";
+        public static final String NAME_KEY_JSON = "name";
     }
 }

@@ -19,4 +19,7 @@ public class FogbowConstants {
     // Token optional fields
     public static final String USER_NAME_KEY = "name";
     public static final String TOKEN_VALUE_KEY = "token";
+
+    // Quota
+    public static final int UNLIMITED_RESOURCE = -1;
 }

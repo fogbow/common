@@ -1,7 +1,6 @@
 package cloud.fogbow.common.plugins.authorization;
 
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
-import cloud.fogbow.common.exceptions.UnexpectedException;
 import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
 
@@ -15,5 +14,5 @@ public interface AuthorizationPlugin<T extends FogbowOperation> {
      * @param operation the Operation object describing the operation the user is requesting to perform
      * @return a boolean stating whether the user is authorized or not.
      */
-    public boolean isAuthorized(SystemUser systemUser, T operation) throws UnauthorizedRequestException, UnexpectedException;
+    public boolean isAuthorized(SystemUser systemUser, T operation) throws UnauthorizedRequestException;
 }

@@ -3,6 +3,7 @@ package cloud.fogbow.common.util.connectivity.cloud.openstack;
 import cloud.fogbow.common.constants.HttpConstants;
 import cloud.fogbow.common.constants.HttpMethod;
 import cloud.fogbow.common.constants.OpenStackConstants;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.models.OpenStackV3User;
 import cloud.fogbow.common.util.connectivity.cloud.CloudHttpClient;
 import cloud.fogbow.common.util.connectivity.HttpRequest;
@@ -15,8 +16,10 @@ public class OpenStackHttpClient extends CloudHttpClient<OpenStackV3User> {
     }
 
     @Override
-    public HttpRequest prepareRequest(HttpRequest genericRequest, OpenStackV3User cloudUser) {
-        HttpRequest clonedRequest = (HttpRequest) genericRequest.clone();
+    public HttpRequest prepareRequest(HttpRequest genericRequest, OpenStackV3User cloudUser) throws InternalServerErrorException {
+        HttpRequest clonedRequest = new HttpRequest(
+            genericRequest.getMethod(), genericRequest.getUrl(), genericRequest.getBody(), genericRequest.getHeaders());
+
         Map<String, String> headers = clonedRequest.getHeaders();
 
         headers.put(OpenStackConstants.X_AUTH_TOKEN_KEY, cloudUser.getToken());

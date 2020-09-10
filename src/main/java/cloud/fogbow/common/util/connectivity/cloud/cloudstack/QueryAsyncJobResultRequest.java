@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 
 import static cloud.fogbow.common.constants.CloudStackConstants.PublicIp.JOB_ID_KEY_JSON;
@@ -7,7 +8,7 @@ import static cloud.fogbow.common.constants.CloudStackConstants.PublicIp.QUERY_A
 
 public class QueryAsyncJobResultRequest extends CloudStackRequest {
 
-	protected QueryAsyncJobResultRequest(Builder builder) throws InvalidParameterException {
+	protected QueryAsyncJobResultRequest(Builder builder) throws InternalServerErrorException {
 	    super(builder.cloudStackUrl);
 		addParameter(JOB_ID_KEY_JSON, builder.jobId);
 	}
@@ -31,7 +32,7 @@ public class QueryAsyncJobResultRequest extends CloudStackRequest {
             return this;
         }
 
-        public QueryAsyncJobResultRequest build(String cloudStackUrl) throws InvalidParameterException {
+        public QueryAsyncJobResultRequest build(String cloudStackUrl) throws InternalServerErrorException {
             this.cloudStackUrl = cloudStackUrl;
             return new QueryAsyncJobResultRequest(this);
         }
