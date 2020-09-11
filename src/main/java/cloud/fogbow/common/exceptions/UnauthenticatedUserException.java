@@ -12,8 +12,4 @@ public class UnauthenticatedUserException extends FogbowException {
     public UnauthenticatedUserException(String message) {
         super(message);
     }
-
-    public UnauthenticatedUserException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

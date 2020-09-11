@@ -1,6 +1,6 @@
 package cloud.fogbow.common.datastore;
 
-import cloud.fogbow.common.exceptions.UnexpectedException;
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -24,7 +24,7 @@ public class StorableObjectTruncateHelper<T> {
         this.type = type;
     }
 
-    public T truncate(T object) throws UnexpectedException {
+    public T truncate(T object) throws InternalServerErrorException {
         try {
             Constructor<?> constructor = this.type.getConstructor();
             T created = (T) constructor.newInstance();
@@ -54,13 +54,14 @@ public class StorableObjectTruncateHelper<T> {
             }
             return created;
         } catch (Throwable e) {
-            throw new UnexpectedException("", e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     public List<Field> getAllFields(Class<?> type) {
         List<Field> allFields = new ArrayList<>();
-        for (Class<?> currentType = type; currentType != null && !currentType.equals(Object.class); currentType = currentType.getSuperclass()) {
+        for (Class<?> currentType = type; currentType != null && !currentType.equals(Object.class);
+                                                                    currentType = currentType.getSuperclass()) {
             Field[] declaredFields = currentType.getDeclaredFields();
             if (declaredFields.length == 0) {
                 break;
@@ -71,7 +72,8 @@ public class StorableObjectTruncateHelper<T> {
         return allFields;
     }
 
-    private void setTruncatedValue(String originalValue, Object target, Field field, int newSize) throws IllegalAccessException {
+    private void setTruncatedValue(String originalValue, Object target, Field field, int newSize)
+            throws IllegalAccessException {
         String truncatedValue;
         if (originalValue != null) {
             int endIndex = Math.min(originalValue.length(), newSize);

@@ -1,6 +1,8 @@
 package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
+import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
+import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import org.apache.http.client.utils.URIBuilder;
 
 public abstract class CloudStackRequest {
@@ -8,7 +10,7 @@ public abstract class CloudStackRequest {
 
     protected CloudStackRequest() {}
 
-    protected CloudStackRequest(String baseEndpoint) throws InvalidParameterException {
+    protected CloudStackRequest(String baseEndpoint) throws InternalServerErrorException {
         this.uriBuilder = CloudStackUrlUtil.createURIBuilder(baseEndpoint, getCommand());
     }
 
@@ -18,7 +20,7 @@ public abstract class CloudStackRequest {
         }
     }
 
-    public URIBuilder getUriBuilder() throws InvalidParameterException {
+    public URIBuilder getUriBuilder() {
         return this.uriBuilder;
     }
 

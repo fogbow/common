@@ -22,7 +22,7 @@ public class OpenNebulaMarshallerTemplate {
 	        marshaller.marshal(this, writer);
 	        xml = writer.toString();
 	    } catch (JAXBException e) {
-	        LOGGER.error(Messages.Error.ERROR_WHILE_CREATING_REQUEST_BODY);
+	        LOGGER.error(Messages.Log.ERROR_WHILE_CREATING_REQUEST_BODY);
 	    }
 	    return xml;
 	}

@@ -2,8 +2,6 @@ package cloud.fogbow.common.util.connectivity.cloud.cloudstack;
 
 import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.models.CloudStackUser;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.HttpResponseException;
 
 public class CloudStackQueryJobResult {
 
@@ -23,11 +21,7 @@ public class CloudStackQueryJobResult {
         String jsonResponse = null;
         String requestUrl = queryAsyncJobResultRequest.getUriBuilder().toString();
 
-        try {
-            jsonResponse = client.doGetRequest(requestUrl, cloudStackUser);
-        } catch (HttpResponseException e) {
-            CloudStackHttpToFogbowExceptionMapper.map(e);
-        }
+        jsonResponse = client.doGetRequest(requestUrl, cloudStackUser);
 
         return jsonResponse;
     }
