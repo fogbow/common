@@ -1,6 +1,5 @@
 package cloud.fogbow.common.plugins.cloudidp;
 
-import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.UnauthenticatedUserException;
 import cloud.fogbow.common.models.CloudUser;
 
