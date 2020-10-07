@@ -25,11 +25,11 @@ public class SystemUser extends User {
     }
 
     public Set<String> getUserRoles() {
-    	return roles;
+        return roles;
     }
     
     public void setUserRoles(Set<String> roles) {
-    	this.roles = roles;
+        this.roles = roles;
     }
     
     @Override
