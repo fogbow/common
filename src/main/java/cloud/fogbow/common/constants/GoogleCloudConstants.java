@@ -94,6 +94,7 @@ public class GoogleCloudConstants {
             public static final boolean BOOT_DEFAULT_VALUE = true;
 
             public static final String INITIAL_PARAMS_KEY_JSON = "initializeParams";
+            public static final String BOOT_KEY_JSON = "boot";
 
             public static final class InitializeParams {
                 public static final String IMAGE_KEY_JSON = "sourceImage";
