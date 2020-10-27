@@ -48,7 +48,7 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 
 			PrivateKey objKey = CryptoUtil.getPrivateKeyFromString(privateKey);
 
-			String signedJwt = this.signJwt(objKey, email);
+			String signedJwt = this.createJwt(objKey, email);
 			Map<String, String> requestBody = new HashMap<String, String>();
 			requestBody.put(GoogleCloudConstants.Identity.GRANT_TYPE_KEY, GRANT_TYPE_VALUE);
 			requestBody.put(GoogleCloudConstants.Identity.ASSERTION_KEY, signedJwt);
@@ -67,7 +67,7 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 		}
 	}
 
-	private String signJwt(PrivateKey objKey, String email) {
+	private String createJwt(PrivateKey objKey, String email) {
 
 		long now = System.currentTimeMillis();
 
