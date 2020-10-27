@@ -1,6 +1,7 @@
 package cloud.fogbow.common.models;
 
 public class GoogleCloudUser extends CloudUser {
+
 	
 	private String projectId;
 	
