@@ -55,12 +55,11 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 			HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, endPoint, header, requestBody);
 			CreateAuthenticationResponse responseObject = CreateAuthenticationResponse.fromJson(response.getContent());
 			
-			System.out.println(responseObject.getToken());
 			return new GoogleCloudUser(email, email, responseObject.getToken(),
 					userCredentials.get(GoogleCloudConstants.Identity.PROJECT_ID_KEY));
 
 		} catch (Exception e) {
-			throw new UnauthenticatedUserException();
+			throw new UnauthenticatedUserException(e.getMessage());
 		}
 	}
 
