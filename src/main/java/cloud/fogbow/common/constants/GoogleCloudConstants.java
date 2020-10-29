@@ -110,7 +110,7 @@ public class GoogleCloudConstants {
     }
     
     public static class Identity {
-	    public static final String EMAIL = "email";
+	    public static final String EMAIL_KEY = "email";
 	    public static final String PRIVATE_KEY = "private_key";
 	    public static final String GRANT_TYPE_KEY = "grant_type";
 	    public static final String PROJECT_ID_KEY = "project_id";

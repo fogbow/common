@@ -25,8 +25,6 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 	private final static String URL = "https://oauth2.googleapis.com";
 	private final String SCOPE_VALUE = "https://www.googleapis.com/auth/compute";
 	private final String GRANT_TYPE_VALUE = "urn:ietf:params:oauth:grant-type:jwt-bearer";
-	private final String BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----";
-	private final String END_PRIVATE_KEY = "-----END PRIVATE KEY-----";
 
 	public GoogleCloudIdentityProviderPlugin(String identityUrl) {
 		this.endPoint = identityUrl + TOKEN_ENDPOINT;
@@ -41,10 +39,8 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 
 		try {
 
-			String email = userCredentials.get(GoogleCloudConstants.Identity.EMAIL);
+			String email = userCredentials.get(GoogleCloudConstants.Identity.EMAIL_KEY);
 			String privateKey = userCredentials.get(GoogleCloudConstants.Identity.PRIVATE_KEY);
-
-			privateKey = privateKey.replace(BEGIN_PRIVATE_KEY, "").replace(END_PRIVATE_KEY, "");
 
 			PrivateKey objKey = CryptoUtil.getPrivateKeyFromString(privateKey);
 
@@ -58,7 +54,8 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 
 			HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, endPoint, header, requestBody);
 			CreateAuthenticationResponse responseObject = CreateAuthenticationResponse.fromJson(response.getContent());
-
+			
+			System.out.println(responseObject.getToken());
 			return new GoogleCloudUser(email, email, responseObject.getToken(),
 					userCredentials.get(GoogleCloudConstants.Identity.PROJECT_ID_KEY));
 
