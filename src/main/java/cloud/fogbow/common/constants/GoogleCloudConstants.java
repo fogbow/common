@@ -110,6 +110,8 @@ public class GoogleCloudConstants {
     }
     
     public static class Identity {
+    	public static final String CONTENT_TYPE_KEY = "Content-Type";
+    	public static final String APPLICATION_JSON = "application/json";
 	    public static final String EMAIL_KEY = "email";
 	    public static final String PRIVATE_KEY = "private_key";
 	    public static final String GRANT_TYPE_KEY = "grant_type";

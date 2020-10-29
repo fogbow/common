@@ -50,7 +50,7 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 			requestBody.put(GoogleCloudConstants.Identity.ASSERTION_KEY, signedJwt);
 
 			Map<String, String> header = new HashMap<String, String>();
-			header.put("Content-Type", "application/json");
+			header.put(GoogleCloudConstants.Identity.CONTENT_TYPE_KEY, GoogleCloudConstants.Identity.APPLICATION_JSON);
 
 			HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.POST, endPoint, header, requestBody);
 			CreateAuthenticationResponse responseObject = CreateAuthenticationResponse.fromJson(response.getContent());
