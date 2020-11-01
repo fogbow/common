@@ -48,31 +48,39 @@ public class GoogleCloudConstants {
 		public static final String ATTACH_ID_KEY_JSON = "id";
 	}
 
-	public static class Network {
-		public static final String DEFAULT_NETWORK_NAME = "default";
+    public static class Network{
+        public static final String DEFAULT_NETWORK_NAME = "default";
+        
+        public static final String NETWORK_KEY_JSON = "network";
+        public static final String NAME_KEY_JSON = "name";
+        public static final String ID_KEY_JSON = "id";
+        public static final String AUTO_CREATE_SUBNETS_KEY_JSON = "autoCreateSubnetworks";
+        public static final String CIDR_KEY_JSON = "ipCidrRange";
+        public static final String ROUTING_MODE_KEY_JSON = "routingMode";
+        public static final String ROUTING_CONFIG_KEY_JSON = "routingConfig";
+        public static final String TARGET_LINK_KEY_JSON = "targetLink";
+        public static final String SELF_LINK_KEY_JSON = "selfLink";
+        public static final String SUBNETWORKS_KEY_JSON = "subnetworks";
+        public static final String GATEWAY_ADDRESS_KEY_JSON = "gatewayAddress";
 
-		public static final String NETWORK_KEY_JSON = "network";
-		public static final String NAME_KEY_JSON = "name";
-		public static final String ID_KEY_JSON = "id";
-		public static final String AUTO_CREATE_SUBNETS_KEY_JSON = "autoCreateSubnetworks";
-		public static final String CIDR_KEY_JSON = "ipCidrRange";
-		public static final String ROUTING_MODE_KEY_JSON = "routingMode";
-		public static final String ROUTING_CONFIG_KEY_JSON = "routingConfig";
-		public static final String TARGET_LINK_KEY_JSON = "targetLink";
-
-		public static class Firewall {
-			public static final String NAME_KEY_JSON = "name";
-			public static final String ID_KEY_JSON = "id";
-			public static final String CIDR_INCOME_JSON = "sourceRanges";
-			public static final String CIDR_OUTCOME_KEY_JSON = "destinationRanges";
-			public static final String ALLOWED_KEY_JSON = "allowed";
-			public static final String PORT_KEY_JSON = "port";
-			public static final String IP_PROTOCOL_KEY_JSON = "IPProtocol";
-			public static final String DIRECTION_KEY_JSON = "direction";
-			public static final String ETHERTYPE_KEY_JSON = "ethertype";
-			public static final String FIREWALLS_JSON = "items";
-		}
-	}
+        public static class Firewall {
+            public static final String NAME_KEY_JSON = "name";
+            public static final String ID_KEY_JSON = "id";
+            public static final String CIDR_INCOME_JSON = "sourceRanges";
+            public static final String CIDR_OUTCOME_KEY_JSON = "destinationRanges";
+            public static final String ALLOWED_KEY_JSON = "allowed";
+            public static final String PORT_KEY_JSON = "port";
+            public static final String IP_PROTOCOL_KEY_JSON = "IPProtocol";
+            public static final String DIRECTION_KEY_JSON = "direction";
+            public static final String ETHERTYPE_KEY_JSON = "ethertype";
+            public static final String FIREWALLS_JSON = "items";
+            public static final Integer DEFAULT_PRIORITY = 65534;
+            public static final String PRIORITY_KEY_JSON = "priority";
+            public static final int LOWEST_PORT_LIMIT = 0;
+            public static final int HIGHEST_PORT_LIMIT = 65535;
+            public static final String INTERNAL_VPC_CIDR = "0.0.0.0/0";
+        }
+    }
 
 	public static final class Compute {
 		public static final String CUSTOM_FLAVOR = "custom";
