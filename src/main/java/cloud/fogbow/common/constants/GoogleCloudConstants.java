@@ -128,4 +128,17 @@ public class GoogleCloudConstants {
 		public static final String SCOPE_KEY = "scope";
 		public static final String PRIVATE_KEY_PATH = "private_key_path";
 	}
+	
+	public static class Image {
+		public static final String NEXT_TOKEN_KEY_JSON = "nextPageToken";
+		public static final String NEXT_TOKEN_KEY_QUERY = "pageToken";
+		public static final String EQUAL_QUERY = "pageToken";
+		public static final String INTERROGATION_QUERY = "?";
+		public static final String IMAGE_STATUS = "READY";
+		public static final String DISK_SIZE_KEY_JSON = "diskSizeGb";
+		public static final String STATUS_KEY_JSON = "status";
+		public static final String ID_KEY_JSON = "id";
+		public static final String NAME_KEY_JSON = "name";
+		public static final String ITEMS_KEY_JSON = "items";
+	}
 }
