@@ -10,6 +10,7 @@ public class GoogleCloudConstants {
 	public static final String DEVICE_NAME_QUERY_PARAM = "?deviceName=";
 	public static final String DEFAULT_ZONE = "southamerica-east1-b";
 	public static final String ZONE_KEY_CONFIG = "zone";
+	public static final String BASE_COMPUTE_API_URL = "https://compute.googleapis.com/compute";
 
 	// GENERAL ENDPOINTS
 	public static final String ATTACH_DISK_KEY_ENDPOINT = "/attachDisk";
@@ -79,6 +80,11 @@ public class GoogleCloudConstants {
             public static final int LOWEST_PORT_LIMIT = 0;
             public static final int HIGHEST_PORT_LIMIT = 65535;
             public static final String INTERNAL_VPC_CIDR = "0.0.0.0/0";
+
+			public static final String DEFAULT_ALLOW_ICMP_NAME = "default-allow-icmp";
+			public static final String DEFAULT_ALLOW_INTERNAL_NAME = "default-allow-internal";
+			public static final String DEFAULT_ALLOW_RDP_NAME = "default-allow-rdp";
+			public static final String DEFAULT_ALLOW_SSH_NAME = "default-allow-ssh";
         }
     }
 
@@ -100,9 +106,11 @@ public class GoogleCloudConstants {
 
 		public static final class Disk {
 			public static final boolean BOOT_DEFAULT_VALUE = true;
+			public static final boolean AUTO_DELETE_DEFAULT_VALUE = true;
 
 			public static final String INITIAL_PARAMS_KEY_JSON = "initializeParams";
 			public static final String BOOT_KEY_JSON = "boot";
+			public static final String AUTO_DELETE_KEY_JSON = "autoDelete";
 
 			public static final class InitializeParams {
 				public static final String IMAGE_KEY_JSON = "sourceImage";
@@ -142,3 +150,4 @@ public class GoogleCloudConstants {
 		public static final String ITEMS_KEY_JSON = "items";
 	}
 }
+
