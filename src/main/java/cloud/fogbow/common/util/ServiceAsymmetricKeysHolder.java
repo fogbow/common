@@ -56,4 +56,11 @@ public class ServiceAsymmetricKeysHolder {
         }
         return this.servicePrivateKey;
     }
+    
+    public static void reset(String publicKeyFilePath, String privateKeyFilePath) { 
+        instance = null;
+        getInstance();
+        instance.setPublicKeyFilePath(publicKeyFilePath);
+        instance.setPrivateKeyFilePath(privateKeyFilePath);
+    }
 }
