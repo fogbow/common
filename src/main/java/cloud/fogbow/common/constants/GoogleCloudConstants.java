@@ -11,14 +11,17 @@ public class GoogleCloudConstants {
 	public static final String DEFAULT_ZONE = "southamerica-east1-b";
 	public static final String ZONE_KEY_CONFIG = "zone";
 	public static final String BASE_COMPUTE_API_URL = "https://compute.googleapis.com/compute";
+	public static final String GOOGLE_APIS_BASE_URL = "https://www.googleapis.com/";
+	public static final String EMPTY_STRING = "";
 
 	// GENERAL ENDPOINTS
 	public static final String ATTACH_DISK_KEY_ENDPOINT = "/attachDisk";
 	public static final String DETACH_DISK_KEY_ENDPOINT = "/DetachDisk";
 	public static final String PROJECT_ENDPOINT = "/projects";
 	public static final String ZONES_ENDPOINT = "/zones";
-	public static final String VOLUME_ENDPOINT = "/volume";
+	public static final String VOLUME_ENDPOINT = "/disks";
 	public static final String DISKS_ENDPOINT = "/disks";
+	public static final String VOLUME_TYPES_ENDPOINT = "/diskTypes";
 	public static final String INSTANCES_ENDPOINT = "/instances";
 	public static final String GLOBAL_IP_ENDPOINT = "/global/addresses";
 	public static final String GLOBAL_IMAGES_ENDPOINT = "/global/images";
@@ -31,6 +34,7 @@ public class GoogleCloudConstants {
 
 	public static class Volume {
 		public static final String VOLUME_KEY_JSON = "volume";
+		public static final String VOLUME_TYPE = "type";
 		public static final String STATUS_KEY_JSON = "status";
 		public static final String SIZE_KEY_JSON = "sizeGb";
 		public static final String NAME_KEY_JSON = "name";
@@ -38,6 +42,11 @@ public class GoogleCloudConstants {
 		public static final String TYPE_KEY_JSON = "type";
 		public static final String VALID_DISK_SIZE_KEY_JSON = "valid_disk_size";
 		public static final String DESCRIPTION_KEY_JSON = "description";
+		public static final String ITEMS_KEY_JSON = "items";
+		public static final String OPERATION_KEY_JSON = "operation";
+		public static final String TARGET_ID_KEY_JSON = "targetId";
+		public static final String TARGET_LINK_KEY_JSON = "targetLink";
+		public static final String SELF_LINK_KEY_JSON = "selfLink";
 	}
 
 	public static class Attachment {
