@@ -13,6 +13,7 @@ public class GoogleCloudConstants {
 	public static final String BASE_COMPUTE_API_URL = "https://compute.googleapis.com/compute";
 	public static final String GOOGLE_APIS_BASE_URL = "https://www.googleapis.com/";
 	public static final String EMPTY_STRING = "";
+	public static final String ELEMENT_SEPARATOR = "-";
 
 	// GENERAL ENDPOINTS
 	public static final String ATTACH_DISK_KEY_ENDPOINT = "/attachDisk";
@@ -60,7 +61,8 @@ public class GoogleCloudConstants {
 
     public static class Network{
         public static final String DEFAULT_NETWORK_NAME = "default";
-        
+        public static final String GLOBAL_NETWORKS_PATH = "global/networks";
+
         public static final String NETWORK_KEY_JSON = "network";
         public static final String NAME_KEY_JSON = "name";
         public static final String ID_KEY_JSON = "id";
@@ -75,17 +77,20 @@ public class GoogleCloudConstants {
 
         public static class Firewall {
             public static final String NAME_KEY_JSON = "name";
+			public static final String NETWORK_KEY_JSON = "network";
             public static final String ID_KEY_JSON = "id";
             public static final String CIDR_INCOME_JSON = "sourceRanges";
             public static final String CIDR_OUTCOME_KEY_JSON = "destinationRanges";
             public static final String ALLOWED_KEY_JSON = "allowed";
-            public static final String PORT_KEY_JSON = "port";
+			public static final String DENIED_KEY_JSON = "denied";
+            public static final String PORT_KEY_JSON = "ports";
             public static final String IP_PROTOCOL_KEY_JSON = "IPProtocol";
             public static final String DIRECTION_KEY_JSON = "direction";
             public static final String ETHERTYPE_KEY_JSON = "ethertype";
             public static final String FIREWALLS_JSON = "items";
-            public static final Integer DEFAULT_PRIORITY = 65534;
-            public static final String PRIORITY_KEY_JSON = "priority";
+			public static final String PRIORITY_KEY_JSON = "priority";
+
+            public static final Integer DEFAULT_RULE_PRIORITY = 1000;
             public static final int LOWEST_PORT_LIMIT = 0;
             public static final int HIGHEST_PORT_LIMIT = 65535;
             public static final String INTERNAL_VPC_CIDR = "0.0.0.0/0";
