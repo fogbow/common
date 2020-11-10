@@ -6,12 +6,11 @@ public class GoogleCloudConstants {
 	public static final String AUTHORIZATION_KEY = "Authorization";
 	public static final String BEARER_S = "Bearer %s";
 	public static final String ENDPOINT_SEPARATOR = "/";
-	public static final String PREDEFINED_ZONE = "";
 	public static final String DEVICE_NAME_QUERY_PARAM = "?deviceName=";
 	public static final String DEFAULT_ZONE = "southamerica-east1-b";
 	public static final String ZONE_KEY_CONFIG = "zone";
 	public static final String BASE_COMPUTE_API_URL = "https://compute.googleapis.com/compute";
-	public static final String GOOGLE_APIS_BASE_URL = "https://www.googleapis.com/";
+	public static final String GOOGLE_RESPONSE_BASE_URL = "https://www.googleapis.com/";
 	public static final String EMPTY_STRING = "";
 	public static final String ELEMENT_SEPARATOR = "-";
 
@@ -21,7 +20,6 @@ public class GoogleCloudConstants {
 	public static final String PROJECT_ENDPOINT = "/projects";
 	public static final String ZONES_ENDPOINT = "/zones";
 	public static final String VOLUME_ENDPOINT = "/disks";
-	public static final String DISKS_ENDPOINT = "/disks";
 	public static final String VOLUME_TYPES_ENDPOINT = "/diskTypes";
 	public static final String INSTANCES_ENDPOINT = "/instances";
 	public static final String GLOBAL_IP_ENDPOINT = "/global/addresses";
@@ -34,7 +32,6 @@ public class GoogleCloudConstants {
 	public static final String SUBNETS_ENDPOINT = "/subnetworks";
 
 	public static class Volume {
-		public static final String VOLUME_KEY_JSON = "volume";
 		public static final String VOLUME_TYPE = "type";
 		public static final String STATUS_KEY_JSON = "status";
 		public static final String SIZE_KEY_JSON = "sizeGb";
@@ -44,8 +41,6 @@ public class GoogleCloudConstants {
 		public static final String VALID_DISK_SIZE_KEY_JSON = "valid_disk_size";
 		public static final String DESCRIPTION_KEY_JSON = "description";
 		public static final String ITEMS_KEY_JSON = "items";
-		public static final String OPERATION_KEY_JSON = "operation";
-		public static final String TARGET_ID_KEY_JSON = "targetId";
 		public static final String TARGET_LINK_KEY_JSON = "targetLink";
 		public static final String SELF_LINK_KEY_JSON = "selfLink";
 	}
@@ -104,7 +99,6 @@ public class GoogleCloudConstants {
 
 	public static final class Compute {
 		public static final String CUSTOM_FLAVOR = "custom";
-
 		public static final String TARGET_ID_KEY_JSON = "targetId";
 		public static final String ID_KEY_JSON = "id";
 		public static final String NAME_KEY_JSON = "name";
