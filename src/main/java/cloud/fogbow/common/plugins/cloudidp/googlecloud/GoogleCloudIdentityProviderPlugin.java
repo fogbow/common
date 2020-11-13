@@ -23,7 +23,8 @@ public class GoogleCloudIdentityProviderPlugin implements CloudIdentityProviderP
 	private final String endPoint;
 	private final String TOKEN_ENDPOINT = "/token";
 	private final static String URL = "https://oauth2.googleapis.com";
-	private final String SCOPE_VALUE = "https://www.googleapis.com/auth/compute";
+	// Scope defined to have access to all resources and services on Google Cloud Platform
+	private final String SCOPE_VALUE = "https://www.googleapis.com/auth/cloud-platform";
 	private final String GRANT_TYPE_VALUE = "urn:ietf:params:oauth:grant-type:jwt-bearer";
 
 	public GoogleCloudIdentityProviderPlugin(String identityUrl) {
