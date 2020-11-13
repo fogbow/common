@@ -16,7 +16,7 @@ public class GoogleCloudConstants {
 
 	// GENERAL ENDPOINTS
 	public static final String ATTACH_DISK_KEY_ENDPOINT = "/attachDisk";
-	public static final String DETACH_DISK_KEY_ENDPOINT = "/DetachDisk";
+	public static final String DETACH_DISK_KEY_ENDPOINT = "/detachDisk";
 	public static final String PROJECT_ENDPOINT = "/projects";
 	public static final String ZONES_ENDPOINT = "/zones";
 	public static final String VOLUME_ENDPOINT = "/disks";
@@ -46,12 +46,18 @@ public class GoogleCloudConstants {
 	}
 
 	public static class Attachment {
-		public static final String INSTANCE_NAME_KEY_JSON = "serverId";
 		public static final String ATTACH_DISK_KEY_JSON = "attachDisk";
 		public static final String DEVICE_NAME_KEY_JSON = "deviceName";
 		public static final String VOLUME_SOURCE_KEY_JSON = "source";
 		public static final String ATTACH_NAME_KEY_JSON = "name";
 		public static final String ATTACH_ID_KEY_JSON = "id";
+		public static final String STATUS_KEY_JSON = "status";
+		public static final String NAME_KEY_JSON = "operation";
+		public static final String TARGET_LINK_KEY_JSON = "targetLink";
+		public static final String TARGET_ID_KEY_JSON = "targetId";
+		public static final String INSTANCE_KEY_JSON = "instance";
+		public static final String INSTANCE_NAME_KEY_JSON = "name";
+		public static final String DISKS_KEY_JSON = "disks";
 	}
 
     public static class Network{
