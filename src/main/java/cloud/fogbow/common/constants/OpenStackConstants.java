@@ -84,6 +84,7 @@ public class OpenStackConstants {
         public static final String PUBLIC_KEY_KEY_JSON = "public_key";
         public static final String ADD_SECURITY_GROUP_KEY_JSON = "addSecurityGroup";
         public static final String REMOVE_SECURITY_GROUP_KEY_JSON = "removeSecurityGroup";
+        public static final String CREATE_IMAGE_KEY_JSON = "createImage";
     }
 
     public static class Network {
