@@ -107,7 +107,8 @@ public class GoogleCloudConstants {
 		public static final String NETWORKS_KEY_JSON = "networkInterfaces";
 		public static final String METADATA_KEY_JSON = "metadata";
 		public static final String PUBLIC_SSH_KEY_JSON = "ssh-keys";
-		public static final String USER_DATA_KEY_JSON = "startup-script";
+		public static final String USER_DATA_KEY_JSON = "user-data";
+		public static final String USER_DATA_ENCODING_KEY_JSON = "user-data-encoding";
 		public static final String FAULT_MSG_KEY_JSON = "error.message";
 		public static final String ADDRESS_KEY_JSON = "networkIP";
 		public static final String STATUS_KEY_JSON = "status";
