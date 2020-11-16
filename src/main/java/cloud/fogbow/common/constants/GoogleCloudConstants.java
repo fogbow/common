@@ -66,7 +66,7 @@ public class GoogleCloudConstants {
 
         public static final String NETWORK_KEY_JSON = "network";
         public static final String NAME_KEY_JSON = "name";
-        public static final String ID_KEY_JSON = "id";
+        public static final String ID_KEY_JSON = "targetId";
         public static final String AUTO_CREATE_SUBNETS_KEY_JSON = "autoCreateSubnetworks";
         public static final String CIDR_KEY_JSON = "ipCidrRange";
         public static final String ROUTING_MODE_KEY_JSON = "routingMode";
@@ -137,6 +137,10 @@ public class GoogleCloudConstants {
 			public static final String ITEMS_KEY_JSON = "items";
 			public static final String KEY_ITEM_KEY_JSON = "key";
 			public static final String VALUE_ITEM_KEY_JSON = "value";
+		}
+
+		public static final class Network {
+			public static final String SUBNET_KEY_JSON = "subnetwork";
 		}
 	}
 
