@@ -6,8 +6,7 @@ import cloud.fogbow.common.exceptions.FogbowException;
 import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.UnavailableProviderException;
-import cloud.fogbow.common.util.GsonHolder;
-import cloud.fogbow.common.util.connectivity.HttpErrorConditionToFogbowExceptionMapper;
+import cloud.fogbow.common.util.SerializeNullsGsonHolder;
 
 import org.apache.log4j.Logger;
 
@@ -109,7 +108,7 @@ public class HttpRequestClient {
 
     @VisibleForTesting
     static byte[] toByteArray(Map<String, String> body) {
-        String json = GsonHolder.getInstance().toJson(body, Map.class);
+        String json = SerializeNullsGsonHolder.getInstance().toJson(body, Map.class);
         return json.getBytes();
     }
 
