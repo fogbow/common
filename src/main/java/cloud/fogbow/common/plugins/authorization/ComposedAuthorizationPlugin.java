@@ -6,6 +6,7 @@ import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
 import cloud.fogbow.common.util.ClassFactory;
+import cloud.fogbow.common.util.HomeDir;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +17,16 @@ import java.util.Scanner;
 public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements AuthorizationPlugin<T> {
     List<AuthorizationPlugin<T>> authorizationPlugins;
 
+    private static final String DEFAULT_CONF_FILE_NAME = "composed_auth.conf";
+    private String confPath;
+    
+    public ComposedAuthorizationPlugin() {
+        String path = HomeDir.getPath();
+        this.confPath = path + DEFAULT_CONF_FILE_NAME;
+        List<String> pluginNames = getPluginNames(confPath);
+        this.authorizationPlugins = getPlugins(pluginNames);
+    }
+    
     public ComposedAuthorizationPlugin(String confPath) {
         List<String> pluginNames = getPluginNames(confPath);
         this.authorizationPlugins = getPlugins(pluginNames);
