@@ -56,13 +56,14 @@ public class HttpRequestClient {
 
     @VisibleForTesting
     @Nullable
-    static String getResponseBody(HttpURLConnection connection) {
+    static String getResponseBody(HttpURLConnection connection) throws UnavailableProviderException {
         String response = null;
         try {
             InputStream inputStream = connection.getInputStream();
             response = getResponseFrom(inputStream);
         } catch (IOException e) {
             LOGGER.warn(String.format(Messages.Log.ERROR_MESSAGE_IS_S, e.getMessage()), e);
+            throw new UnavailableProviderException(e.getMessage());
         }
         return response;
     }
