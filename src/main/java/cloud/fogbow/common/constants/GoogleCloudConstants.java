@@ -58,6 +58,8 @@ public class GoogleCloudConstants {
 		public static final String INSTANCE_KEY_JSON = "instance";
 		public static final String INSTANCE_NAME_KEY_JSON = "name";
 		public static final String DISKS_KEY_JSON = "disks";
+		public static final String DEVICE_FORMAT = "/dev/disk/by-id/google-%s";
+		public static final String DEVICE_DEV_PREFIX = "/dev/";
 	}
 
     public static class Network{
@@ -66,6 +68,7 @@ public class GoogleCloudConstants {
 
         public static final String NETWORK_KEY_JSON = "network";
         public static final String NAME_KEY_JSON = "name";
+        public static final String TARGET_ID_KEY_JSON = "targetId";
         public static final String ID_KEY_JSON = "id";
         public static final String AUTO_CREATE_SUBNETS_KEY_JSON = "autoCreateSubnetworks";
         public static final String CIDR_KEY_JSON = "ipCidrRange";
@@ -137,6 +140,10 @@ public class GoogleCloudConstants {
 			public static final String ITEMS_KEY_JSON = "items";
 			public static final String KEY_ITEM_KEY_JSON = "key";
 			public static final String VALUE_ITEM_KEY_JSON = "value";
+		}
+
+		public static final class Network {
+			public static final String SUBNET_KEY_JSON = "subnetwork";
 		}
 	}
 
