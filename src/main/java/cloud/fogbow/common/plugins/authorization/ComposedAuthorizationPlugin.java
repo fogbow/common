@@ -6,6 +6,8 @@ import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
 import cloud.fogbow.common.util.ClassFactory;
+import cloud.fogbow.common.util.CommonClassFactory;
+import cloud.fogbow.common.util.HomeDir;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +18,16 @@ import java.util.Scanner;
 public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements AuthorizationPlugin<T> {
     List<AuthorizationPlugin<T>> authorizationPlugins;
 
+    private static final String DEFAULT_CONF_FILE_NAME = "composed_auth.conf";
+    private String confPath;
+    private ClassFactory classFactory;
+    
+    public ComposedAuthorizationPlugin() {
+    	
+    }
+    
     public ComposedAuthorizationPlugin(String confPath) {
+    	this.classFactory = new CommonClassFactory();
         List<String> pluginNames = getPluginNames(confPath);
         this.authorizationPlugins = getPlugins(pluginNames);
     }
@@ -56,11 +67,18 @@ public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements A
     }
 
     private List<AuthorizationPlugin<T>> getPlugins(List<String> pluginNames) {
-        ClassFactory classFactory = new ClassFactory();
         ArrayList<AuthorizationPlugin<T>> authorizationPlugins = new ArrayList<>();
         for (int i = 0; i < pluginNames.size(); i++) {
-            authorizationPlugins.add(i, (AuthorizationPlugin<T>) classFactory.createPluginInstance(pluginNames.get(i)));
+            authorizationPlugins.add(i, (AuthorizationPlugin<T>) this.classFactory.createPluginInstance(pluginNames.get(i)));
         }
         return authorizationPlugins;
+    }
+
+    public void startPlugin(ClassFactory classFactory) {
+    	this.classFactory = classFactory;
+        String path = HomeDir.getPath();
+        this.confPath = path + DEFAULT_CONF_FILE_NAME;
+        List<String> pluginNames = getPluginNames(confPath);
+        this.authorizationPlugins = getPlugins(pluginNames);
     }
 }
