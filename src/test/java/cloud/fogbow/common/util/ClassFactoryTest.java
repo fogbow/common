@@ -14,11 +14,11 @@ public class ClassFactoryTest {
 	private static final String TWO_PARAMETER = "parameter2";
 	private static final String STUB_CLASSNAME = "cloud.fogbow.common.util.stubs.StubClassForFactory";
 
-	private ClassFactory classFactory;
+	private CommonClassFactory classFactory;
 
 	@Before
 	public void setUp() {
-		this.classFactory = new ClassFactory();
+		this.classFactory = new CommonClassFactory();
 	}
 
 	// test case: When invoking the createPluginInstance method without parameters
