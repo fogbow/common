@@ -71,6 +71,13 @@ public class FogbowExceptionToHttpErrorConditionTranslator extends ResponseEntit
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(CommunicationErrorException.class)
+    public final ResponseEntity<ExceptionResponse> handleCommunicationErrorException(Exception ex, WebRequest request) {
+
+        ExceptionResponse errorDetails = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_GATEWAY);
+    }
+    
     /*
     It should never happen because any Exception must be mapped to one of the above FogbowException extensions.
      */
