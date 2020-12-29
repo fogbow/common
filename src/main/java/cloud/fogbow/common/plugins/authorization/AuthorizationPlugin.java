@@ -1,5 +1,6 @@
 package cloud.fogbow.common.plugins.authorization;
 
+import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
@@ -15,4 +16,10 @@ public interface AuthorizationPlugin<T extends FogbowOperation> {
      * @return a boolean stating whether the user is authorized or not.
      */
     public boolean isAuthorized(SystemUser systemUser, T operation) throws UnauthorizedRequestException;
+
+    // TODO documentation
+	public void setPolicy(String policy) throws ConfigurationErrorException;
+
+	// TODO documentation
+	public void updatePolicy(String policy);
 }

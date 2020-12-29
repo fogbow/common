@@ -2,18 +2,18 @@ package cloud.fogbow.common.models;
 
 public class Role<T extends FogbowOperation>{
     private String name;
-    private Permission<T> permission;
+    private String permissionName;
     
-    public Role(String name, Permission<T> permission) {
+    public Role(String name, String permissionName) {
         this.name = name;
-        this.permission = permission;
+        this.permissionName = permissionName;
     }
     
     public String getName() {
         return name;
     }
 
-    public boolean canPerformOperation(T operation) {
-        return permission.isAuthorized(operation);
+    public String getPermission() {
+    	return permissionName;
     }
 }

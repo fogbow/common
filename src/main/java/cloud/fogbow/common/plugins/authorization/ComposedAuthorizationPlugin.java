@@ -2,6 +2,7 @@ package cloud.fogbow.common.plugins.authorization;
 
 import cloud.fogbow.common.exceptions.UnauthorizedRequestException;
 import cloud.fogbow.common.constants.Messages;
+import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 import cloud.fogbow.common.exceptions.FatalErrorException;
 import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.models.SystemUser;
@@ -81,4 +82,18 @@ public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements A
         List<String> pluginNames = getPluginNames(confPath);
         this.authorizationPlugins = getPlugins(pluginNames);
     }
+
+	@Override
+	public void setPolicy(String policy) throws ConfigurationErrorException {
+        for (AuthorizationPlugin plugin : this.authorizationPlugins) {
+        	plugin.setPolicy(policy);
+        }
+	}
+
+	@Override
+	public void updatePolicy(String policy) {
+        for (AuthorizationPlugin plugin : this.authorizationPlugins) {
+        	plugin.updatePolicy(policy);
+        }
+	}
 }
