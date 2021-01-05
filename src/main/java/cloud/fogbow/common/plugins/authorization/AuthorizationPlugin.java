@@ -21,5 +21,5 @@ public interface AuthorizationPlugin<T extends FogbowOperation> {
 	public void setPolicy(String policy) throws ConfigurationErrorException;
 
 	// TODO documentation
-	public void updatePolicy(String policy);
+	public void updatePolicy(String policy) throws ConfigurationErrorException;
 }

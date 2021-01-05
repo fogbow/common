@@ -91,7 +91,7 @@ public class ComposedAuthorizationPlugin<T extends FogbowOperation> implements A
 	}
 
 	@Override
-	public void updatePolicy(String policy) {
+	public void updatePolicy(String policy) throws ConfigurationErrorException {
         for (AuthorizationPlugin plugin : this.authorizationPlugins) {
         	plugin.updatePolicy(policy);
         }

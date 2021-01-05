@@ -1,5 +1,6 @@
 package cloud.fogbow.common.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -13,6 +14,24 @@ import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 
 public class XMLUtils {
     
+    public static Element getRootNodeFromXMLFile(File xmlFile) throws ConfigurationErrorException {
+        SAXBuilder builder = new SAXBuilder();
+        Document document = buildDocumentFromFile(xmlFile, builder);
+        Element rootNode = document.getRootElement();
+        return rootNode;
+    }
+    
+    private static Document buildDocumentFromFile(File xmlFile, SAXBuilder builder) throws ConfigurationErrorException {
+        Document document = null;
+        try {
+            document = builder.build(xmlFile);
+        } catch (JDOMException | IOException e) {
+            // TODO add message
+            throw new ConfigurationErrorException();
+        }
+        return document;
+    }
+
     public static Element getRootNodeFromXMLString(String xmlString) throws ConfigurationErrorException {
         SAXBuilder builder = new SAXBuilder();
         Document document = buildDocument(xmlString, builder);
