@@ -12,6 +12,8 @@ public class Messages {
         public static final String ERROR_WHILE_CREATING_AZURE_CLIENT = "Error while creating a new Azure client.";
         public static final String ERROR_WHILE_CREATING_CLIENT = "Error while creating client.";
         public static final String ERROR_WHILE_GETTING_USERS_S = "Error while getting information about users: %s.";
+        public static final String ERROR_WHILE_PARSING_XML_STRING = "Error while parsing xml string: %s.";
+        public static final String ERROR_WHILE_READING_XML_FILE = "Error while reading xml file '%s': %s.";
         public static final String FATAL_ERROR = "Fatal error.";
         public static final String INSTANCE_NOT_FOUND = "Instance not found.";
         public static final String INVALID_CHAR_C_FOR_RANDOM_KEY_S_AT_INDEX_D = "Invalid char \"%c\" for random key: \"%s\" at index %d.";

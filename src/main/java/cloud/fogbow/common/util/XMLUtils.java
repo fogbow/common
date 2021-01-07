@@ -10,6 +10,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.xml.sax.InputSource;
 
+import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 
 public class XMLUtils {
@@ -26,8 +27,8 @@ public class XMLUtils {
         try {
             document = builder.build(xmlFile);
         } catch (JDOMException | IOException e) {
-            // TODO add message
-            throw new ConfigurationErrorException();
+            throw new ConfigurationErrorException(String.format(Messages.Exception.ERROR_WHILE_READING_XML_FILE, 
+                    xmlFile.getAbsolutePath(), e.getMessage()));
         }
         return document;
     }
@@ -45,8 +46,8 @@ public class XMLUtils {
             InputSource is = new InputSource(new StringReader(xmlString));
             document = builder.build(is);
         } catch (JDOMException | IOException e) {
-            // TODO add message
-            throw new ConfigurationErrorException();
+            throw new ConfigurationErrorException(String.format(Messages.Exception.ERROR_WHILE_PARSING_XML_STRING, 
+                    e.getMessage()));
         }
         return document;
     }
