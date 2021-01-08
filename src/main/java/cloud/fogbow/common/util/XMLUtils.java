@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -18,8 +17,6 @@ import cloud.fogbow.common.constants.Messages;
 import cloud.fogbow.common.exceptions.ConfigurationErrorException;
 
 public class XMLUtils {
-    
-    private static final Logger LOGGER = Logger.getLogger(XMLUtils.class);
     
     public static Element getRootNodeFromXMLFile(File xmlFile) throws ConfigurationErrorException {
         SAXBuilder builder = new SAXBuilder();
@@ -65,8 +62,8 @@ public class XMLUtils {
             xmlOutput.setFormat(Format.getPrettyFormat());
             xmlOutput.output(doc, new FileWriter(fileName));
         } catch (IOException e) {
-            // TODO add message
-            throw new ConfigurationErrorException(e.getMessage());
+            throw new ConfigurationErrorException(String.format(Messages.Exception.ERROR_WHILE_WRITING_XML_TO_FILE, 
+                    fileName, e.getMessage()));
         }
     }
 }
