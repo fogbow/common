@@ -17,9 +17,22 @@ public interface AuthorizationPlugin<T extends FogbowOperation> {
      */
     public boolean isAuthorized(SystemUser systemUser, T operation) throws UnauthorizedRequestException;
 
-    // TODO documentation
+    /**
+     * Replaces the plugin instance policy by the given policy.
+     * 
+     * @param policy the policy to replace.
+     * @throws ConfigurationErrorException if the policy is not valid or some other
+     * error occurs.
+     */
 	public void setPolicy(String policy) throws ConfigurationErrorException;
 
-	// TODO documentation
+	/**
+	 * Updates the plugin instance policy, using given policy as reference. This operation
+     * is expected to add rules if they do not exist, update if they exist and remove if required.
+     * 
+	 * @param policy the policy used to update.
+	 * @throws ConfigurationErrorException if the policy is not valid or some other
+	 * error occurs.
+	 */
 	public void updatePolicy(String policy) throws ConfigurationErrorException;
 }

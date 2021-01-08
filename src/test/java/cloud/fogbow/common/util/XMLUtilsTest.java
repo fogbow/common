@@ -35,7 +35,6 @@ public class XMLUtilsTest {
         deleteTestFiles();
     }
     
-    // TODO documentation
     @Test
     public void testReadAndWriteXML() throws ConfigurationErrorException {
         assertFalse(fileExists(xmlFile));
