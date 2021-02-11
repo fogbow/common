@@ -41,6 +41,14 @@ public class HttpRequestClient {
         return getHttpResponse(connection);
     }
 
+    public static HttpResponse doGenericRequestGenericBody(HttpMethod method, String endpoint, Map<String, String> headers,
+            Map<String, Object> body) throws FogbowException {
+
+        HttpURLConnection connection = prepareConnection(endpoint, method, headers);
+        sendRequestGenericBody(connection, body);
+        return getHttpResponse(connection);
+    }
+    
     @VisibleForTesting
     static HttpResponse getHttpResponse(HttpURLConnection connection) throws FogbowException {
         int responseCode = INVALID_HTTP_STATUS_CODE;
@@ -106,9 +114,29 @@ public class HttpRequestClient {
             }
         }
     }
+    
+    static void sendRequestGenericBody(HttpURLConnection connection, Map<String, Object> body)
+            throws UnavailableProviderException {
+        if (!body.isEmpty()) {
+            connection.setDoOutput(true);
+            try {
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(genericBodyToByteArray(body));
+                outputStream.flush();
+                outputStream.close();
+            } catch (IOException e) {
+                throw new UnavailableProviderException(e.getMessage());
+            }
+        }
+    }
 
     @VisibleForTesting
     static byte[] toByteArray(Map<String, String> body) {
+        String json = SerializeNullsGsonHolder.getInstance().toJson(body, Map.class);
+        return json.getBytes();
+    }
+    
+    static byte[] genericBodyToByteArray(Map<String, Object> body) {
         String json = SerializeNullsGsonHolder.getInstance().toJson(body, Map.class);
         return json.getBytes();
     }
