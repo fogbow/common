@@ -98,7 +98,7 @@ public class RemoteAuthorizationClientTest {
 		BDDMockito.given(HttpRequestClient.doGenericRequest(HttpMethod.POST, finalEndpoint, headers, body)).willReturn(httpResponse);
 	}
 	
-	private void setUpParams() {
+	private void setUpParams() throws FogbowException {
 		params = Mockito.mock(RemoteAuthorizationParameters.class);
 		Mockito.when(params.asRequestBody()).thenReturn(body);
 	}
