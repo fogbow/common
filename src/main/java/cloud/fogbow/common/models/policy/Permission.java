@@ -1,6 +1,8 @@
-package cloud.fogbow.common.models;
+package cloud.fogbow.common.models.policy;
 
 import java.util.Set;
+
+import cloud.fogbow.common.models.FogbowOperation;
 
 public interface Permission<T extends FogbowOperation> {
 	/**
