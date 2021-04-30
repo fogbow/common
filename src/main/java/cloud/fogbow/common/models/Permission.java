@@ -16,7 +16,7 @@ public interface Permission<T extends FogbowOperation> {
      * 
      * @return a Set containing the operation types.
      */
-    Set getOperationsTypes();
+    Set<String> getOperationsTypes();
     
     /**
      * Modifies the operation types used by the permission instance.
