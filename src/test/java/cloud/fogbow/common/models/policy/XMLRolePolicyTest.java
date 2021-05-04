@@ -23,8 +23,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import cloud.fogbow.common.exceptions.ConfigurationErrorException;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.WrongPolicyTypeException;
 import cloud.fogbow.common.models.FogbowOperation;
+import cloud.fogbow.common.util.ClassFactory;
+import cloud.fogbow.common.util.CommonClassFactory;
 import cloud.fogbow.common.util.HomeDir;
 import cloud.fogbow.common.util.XMLUtils;
 
@@ -116,7 +119,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the isAuthorized method, it must verify whether or not
     // the user has enough permission to perform the given operation
     @Test
-    public void testUserIsAuthorized() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUserIsAuthorized() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         // set up operations
         FogbowOperation operation1 = new FogbowOperation();
         FogbowOperation operation2 = new FogbowOperation();
@@ -150,7 +153,7 @@ public class XMLRolePolicyTest {
     // test case: when creating a new policy instance from a XML string, the constructor
     // must read correctly the policy rules and set up the policy maps.
     @Test
-    public void testConstructorWithValidString() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testConstructorWithValidString() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
         
         Element root1 = builder.usingPermissions(permissionNode1, permissionNode2).
@@ -189,7 +192,7 @@ public class XMLRolePolicyTest {
     // policy type is not the expected, the constructor must throw a
     // WrongPolicyTypeException.
     @Test(expected = WrongPolicyTypeException.class)
-    public void testConstructorWithInvalidPolicyType() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testConstructorWithInvalidPolicyType() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
         
         Element root1 = builder.usingPermissions(permissionNode1, permissionNode2).
@@ -209,7 +212,7 @@ public class XMLRolePolicyTest {
     // with additional rules, the method must add the rules that are not present
     // and ignore the others.
     @Test
-    public void testUpdateAddsElementsToPolicy() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateAddsElementsToPolicy() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
         
         Element rootWithMissingData = builder.usingPermissions(permissionNode1, permissionNode2).
@@ -274,7 +277,7 @@ public class XMLRolePolicyTest {
     // with fewer rules, the method must remove the rules that are not present
     // and ignore the others.
     @Test
-    public void testUpdateRemovesElementsFromPolicy() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateRemovesElementsFromPolicy() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -335,7 +338,7 @@ public class XMLRolePolicyTest {
     // with the same rules names, but different parameters, the method must 
     // update all rules that are different.
     @Test
-    public void testUpdateUpdatesElementsFromPolicy() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateUpdatesElementsFromPolicy() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -398,7 +401,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a permission already present in the policy, it must update the permission.
     @Test
-    public void testUpdateOnlyPermissions() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateOnlyPermissions() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -457,7 +460,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a role already present in the policy, it must update the role.
     @Test
-    public void testUpdateOnlyRoles() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateOnlyRoles() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -517,7 +520,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a user already present in the policy, it must update the user.
     @Test
-    public void testUpdateOnlyUsers() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateOnlyUsers() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -577,7 +580,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a new defaultRole, it must update the defaultRole.
     @Test
-    public void testUpdateOnlyDefaultRole() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateOnlyDefaultRole() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -638,7 +641,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a permission not present in the policy, it must add the permission.
     @Test
-    public void testUpdateAddOnlyPermission() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateAddOnlyPermission() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithMissingData = builder.usingPermissions(permissionNode1, permissionNode2).
@@ -694,7 +697,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a role not present in the policy, it must add the role.
     @Test
-    public void testUpdateAddOnlyRole() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateAddOnlyRole() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithMissingData = builder.usingPermissions(permissionNode1, permissionNode2).
@@ -751,7 +754,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only a user not present in the policy, it must add the user.
     @Test
-    public void testUpdateAddOnlyUser() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateAddOnlyUser() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithMissingData = builder.usingPermissions(permissionNode1, permissionNode2).
@@ -808,7 +811,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only an empty permission present in the policy, it must remove the permission.
     @Test
-    public void testUpdateRemoveOnlyPermission() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateRemoveOnlyPermission() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -868,7 +871,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only an empty role present in the policy, it must remove the role.
     @Test
-    public void testUpdateRemoveOnlyRole() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateRemoveOnlyRole() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -927,7 +930,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the method update using a new policy containing 
     // only an empty user present in the policy, it must remove the user.
     @Test
-    public void testUpdateRemoveOnlyUser() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testUpdateRemoveOnlyUser() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootWithAllData = builder.usingPermissions(permissionNode1, permissionNode2, permissionNode3).
@@ -988,7 +991,7 @@ public class XMLRolePolicyTest {
     // roles referenced by users exist, that the admin and default 
     // role exist and that at least one user is admin.
     @Test
-    public void testValidateValidPolicy() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testValidateValidPolicy() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootMinimal = builder.usingPermissions(permissionNode2).
@@ -1028,7 +1031,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the validate method in a policy instance
     // with no default role specified, it must throw a ConfigurationErrorException.
     @Test(expected = ConfigurationErrorException.class)
-    public void testValidatePolicyMustHaveDefaultRole() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testValidatePolicyMustHaveDefaultRole() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootNoDefaultRole = builder.usingPermissions(permissionNode1).
@@ -1050,7 +1053,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the validate method in a policy instance
     // with users referencing non-existing roles, it must throw a ConfigurationErrorException.
     @Test(expected = ConfigurationErrorException.class)
-    public void testValidateAllUsersMustHaveExistingRoles() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testValidateAllUsersMustHaveExistingRoles() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootRoleDoesNotExist = builder.usingPermissions(permissionNode1).
@@ -1073,7 +1076,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the validate method in a policy instance
     // with roles referencing non-existing permissions, it must throw a ConfigurationErrorException.
     @Test(expected = ConfigurationErrorException.class)
-    public void testValidateAllRolesMustHaveExistingPermissions() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testValidateAllRolesMustHaveExistingPermissions() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootPermissionDoesNotExist = builder.usingPermissions(permissionNode1).
@@ -1096,7 +1099,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the validate method in a policy instance
     // with non-existing default role, it must throw a ConfigurationErrorException.
     @Test(expected = ConfigurationErrorException.class)
-    public void testValidateDefaultRoleMustExist() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testValidateDefaultRoleMustExist() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootDefaultRoleDoesNotExist = builder.usingPermissions(permissionNode1).
@@ -1119,7 +1122,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the validate method in a policy instance
     // that does not contain the admin role, it must throw a ConfigurationErrorException.
     @Test(expected = ConfigurationErrorException.class)
-    public void testValidateAdminRoleMustExist() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testValidateAdminRoleMustExist() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
 
         Element rootAdminRoleDoesNotExist = builder.usingPermissions(permissionNode1).
@@ -1142,7 +1145,7 @@ public class XMLRolePolicyTest {
     // test case: when calling the save method, it must write the policy rules
     // in XML format in the file specified by the property 'policy_file'.
     @Test
-    public void testSave() throws ConfigurationErrorException, WrongPolicyTypeException {
+    public void testSave() throws ConfigurationErrorException, WrongPolicyTypeException, InvalidParameterException {
         setUpMocks();
         
         String permissionName = permissionName2;
@@ -1181,14 +1184,14 @@ public class XMLRolePolicyTest {
 
         assertFalse(fileExists(policyFilePath));
         
-        XMLRolePolicy<FogbowOperation> basePolicy = new XMLRolePolicy<FogbowOperation>(new StubPermissionInstantiator(), xmlString, 
+        XMLRolePolicy<FogbowOperation> basePolicy = new XMLRolePolicy<FogbowOperation>(new StubPermissionInstantiator(new CommonClassFactory()), xmlString, 
                 adminRole, policyFilePath);
         basePolicy.save();
         
         assertTrue(fileExists(policyFilePath));
         
         File policyFile = new File(policyFilePath);
-        XMLRolePolicy<FogbowOperation> loadedPolicy = new XMLRolePolicy<FogbowOperation>(new StubPermissionInstantiator(), policyFile, 
+        XMLRolePolicy<FogbowOperation> loadedPolicy = new XMLRolePolicy<FogbowOperation>(new StubPermissionInstantiator(new CommonClassFactory()), policyFile, 
                 adminRole, policyFilePath);
         
         Map<String, Permission<FogbowOperation>> permissionsBefore = loadedPolicy.getPermissions();
@@ -1270,7 +1273,7 @@ public class XMLRolePolicyTest {
         assertTrue(defaultRolesBefore.contains(roleName1));
     }
     
-    private void setUpMocks() throws ConfigurationErrorException {
+    private void setUpMocks() throws ConfigurationErrorException, InvalidParameterException {
         this.permissionInstantiator = Mockito.mock(PermissionInstantiator.class);
         Mockito.doReturn(this.permission1).when(permissionInstantiator).getPermissionInstance(type1, permissionName1, operationsPermission1StringSet);
         Mockito.doReturn(this.permission2).when(permissionInstantiator).getPermissionInstance(type1, permissionName2, operationsPermission2StringSet);
@@ -1413,7 +1416,11 @@ public class XMLRolePolicyTest {
         }
     }
     
-    public class StubPermissionInstantiator implements PermissionInstantiator<FogbowOperation> {
+    public class StubPermissionInstantiator extends PermissionInstantiator<FogbowOperation> {
+
+        public StubPermissionInstantiator(ClassFactory classFactory) {
+            super(classFactory);
+        }
 
         @Override
         public Permission<FogbowOperation> getPermissionInstance(String type, String... params) {

@@ -11,6 +11,7 @@ import java.util.Set;
 import org.jdom2.Element;
 
 import cloud.fogbow.common.exceptions.ConfigurationErrorException;
+import cloud.fogbow.common.exceptions.InvalidParameterException;
 import cloud.fogbow.common.exceptions.WrongPolicyTypeException;
 import cloud.fogbow.common.models.FogbowOperation;
 import cloud.fogbow.common.util.XMLUtils;
@@ -210,7 +211,7 @@ public class XMLRolePolicy<T extends FogbowOperation> extends BaseRolePolicy<T> 
         XMLUtils.writeXMLToFile(root, this.policyFilePath);
      }
     
-    private void setUpPermissionsPolicy(Element root) {
+    private void setUpPermissionsPolicy(Element root) throws ConfigurationErrorException {
         List<Element> permissionsList = root.getChild(PERMISSIONS_LABEL).getChildren();
         this.permissions = readPermissions(permissionsList); 
     }
@@ -242,7 +243,7 @@ public class XMLRolePolicy<T extends FogbowOperation> extends BaseRolePolicy<T> 
      * Permission methods
      * 
      */
-    private Map<String, Permission<T>> readPermissions(List<Element> permissionList) {
+    private Map<String, Permission<T>> readPermissions(List<Element> permissionList) throws ConfigurationErrorException {
         HashMap<String, Permission<T>> permissions = new HashMap<String, Permission<T>>();
         
         for (Element e : permissionList) {
@@ -263,8 +264,12 @@ public class XMLRolePolicy<T extends FogbowOperation> extends BaseRolePolicy<T> 
             if (type.isEmpty()) {
                 permissions.put(name, null);
             } else {
-                Permission<T> permission = permissionInstantiator.getPermissionInstance(type, name, operationsNames);
-                permissions.put(name, permission);
+                try {
+                    Permission<T> permission = permissionInstantiator.getPermissionInstance(type, name, operationsNames);
+                    permissions.put(name, permission);
+                } catch (InvalidParameterException e1) {
+                    throw new ConfigurationErrorException(e1.getMessage());
+                }
             }
         }
         
