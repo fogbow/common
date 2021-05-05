@@ -168,12 +168,12 @@ public class XMLRolePolicy<T extends FogbowOperation> extends BaseRolePolicy<T> 
         setUpDefaultRole(root);
     }
 
-    public XMLRolePolicy(PermissionInstantiator<T> permissionInstantiator, File policyFile, String adminRole, 
+    public XMLRolePolicy(PermissionInstantiator<T> permissionInstantiator, File startUpPolicyFile, String adminRole, 
             String policyFilePath) throws ConfigurationErrorException, WrongPolicyTypeException {
         this.permissionInstantiator = permissionInstantiator;
         this.policyFilePath = policyFilePath;
         this.adminRole = adminRole;
-        Element root = XMLUtils.getRootNodeFromXMLFile(policyFile);
+        Element root = XMLUtils.getRootNodeFromXMLFile(startUpPolicyFile);
         
         checkPolicyType(root);
         setUpPermissionsPolicy(root);
