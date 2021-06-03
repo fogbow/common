@@ -55,11 +55,19 @@ public class HttpRequestClient {
         try {
             responseCode = connection.getResponseCode();
             Map<String, List<String>> responseHeaders = connection.getHeaderFields();
-            String responseBody = getResponseBody(connection);
-            return new HttpResponse(responseBody, responseCode, responseHeaders);
+            if (!isErrorCode(responseCode)) {
+                String responseBody = getResponseBody(connection);
+                return new HttpResponse(responseBody, responseCode, responseHeaders);    
+            } else {
+                return new HttpResponse(null, responseCode, responseHeaders);                
+            }
         } catch (IOException e) {
             throw HttpErrorConditionToFogbowExceptionMapper.map(responseCode, e.getMessage());
         }
+    }
+
+    private static boolean isErrorCode(int responseCode) {
+        return responseCode >= 400;
     }
 
     @VisibleForTesting
