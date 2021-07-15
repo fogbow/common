@@ -32,6 +32,7 @@ public class Messages {
         public static final String NO_PRIVATE_KEY_DEFINED = "Cannot find private key configuration file.";
         public static final String NO_PUBLIC_KEY_DEFINED = "Cannot find public key configuration file.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
+        public static final String NOT_IMPLEMENTED_OPERATION = "Not implemented operation.";
         public static final String OPERATION_RETURNED_ERROR_S = "Operation returned error: %s.";
         public static final String PROPERTY_FILE_S_NOT_FOUND = "Property file %s not found.";
         public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
