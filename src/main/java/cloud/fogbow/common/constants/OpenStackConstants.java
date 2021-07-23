@@ -88,6 +88,8 @@ public class OpenStackConstants {
         public static final String UNPAUSE_KEY_JSON = "unpause";
         public static final String SUSPEND_KEY_JSON = "suspend";
         public static final String RESUME_KEY_JSON = "resume";
+        public static final String SHELVE_KEY_JSON = "shelve";
+        public static final String UNSHELVE_KEY_JSON = "unshelve";
         public static final String CREATE_IMAGE_KEY_JSON = "createImage";
     }
 
