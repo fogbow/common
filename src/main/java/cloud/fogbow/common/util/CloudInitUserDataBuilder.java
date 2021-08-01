@@ -386,12 +386,20 @@ public class CloudInitUserDataBuilder {
     public String buildUserData() throws InternalServerErrorException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            this.userDataMimeMessage.writeTo(baos);
-            return new String(baos.toByteArray(), this.charset);
-
+            
+            if (!userDataMimeMessageIsEmpty()) {
+                this.userDataMimeMessage.writeTo(baos);
+                return new String(baos.toByteArray(), this.charset);
+            }
+            
+            return "";
         } catch (MessagingException | IOException e) {
             throw new InternalServerErrorException(e.getMessage());
         }
+    }
+    
+    private boolean userDataMimeMessageIsEmpty() throws MessagingException {
+        return this.userDataMultipart.getCount() == 0;
     }
 
     /**
