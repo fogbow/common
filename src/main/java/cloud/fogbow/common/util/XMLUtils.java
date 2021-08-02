@@ -59,6 +59,7 @@ public class XMLUtils {
         try {
             Document doc = new Document(root);
             XMLOutputter xmlOutput = new XMLOutputter();
+            xmlOutput.setFormat(Format.getPrettyFormat());
             FileWriter writer = new FileWriter(fileName);
             xmlOutput.output(doc, writer);
             writer.close();
