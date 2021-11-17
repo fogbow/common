@@ -1,6 +1,9 @@
-package cloud.fogbow.common.models;
+package cloud.fogbow.common.models.policy;
 
 import java.util.Set;
+
+import cloud.fogbow.common.exceptions.InvalidParameterException;
+import cloud.fogbow.common.models.FogbowOperation;
 
 public interface Permission<T extends FogbowOperation> {
 	/**
@@ -16,14 +19,15 @@ public interface Permission<T extends FogbowOperation> {
      * 
      * @return a Set containing the operation types.
      */
-    Set getOperationsTypes();
+    Set<String> getOperationsTypes();
     
     /**
      * Modifies the operation types used by the permission instance.
      * 
      * @param operations a Set containing the new operation types.
+     * @throws InvalidParameterException if the new operations are invalid.
      */
-    void setOperationTypes(Set operations);
+    void setOperationTypes(Set<String> operations) throws InvalidParameterException;
     
     /**
      * Modifies the name of the permission instance.

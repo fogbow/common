@@ -2,12 +2,14 @@ package cloud.fogbow.common.constants;
 
 public class Messages {
     public static class Exception {
+        public static final String ADMIN_ROLE_DOES_NOT_EXIST = "Admin role '%s' does not exist.";
         public static final String ATTEMPTING_TO_ADD_A_NULL_ITEM = "Attempting to add a null item.";
         public static final String ATTEMPTING_TO_REMOVE_A_NULL_ITEM = "Attempting to remove a null item.";
         public static final String AUTHENTICATION_ERROR = "Authentication error.";
         public static final String AUTHORIZATION_ERROR = "Authorization error.";
         public static final String CONFIGURATION_ERROR = "Error in the configuration files.";
         public static final String DATABASE_INTEGRITY_VIOLATED = "The database may be incompatible or corrupted.";
+        public static final String DEFAULT_USER_ROLE_DOES_NOT_EXIST = "Default user role '%s' does not exist.";
         public static final String ERROR_WHILE_CONVERTING_INSTANCE_ID_S = "Error while converting instance id %s to integer.";
         public static final String ERROR_WHILE_CREATING_AZURE_CLIENT = "Error while creating a new Azure client.";
         public static final String ERROR_WHILE_CREATING_CLIENT = "Error while creating client.";
@@ -26,18 +28,22 @@ public class Messages {
         public static final String MAXIMUM_SIZE_EXCEEDED = "The serialized object is larger than allowed.";
         public static final String NEITHER_BODY_OR_HEADERS_CAN_BE_NULL = "Neither body or headers can be null.";
         public static final String NO_AVAILABLE_RESOURCES = "No available resources.";
+        public static final String NO_ADMIN_USER = "Policy does not specify any user as admin.";
         public static final String NO_PRIVATE_KEY_DEFINED = "Cannot find private key configuration file.";
         public static final String NO_PUBLIC_KEY_DEFINED = "Cannot find public key configuration file.";
         public static final String NO_USER_CREDENTIALS = "No user credentials given.";
+        public static final String NOT_IMPLEMENTED_OPERATION = "Not implemented operation.";
         public static final String OPERATION_RETURNED_ERROR_S = "Operation returned error: %s.";
         public static final String PROPERTY_FILE_S_NOT_FOUND = "Property file %s not found.";
         public static final String REMOTE_COMMUNICATION = "Error while sending message to remote RAS.";
+        public static final String ROLE_PERMISSION_DOES_NOT_EXIST = "Permission '%s', referenced by Role '%s', does not exist.";
         public static final String UNABLE_TO_FIND_CLASS_S = "Unable to find class %s.";
         public static final String UNABLE_TO_FIND_SYSTEM_USER_CLASS = "Unable to find system user class.";
         public static final String UNABLE_TO_GET_TOKEN_FROM_JSON = "Unable to get token from json.";
         public static final String UNABLE_TO_READ_CONFIGURATION_FILE_S = "Unable to read configuration file %s.";
         public static final String UNAVAILABLE_PROVIDER = "Provider is not available.";
         public static final String UNEXPECTED = "Unexpected error.";
+        public static final String USER_ROLE_DOES_NOT_EXIST = "Role '%s', referenced by User '%s', does not exist.";
         public static final String WRONG_SYNTAX_FOR_ENDPOINT_S = "Wrong syntax for endpoint %s.";
     }
 

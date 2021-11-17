@@ -121,6 +121,8 @@ public class GoogleCloudConstants {
 		public static final String FAULT_MSG_KEY_JSON = "error.message";
 		public static final String ADDRESS_KEY_JSON = "networkIP";
 		public static final String STATUS_KEY_JSON = "status";
+		public static final String START_ENDPOINT = "start";
+        public static final String STOP_ENDPOINT = "stop";
 
 		public static final class Disk {
 			public static final boolean BOOT_DEFAULT_VALUE = true;

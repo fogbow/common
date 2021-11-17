@@ -60,7 +60,9 @@ public class XMLUtils {
             Document doc = new Document(root);
             XMLOutputter xmlOutput = new XMLOutputter();
             xmlOutput.setFormat(Format.getPrettyFormat());
-            xmlOutput.output(doc, new FileWriter(fileName));
+            FileWriter writer = new FileWriter(fileName);
+            xmlOutput.output(doc, writer);
+            writer.close();
         } catch (IOException e) {
             throw new ConfigurationErrorException(String.format(Messages.Exception.ERROR_WHILE_WRITING_XML_TO_FILE, 
                     fileName, e.getMessage()));
