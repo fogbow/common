@@ -11,6 +11,7 @@ public class FogbowConstants {
     public static final String PAYLOAD_SEPARATOR  = "!$!";
     public static final String ATTRIBUTE_SEPARATOR  = "!#!";
     public static final String CLASS_NAME_SEPARATOR = "!@!";
+    public static final String FEDERATION_ID_SEPARATOR = "!*!";
 
     // Token mandatory fields
     public static final String PROVIDER_ID_KEY =  "provider";
@@ -19,6 +20,7 @@ public class FogbowConstants {
     // Token optional fields
     public static final String USER_NAME_KEY = "name";
     public static final String TOKEN_VALUE_KEY = "token";
+    public static final String FEDERATION_ID_KEY = "federationId";
 
     // Quota
     public static final int UNLIMITED_RESOURCE = -1;
