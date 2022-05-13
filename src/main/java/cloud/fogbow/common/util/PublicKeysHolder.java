@@ -21,8 +21,6 @@ import java.util.Map;
 
 public class PublicKeysHolder {
     public static  RSAPublicKey getPublicKey(String serviceAddress, String servicePort, String suffix) throws FogbowException {
-        RSAPublicKey publicKey = null;
-
         URI uri = null;
         try {
             uri = new URI(serviceAddress);
@@ -30,8 +28,12 @@ public class PublicKeysHolder {
             throw new InternalServerErrorException(String.format(Messages.Exception.INVALID_SERVICE_URL_S, serviceAddress));
         }
         uri = UriComponentsBuilder.fromUri(uri).port(servicePort).path(suffix).build(true).toUri();
-
         String endpoint = uri.toString();
+        return getPublicKey(endpoint);
+    }
+    
+    public static RSAPublicKey getPublicKey(String endpoint) throws FogbowException {
+        RSAPublicKey publicKey = null;
         HttpResponse response = HttpRequestClient.doGenericRequest(HttpMethod.GET, endpoint, new HashMap<>(), new HashMap<>());
         if (response.getHttpCode() > HttpStatus.SC_OK) {
             Throwable e = new HttpResponseException(response.getHttpCode(), response.getContent());
