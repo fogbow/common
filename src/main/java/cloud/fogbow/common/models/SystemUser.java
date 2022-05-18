@@ -5,6 +5,8 @@ import cloud.fogbow.common.exceptions.InternalServerErrorException;
 import cloud.fogbow.common.util.GsonHolder;
 import cloud.fogbow.common.util.SerializedEntityHolder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -14,10 +16,12 @@ public class SystemUser extends User {
 
     private String identityProviderId;
     private Set<String> roles; 
-
+    private Map<String, String> metadata;
+    
     public SystemUser(String userId, String userName, String identityProviderId) {
         super(userId, userName);
         this.identityProviderId = identityProviderId;
+        this.metadata = new HashMap<String, String>();
     }
 
     public String getIdentityProviderId() {
@@ -30,6 +34,14 @@ public class SystemUser extends User {
     
     public void setUserRoles(Set<String> roles) {
         this.roles = roles;
+    }
+    
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+    
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
     
     @Override
